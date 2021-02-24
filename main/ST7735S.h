@@ -28,10 +28,10 @@
 #define TFT_CS  D6
 #define TFT_LIGHT D8
 
-#define LCD_W 80 //106 / 26
-#define LCD_H 160 //161 / 1
-#define W_GAP 26
-#define H_GAP 1
+#define LCD_W 160 //106 / 26
+#define LCD_H 80 //161 / 1
+#define W_GAP 1
+#define H_GAP 26
 
 #define LCD_RES_Clr()  digitalWrite(TFT_RST,LOW)
 #define LCD_RES_Set()  digitalWrite(TFT_RST,HIGH)
@@ -202,8 +202,8 @@ void LCD_Init(void)
 	LCD_WR_REG(0xC5);   //VCOM control
 	LCD_WR_DATA8(0x1A);
 	
-	LCD_WR_REG(0x36); //MX, MY, RGB mode
-	LCD_WR_DATA8(0xC8);
+	LCD_WR_REG(0x36);   //MX, MY, RGB mode rotation
+	LCD_WR_DATA8(0x68); //XXX01000 
 
 	LCD_WR_REG(0xE0);   //Gamma (‘+’polarity) Correction Characteristics Setting
 	LCD_WR_DATA8(0x03);

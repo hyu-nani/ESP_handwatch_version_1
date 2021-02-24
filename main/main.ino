@@ -6,7 +6,6 @@
 #include "WiFi.h"
 #include <math.h>
 
-
 #define sw1 D0
 #define sw2 D3
 #define sw3 D4
@@ -54,6 +53,7 @@ void loop() {
       int i=mode;
       char d = 'n';
       for (int i=0 ; i< 29 ;i++)
+      
       {
         LCD_image(0,0,LCD_W,LCD_H,loading[i]);
         delay(1);

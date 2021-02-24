@@ -7,7 +7,7 @@ image folder
 #include "rogo.c"
 #include "girl.c"
 #include "winter.c"
-#include "loading.h"
+#include "loading_gif.h"
 //icon
 
 //
