@@ -70,7 +70,6 @@ void LCD_print(u16 x,u16 y, const char c[],u16 color ,uint8_t size)
 				x = 0;
 			}
 		}
-		
 	}
 }
 void LCD_print_background(u16 x,u16 y, int c,u16 color ,u16 bgcolor ,uint8_t size)

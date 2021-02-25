@@ -32,13 +32,22 @@ void setup() {
 	SPI.begin();
 	LCD_portset();
 	mySPISettings = SPISettings(20000000, MSBFIRST, SPI_MODE0); //ESP max speed 80MHz
-	wifi_init();
 	pinMode(sw1,INPUT_PULLUP);
 	pinMode(sw2,INPUT);
 	pinMode(sw3,INPUT);
 	LCD_Init();
+  LCD_image(0,0,LCD_W,LCD_H,loading[0]);
 	LCD_smooth_on(3,backlight);
-	delay(500);
+  delay(10);
+  for (int i=0 ; i< 29 ;i++)
+  {
+    LCD_image(0,0,LCD_W,LCD_H,loading[i]);
+  }
+  wifi_init();
+  for (int i=0 ; i< 29 ;i++)
+  {
+    LCD_image(0,0,LCD_W,LCD_H,loading[i]);
+  }
 	LCD_smooth_off(2);
 	LCD_Fill(BLACK);
 	now = time(nullptr);
@@ -55,6 +64,10 @@ void loop() {
 	}
 	while (mode == 0)
 	{	
+    for (int i=0 ; i< 29 ;i++)
+    {
+      LCD_image(0,0,LCD_W,LCD_H,loading[i]);
+    }
     LCD_smooth_on(2,backlight);
 	  while(1){
       int i=mode;
@@ -63,7 +76,7 @@ void loop() {
       {
         LCD_image(0,0,LCD_W,LCD_H,loading[i]);
         char k =swcheck();
-        if( 0 != k){d = k;}
+        if( 0 != k){d = k;break;}
       }
 			modechange(d);
 			if(i!=mode){LCD_smooth_off(2);break;}
