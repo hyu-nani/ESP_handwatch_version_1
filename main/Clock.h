@@ -6,33 +6,39 @@ uint16_t CLK_BG_color = BLACK;
 
 void CLOCK()
 {
+  int H_x = 10,H_y = 10;
+  int M_x = 80,M_y = 10;
+  int S_x = 130,S_y = 50;
+  int D_x = 130,D_y = 20;
+  
 	LCD_Fill(CLK_BG_color);
-	LCD_HLine(10,52,60,CYAN);
+	LCD_VLine(30,10,60,CYAN);
 	int timer = time(nullptr);
 	now_h = int((timer%86400)/3600)-3;
 	now_m = int((timer%3600)/60);
 	now_s = int(timer%60);
 	now_d = int((timer/86400)%7);
 	prev_ms = now_ms;
-	LCD_print(12,10,now_h,YELLOW,5);
+ 
+	LCD_print(H_x,H_y,now_h,YELLOW,4);
 	old_h = now_h;
-	LCD_print(12,60,now_m,YELLOW,5);
+	LCD_print(M_x,M_y,now_m,YELLOW,4);
 	old_m = now_m;
-	int x=30,y=140; //
+  
 	if(now_d == 2)
-	LCD_print_background(x,y,"SAT",CYAN,CLK_BG_color,2);
+	LCD_print_background(D_x,D_y,"SAT",CYAN,CLK_BG_color,2);
 	else if(now_d == 3)
-	LCD_print_background(x,y,"SUN",BLUE,CLK_BG_color,2);
+	LCD_print_background(D_x,D_y,"SUN",BLUE,CLK_BG_color,2);
 	else if(now_d == 4)
-	LCD_print_background(x,y,"MON",RED,CLK_BG_color,2);
+	LCD_print_background(D_x,D_y,"MON",RED,CLK_BG_color,2);
 	else if(now_d == 5)
-	LCD_print_background(x,y,"TUE",RED,CLK_BG_color,2);
+	LCD_print_background(D_x,D_y,"TUE",RED,CLK_BG_color,2);
 	else if(now_d == 6)
-	LCD_print_background(x,y,"WED",YELLOW,CLK_BG_color,2);
+	LCD_print_background(D_x,D_y,"WED",YELLOW,CLK_BG_color,2);
 	else if(now_d == 7)
-	LCD_print_background(x,y,"THU",YELLOW,CLK_BG_color,2);
+	LCD_print_background(D_x,D_y,"THU",YELLOW,CLK_BG_color,2);
 	else if(now_d == 1)
-	LCD_print_background(x,y,"FRI",RED,CLK_BG_color,2);
+	LCD_print_background(D_x,D_y,"FRI",RED,CLK_BG_color,2);
 	delay(10);
 	LCD_smooth_on(2,backlight);
 	while (1)
@@ -48,32 +54,32 @@ void CLOCK()
 			prev_ms = now_ms;
 			
 			if(now_h != old_h){
-				LCD_fill_Rect(12,10,60,35,CLK_BG_color);
-				LCD_print(12,10,now_h,YELLOW,5);
+				//LCD_fill_Rect(H_x,H_y,60,35,CLK_BG_color);
+				LCD_print(H_x,H_y,now_h,YELLOW,4);
 				old_h = now_h;
 			}
 			if (now_m != old_m){
-				LCD_fill_Rect(12,60,60,35,CLK_BG_color);
-				LCD_print(12,60,now_m,YELLOW,5);
+				//LCD_fill_Rect(M_x,M_y,60,35,CLK_BG_color);
+				LCD_print(M_x,M_y,now_m,YELLOW,4);
 				old_m = now_m;
 			}
-			LCD_fill_Rect(40,110,30,20,CLK_BG_color);
-			LCD_print(40,110,now_s,GREEN,2);
+			//LCD_fill_Rect(S_x,S_y,30,20,CLK_BG_color);
+			LCD_print(S_x,S_y,now_s,GREEN,2);
 			if (now_d != old_d){
 				if(now_d == 2)
-				LCD_print_background(x,y,"SAT",CYAN,CLK_BG_color,2);
+				LCD_print_background(D_x,D_y,"SAT",CYAN,CLK_BG_color,2);
 				else if(now_d == 3)
-				LCD_print_background(x,y,"SUN",BLUE,CLK_BG_color,2);
+				LCD_print_background(D_x,D_y,"SUN",BLUE,CLK_BG_color,2);
 				else if(now_d == 4)
-				LCD_print_background(x,y,"MON",RED,CLK_BG_color,2);
+				LCD_print_background(D_x,D_y,"MON",RED,CLK_BG_color,2);
 				else if(now_d == 5)
-				LCD_print_background(x,y,"TUE",RED,CLK_BG_color,2);
+				LCD_print_background(D_x,D_y,"TUE",RED,CLK_BG_color,2);
 				else if(now_d == 6)
-				LCD_print_background(x,y,"WED",YELLOW,CLK_BG_color,2);
+				LCD_print_background(D_x,D_y,"WED",YELLOW,CLK_BG_color,2);
 				else if(now_d == 7)
-				LCD_print_background(x,y,"THU",YELLOW,CLK_BG_color,2);
+				LCD_print_background(D_x,D_y,"THU",YELLOW,CLK_BG_color,2);
 				else if(now_d == 1)
-				LCD_print_background(x,y,"FRI",RED,CLK_BG_color,2);
+				LCD_print_background(D_x,D_y,"FRI",RED,CLK_BG_color,2);
 				old_d = now_d;
 			}
 		}
