@@ -1,3 +1,11 @@
+/*
+ *  NANI project : ESP hand watch 
+ *  Upload Speeed : 51200 
+ *  CPU frequency : 160MHz
+ *  Flash size : 4MB (FS:3MB)
+*/
+
+
 
 #include "image_source/image.h"
 #include "ST7735S.h"
@@ -29,7 +37,6 @@ void setup() {
 	pinMode(sw2,INPUT);
 	pinMode(sw3,INPUT);
 	LCD_Init();
-	LCD_image(0,0,LCD_W,LCD_H,rogo);
 	LCD_smooth_on(3,backlight);
 	delay(500);
 	LCD_smooth_off(2);
@@ -53,10 +60,8 @@ void loop() {
       int i=mode;
       char d = 'n';
       for (int i=0 ; i< 29 ;i++)
-      
       {
         LCD_image(0,0,LCD_W,LCD_H,loading[i]);
-        delay(1);
         char k =swcheck();
         if( 0 != k){d = k;}
       }
@@ -71,7 +76,7 @@ void loop() {
 	}
 	while (mode == 2)
 	{	
-		LCD_image(0,0,LCD_W,LCD_H,rogo);
+		LCD_Fill(BLUE);
 		delay(10);
 		LCD_smooth_on(2,backlight);
 		while(1){
