@@ -47,20 +47,51 @@ void print_display(int x, int y){
 }
 
 void display_set_bio(){
+  int k=0;
   for(table_y = 80 ; table_y < 160 ; table_y++)
   {
     for(table_x = 0 ; table_x < 160 ; table_x++)
     {
-      display_table[table_y][table_x] = RED;
+      display_table[table_y][table_x] = (word)pgm_read_word(girl+k);
+      k++;
     }
   }
 }
 void display_set_setting(){
+  int k=0;
   for(table_y = 80 ; table_y < 160 ; table_y++)
   {
     for(table_x = 0 ; table_x < 160 ; table_x++)
     {
-      display_table[table_y][table_x] = GREEN;
+      display_table[table_y][table_x] = (word)pgm_read_word(picture+k);
+      k++;
+    }
+  }
+}
+void display_set_temp(){
+  int k=0;
+  for(table_y = 80 ; table_y < 160 ; table_y++)
+  {
+    for(table_x = 0 ; table_x < 160 ; table_x++)
+    {
+      display_table[table_y][table_x] = (word)pgm_read_word(winter+k);
+      k++;
+    }
+  }
+}
+
+void display_frame()
+{
+  u16 i,j;
+  int k=0;
+  uint8_t line;
+  for(i=80;i<160;i++)
+  {
+    for(j=0;j<160;j++)
+    {
+      if((word)pgm_read_word(frame+k)== 0xFFFF)
+        display_table[i][j] = BLACK;
+      k++;
     }
   }
 }

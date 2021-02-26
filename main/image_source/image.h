@@ -9,6 +9,7 @@ image folder
 #include "winter.c"
 #include "loading_gif.h"
 #include "rainbow.c"
+#include "frame.c"
 //icon
 
 //

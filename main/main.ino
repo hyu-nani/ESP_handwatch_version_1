@@ -21,6 +21,10 @@ char swcheck();
 void modechange(char a);
 int mode = 0;
 int display_x=0,display_y=0;
+
+const int pg_change_num = 10;
+
+
 //mode
 #include "Clock.h"
 #include "setting.h"
@@ -35,19 +39,19 @@ void setup() {
 	pinMode(sw2,INPUT);
 	pinMode(sw3,INPUT);
 	LCD_Init();
-  LCD_image(0,0,LCD_W,LCD_H,loading[0]);
+  //LCD_image(0,0,LCD_W,LCD_H,loading[0]);
 	LCD_smooth_on(3,backlight);
   delay(10);
   for (int i=0 ; i< 29 ;i++)
   {
-    LCD_image(0,0,LCD_W,LCD_H,loading[i]);
+    //LCD_image(0,0,LCD_W,LCD_H,loading[i]);
   }
   //wifi_init();
   delay(1);
   initial_display();
   for (int i=0 ; i< 29 ;i++)
   {
-    LCD_image(0,0,LCD_W,LCD_H,loading[i]);
+   // LCD_image(0,0,LCD_W,LCD_H,loading[i]);
   }
   delay(1);
 	LCD_smooth_off(2);
@@ -64,19 +68,23 @@ void loop() {
       data = swcheck();
       if(data == 'D'){
         display_set_bio();
-        mode++;
-        for(int i = 0;i<20;i++){
-          display_y+=4;
+        display_frame();
+        mode=1;
+        for(int i = -pg_change_num ;i<pg_change_num ;i++){
+          display_y+=40/pg_change_num;
           print_display(display_x,display_y);
+          delay((i*i)/((pg_change_num/10)*(pg_change_num/10)));
         }
         break;
       }
       else if (data == 'U'){
         display_set_setting();
+        display_frame();
         mode = 2;
-        for(int i = 0;i<20;i++){
-          display_y+=4;
+        for(int i = -pg_change_num ;i<pg_change_num ;i++){
+          display_y+=40/pg_change_num;
           print_display(display_x,display_y);
+          delay((i*i)/((pg_change_num/10)*(pg_change_num/10)));
         }
         break;
       }
@@ -89,28 +97,47 @@ void loop() {
       delay(10);
       data = swcheck();
       if(data == 'D'){
-        for(int i = 0;i<20;i++){
-          display_y-=4;
+        for(int i = -pg_change_num ;i<pg_change_num ;i++){
+          display_y-=40/pg_change_num;
           print_display(display_x,display_y);
-        }
-        display_set_bio();
-        mode++;
-        for(int i = 0;i<20;i++){
-          display_y+=4;
-          print_display(display_x,display_y);
-        }
-      }
-      else if (data == 'U'){
-        for(int i = 0;i<20;i++){
-          display_y-=4;
-          print_display(display_x,display_y);
+          delay((i*i)/((pg_change_num/10)*(pg_change_num/10)));
         }
         display_set_setting();
-        mode--;
-        for(int i =0;i<20;i++){
-          display_y+=4;
+        display_frame();
+        mode=2;
+        delay(300);
+        for(int i = -pg_change_num ;i<pg_change_num ;i++){
+          display_y+=40/pg_change_num;
           print_display(display_x,display_y);
+          delay((i*i)/((pg_change_num/10)*(pg_change_num/10)));
         }
+        break;
+      }
+      else if (data == 'U'){
+        for(int i = -pg_change_num ;i<pg_change_num ;i++){
+          display_y-=40/pg_change_num;
+          print_display(display_x,display_y);
+          delay((i*i)/((pg_change_num/10)*(pg_change_num/10)));
+        }
+        display_set_temp();
+        display_frame();
+        mode=3;
+        delay(300);
+        for(int i =-pg_change_num ;i<pg_change_num ;i++){
+          display_y+=40/pg_change_num;
+          print_display(display_x,display_y);
+          delay((i*i)/((pg_change_num/10)*(pg_change_num/10)));
+        }
+        break;
+      }
+      else if (data == 'M'){
+        for(int i = -pg_change_num ;i<pg_change_num ;i++){
+          display_y-=40/pg_change_num;
+          print_display(display_x,display_y);
+          delay((i*i)/((pg_change_num/10)*(pg_change_num/10)));
+        }
+        mode=0;
+        break;
       }
     }
   }
@@ -121,28 +148,98 @@ void loop() {
       delay(10);
       data = swcheck();
       if(data == 'D'){
-        for(int i = 0;i<20;i++){
-          display_y-=4;
+        for(int i = -pg_change_num ;i<pg_change_num ;i++){
+          display_y-=40/pg_change_num;
           print_display(display_x,display_y);
+          delay((i*i)/((pg_change_num/10)*(pg_change_num/10)));
         }
-        display_set_bio();
-        mode=0;
-        for(int i = 0;i<20;i++){
-          display_y+=4;
+        display_set_temp();
+        display_frame();
+        mode=3;
+        delay(300);
+        for(int i = -pg_change_num ;i<pg_change_num ;i++){
+          display_y+=40/pg_change_num;
           print_display(display_x,display_y);
+          delay((i*i)/((pg_change_num/10)*(pg_change_num/10)));
         }
+        break;
       }
       else if (data == 'U'){
-        for(int i = 0;i<20;i++){
-          display_y-=4;
+        for(int i = -pg_change_num ;i<pg_change_num ;i++){
+          display_y-=40/pg_change_num;
           print_display(display_x,display_y);
+          delay((i*i)/((pg_change_num/10)*(pg_change_num/10)));
+        }
+        display_set_bio();
+        display_frame();
+        mode=1;
+        delay(300);
+        for(int i =-pg_change_num ;i<pg_change_num ;i++){
+          display_y+=40/pg_change_num;
+          print_display(display_x,display_y);
+          delay((i*i)/((pg_change_num/10)*(pg_change_num/10)));
+        }
+        break;
+      }
+      else if (data == 'M'){
+        for(int i = -pg_change_num ;i<pg_change_num ;i++){
+          display_y-=40/pg_change_num;
+          print_display(display_x,display_y);
+          delay((i*i)/((pg_change_num/10)*(pg_change_num/10)));
+        }
+        mode=0;
+        break;
+      }
+    }
+  }
+  while(mode == 3){   //temp
+    
+    while(1){
+      print_display(display_x,display_y);
+      delay(10);
+      data = swcheck();
+      if(data == 'D'){
+        for(int i = -pg_change_num ;i<pg_change_num ;i++){
+          display_y-=40/pg_change_num;
+          print_display(display_x,display_y);
+          delay((i*i)/((pg_change_num/10)*(pg_change_num/10)));
+        }
+        display_set_bio();
+        display_frame();
+        mode=1;
+        delay(300);
+        for(int i = -pg_change_num ;i<pg_change_num ;i++){
+          display_y+=40/pg_change_num;
+          print_display(display_x,display_y);
+          delay((i*i)/((pg_change_num/10)*(pg_change_num/10)));
+        }
+        break;
+      }
+      else if (data == 'U'){
+        for(int i = -pg_change_num ;i<pg_change_num ;i++){
+          display_y-=40/pg_change_num;
+          print_display(display_x,display_y);
+          delay((i*i)/((pg_change_num/10)*(pg_change_num/10)));
         }
         display_set_setting();
-        mode--;
-        for(int i =0;i<20;i++){
-          display_y+=4;
+        display_frame();
+        mode=2;
+        delay(300);
+        for(int i =-pg_change_num ;i<pg_change_num ;i++){
+          display_y+=40/pg_change_num;
           print_display(display_x,display_y);
+          delay((i*i)/((pg_change_num/10)*(pg_change_num/10)));
         }
+        break;
+      }
+      else if (data == 'M'){
+        for(int i = -pg_change_num ;i<pg_change_num ;i++){
+          display_y-=40/pg_change_num;
+          print_display(display_x,display_y);
+          delay((i*i)/((pg_change_num/10)*(pg_change_num/10)));
+        }
+        mode=0;
+        break;
       }
     }
   }
