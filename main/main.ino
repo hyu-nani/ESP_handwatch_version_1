@@ -5,8 +5,6 @@
  *  Flash size : 4MB (FS:3MB)
 */
 
-
-
 #include "image_source/image.h"
 #include "ST7735S.h"
 #include "LCD_basic.h"
@@ -22,16 +20,17 @@ int backlight = 1000;
 char swcheck();
 void modechange(char a);
 int mode = 0;
-
+int display_x=0,display_y=0;
 //mode
 #include "Clock.h"
 #include "setting.h"
+#include "Display.h"
 
 void setup() {
 	Serial.begin(115200);
 	SPI.begin();
 	LCD_portset();
-	mySPISettings = SPISettings(20000000, MSBFIRST, SPI_MODE0); //ESP max speed 80MHz
+	mySPISettings = SPISettings(20000000, MSBFIRST, SPI_MODE0); //ESP speed /4
 	pinMode(sw1,INPUT_PULLUP);
 	pinMode(sw2,INPUT);
 	pinMode(sw3,INPUT);
@@ -43,70 +42,110 @@ void setup() {
   {
     LCD_image(0,0,LCD_W,LCD_H,loading[i]);
   }
-  wifi_init();
+  //wifi_init();
+  delay(1);
+  initial_display();
   for (int i=0 ; i< 29 ;i++)
   {
     LCD_image(0,0,LCD_W,LCD_H,loading[i]);
   }
+  delay(1);
 	LCD_smooth_off(2);
-	LCD_Fill(BLACK);
 	now = time(nullptr);
-	configTime(GMT_SEC,DST_SEC,"kr.pool.ntp.org");
+	//configTime(GMT_SEC,DST_SEC,"kr.pool.ntp.org");
 }
-
 void loop() {
-	startpoint:
-	while (mode == -1)
-	{
-		mode = 0;
-		LCD_smooth_off(2);
-		break;
-	}
-	while (mode == 0)
-	{	
-    for (int i=0 ; i< 29 ;i++)
-    {
-      LCD_image(0,0,LCD_W,LCD_H,loading[i]);
-    }
-    LCD_smooth_on(2,backlight);
-	  while(1){
-      int i=mode;
-      char d = 'n';
-      for (int i=0 ; i< 29 ;i++)
-      {
-        LCD_image(0,0,LCD_W,LCD_H,loading[i]);
-        char k =swcheck();
-        if( 0 != k){d = k;break;}
+  while(mode == 0){
+    print_display(display_x,display_y);
+    LCD_smooth_on(3,backlight);
+    while(1){
+      print_display(display_x,display_y);
+      delay(10);
+      data = swcheck();
+      if(data == 'D'){
+        display_set_bio();
+        mode++;
+        for(int i = 0;i<20;i++){
+          display_y+=4;
+          print_display(display_x,display_y);
+        }
+        break;
       }
-			modechange(d);
-			if(i!=mode){LCD_smooth_off(2);break;}
-			delay(10);
-		}
-	}
-	while (mode == 1)
-	{
-		CLOCK();
-	}
-	while (mode == 2)
-	{	
-		LCD_Fill(BLUE);
-		delay(10);
-		LCD_smooth_on(2,backlight);
-		while(1){
-			sw_data=swcheck();
-			int i = mode;
-			if(sw_data=='M'){SETTING();}
-			modechange(sw_data);
-			if(i!=mode){LCD_smooth_off(2);break;}
-			delay(10);
-		}
-	}
-	while (mode == 3)
-	{	
-		mode = 0;
-		LCD_smooth_off(2);
-		break;
-	}
+      else if (data == 'U'){
+        display_set_setting();
+        mode = 2;
+        for(int i = 0;i<20;i++){
+          display_y+=4;
+          print_display(display_x,display_y);
+        }
+        break;
+      }
+    }
+  }
+  while(mode == 1){   //bio
+    
+    while(1){
+      print_display(display_x,display_y);
+      delay(10);
+      data = swcheck();
+      if(data == 'D'){
+        for(int i = 0;i<20;i++){
+          display_y-=4;
+          print_display(display_x,display_y);
+        }
+        display_set_bio();
+        mode++;
+        for(int i = 0;i<20;i++){
+          display_y+=4;
+          print_display(display_x,display_y);
+        }
+      }
+      else if (data == 'U'){
+        for(int i = 0;i<20;i++){
+          display_y-=4;
+          print_display(display_x,display_y);
+        }
+        display_set_setting();
+        mode--;
+        for(int i =0;i<20;i++){
+          display_y+=4;
+          print_display(display_x,display_y);
+        }
+      }
+    }
+  }
+  while(mode == 2){   //setting
+    
+    while(1){
+      print_display(display_x,display_y);
+      delay(10);
+      data = swcheck();
+      if(data == 'D'){
+        for(int i = 0;i<20;i++){
+          display_y-=4;
+          print_display(display_x,display_y);
+        }
+        display_set_bio();
+        mode=0;
+        for(int i = 0;i<20;i++){
+          display_y+=4;
+          print_display(display_x,display_y);
+        }
+      }
+      else if (data == 'U'){
+        for(int i = 0;i<20;i++){
+          display_y-=4;
+          print_display(display_x,display_y);
+        }
+        display_set_setting();
+        mode--;
+        for(int i =0;i<20;i++){
+          display_y+=4;
+          print_display(display_x,display_y);
+        }
+      }
+    }
+  }
 }
 char swcheck()
 {
