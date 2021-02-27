@@ -14,7 +14,7 @@
 #include "LCD_basic.h"
 #include <math.h>
 
-int backlight = 255;
+int backlight = 200;
 char swcheck();
 void modechange(char a);
 int mode = 0;

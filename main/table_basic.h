@@ -1,4 +1,4 @@
-﻿
+﻿#define table_swap(a, b) { u16 t = a; a = b; b = t; }
 void table_fill(u16 color)
 {
 	u16 i,j;
@@ -29,9 +29,9 @@ void table_image(u16 x0,u16 y0,u16 x1,u16 y1 ,const short unsigned A[])
 void table_fill_Rect(u16 x, u16 y, u16 w, u16 h,u16 color)
 {
 
-	if((x >= LCD_W) || (y >= LCD_H)) return;
-	if((x + w - 1) >= LCD_W)  w = LCD_W  - x;
-	if((y + h - 1) >= LCD_H) h = LCD_H - y;
+	if((x >= table_w) || (y >= table_h)) return;
+	if((x + w - 1) >= table_w)  w = table_w  - x;
+	if((y + h - 1) >= table_h) h = table_h - y;
 
 	for(y=h; y>0; y--) {
 		for(x=w; x>0; x--) {
@@ -42,25 +42,25 @@ void table_fill_Rect(u16 x, u16 y, u16 w, u16 h,u16 color)
 
 void table_HLine(u16 x, u16 y, u16 w, u16 color)
 {
-	if((x >= LCD_W) || (y >= LCD_H)) return;
-	if((x+w-1) >= LCD_W)
-	w = LCD_W-x;
+	if((x >= table_w) || (y >= table_h)) return;
+	if((x+w-1) >= table_w)
+	w = table_w-x;
 	while (w--) {
 		display_table[y][x+w] = color;
 	}
 }
 void table_VLine(u16 x, u16 y, u16 h,u16 color) {
 	// Rudimentary clipping
-	if((x >= LCD_W) || (y >= LCD_H)) return;
-	if((y+h-1) >= LCD_H)
-	h = LCD_H-y;
+	if((x >= table_w) || (y >= table_h)) return;
+	if((y+h-1) >= table_h)
+	h = table_h-y;
 	while (h--) {
 		display_table[y+h][x] = color;
 	}
 }
 void table_Pixel(u16 x, u16 y,u16 thin ,u16 color)
 {
-	if((x < 0) ||(x >= LCD_W) || (y < 0) || (y >= LCD_H)) return;
+	if((x < 0) ||(x >= table_w) || (y < 0) || (y >= table_h)) return;
 	for(int a=0;a<thin;a++){
 		for(int b=0;b<thin;b++){
 			display_table[y+a][x+b] = color;
@@ -165,13 +165,13 @@ void table_Round_Rec(u16 x, u16 y, u16 w,u16 h, u16 r, u16 color) {
 void table_Line(u16 x0, u16 y0,u16 x1, u16 y1, u16 thin, u16 color) {
 	u16 steep = abs(y1 - y0) > abs(x1 - x0);
 	if (steep) {
-		LCD_swap(x0, y0);
-		LCD_swap(x1, y1);
+		table_swap(x0, y0);
+		table_swap(x1, y1);
 	}
 
 	if (x0 > x1) {
-		LCD_swap(x0, x1);
-		LCD_swap(y0, y1);
+		table_swap(x0, x1);
+		table_swap(y0, y1);
 	}
 
 	int16_t dx, dy;
@@ -296,7 +296,7 @@ void table_print_background(u16 x,u16 y, const char c[],u16 color ,u16 bgcolor ,
 			table_Char_bg(x, y, c[i], color, bgcolor, size);
 			x += 6*size;
 			i++;
-			if (x > (LCD_W - size*6)) {
+			if (x > (table_w - size*6)) {
 				y += size*8;
 				x = 0;
 			}
@@ -316,7 +316,7 @@ void table_print(u16 x,u16 y, const char c[],u16 color ,uint8_t size)
 			table_Char(x, y, c[i], color, size);
 			x += 6*size;
 			i++;
-			if (x > (LCD_W - size*6)) {
+			if (x > (table_w - size*6)) {
 				y += size*8;
 				x = 0;
 			}
@@ -336,7 +336,7 @@ void table_print_background(u16 x,u16 y, int c,u16 color ,u16 bgcolor ,uint8_t s
 		else {
 			table_Char_bg(x, y, A[i], color, bgcolor, size);
 			x += 6*size;
-			if (x > (LCD_W - size*6)) {
+			if (x > (table_w - size*6)) {
 				y += size*8;
 				x = 0;
 			}
@@ -357,7 +357,7 @@ void table_print(u16 x,u16 y, int c,u16 color ,uint8_t size)
 		else {
 			table_Char(x, y, A[i], color, size);
 			x += 6*size;
-			if (x > (LCD_W - size*6)) {
+			if (x > (table_w - size*6)) {
 				y += size*8;
 				x = 0;
 			}
