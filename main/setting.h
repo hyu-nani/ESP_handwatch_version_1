@@ -59,13 +59,13 @@ void matrix()
 			LCD_print(15,5,"backlight",WHITE,1);
 			while (1)
 			{
-				if(digitalRead(sw1)==0&&backlight<1000){
+				if(digitalRead(SW_U)==0&&backlight<1000){
 					backlight+=10;
 				}
-				else if(digitalRead(sw3)==0&&backlight>10){
+				else if(digitalRead(SW_D)==0&&backlight>10){
 					backlight-=10;
 				}
-				else if(digitalRead(sw2)==0){
+				else if(digitalRead(SW_M)==0){
 					LCD_smooth_off(1);
 					LCD_Fill(SET_BG_color);
 					LCD_menu();

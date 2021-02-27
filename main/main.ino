@@ -6,37 +6,29 @@
 */
 
 #include "image_source/image.h"
+#include "watch.h"
 #include "ST7735S.h"
 #include "LCD_basic.h"
-#include "LCD_action.h"
 #include <math.h>
 
-#define sw1 13
-#define sw2 12
-#define sw3 5
-
-int backlight = 1000;
+int backlight = 255;
 char swcheck();
 void modechange(char a);
 int mode = 0;
-int display_x=0,display_y=0;
 
 const int pg_change_num = 20;
-
 //mode
+
 #include "Clock.h"
 #include "setting.h"
-#include "Display.h"
+#include "Display_table.h"
 
 void setup() {
 	Serial.begin(115200);
   SPIClass(VSPI);
 	SPI.begin();
-	LCD_portset();
+	watch_pinset();
 	mySPISettings = SPISettings(60000000, MSBFIRST, SPI_MODE0); //ESP speed /4
-	pinMode(sw1,INPUT_PULLUP);
-	pinMode(sw2,INPUT);
-	pinMode(sw3,INPUT);
 	LCD_Init();
   LCD_image(0,0,LCD_W,LCD_H,loading[0]);
 	LCD_smooth_on(4,backlight);
@@ -47,7 +39,7 @@ void setup() {
   }
   //wifi_init();
   delay(1);
-  initial_display();
+  initial_table();
   for (int i=0 ; i< 29 ;i++)
   {
     LCD_image(0,0,LCD_W,LCD_H,loading[i]);
@@ -70,7 +62,7 @@ void loop() {
       delay(100);
       data = swcheck();
       if(data == 'D'){
-        display_set_bio();
+        table_set_bio();
         display_frame();
         mode=1;
         for(int i = -pg_change_num ;i<=2 ;i++){
@@ -80,7 +72,7 @@ void loop() {
         break;
       }
       else if (data == 'U'){
-        display_set_bio();
+        table_set_bio();
         display_frame();
         mode = 1;
         for(int i = -pg_change_num ;i<=2 ;i++){
@@ -104,7 +96,7 @@ void loop() {
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
         }
-        display_set_temp();
+        table_set_temp();
         display_frame();
         mode=2;
         delay(300);
@@ -119,7 +111,7 @@ void loop() {
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
         }
-        display_set_acc();
+        table_set_acc();
         display_frame();
         mode=4;
         delay(300);
@@ -152,7 +144,7 @@ void loop() {
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
         }
-        display_set_setting();
+        table_set_setting();
         display_frame();
         mode=3;
         delay(300);
@@ -167,7 +159,7 @@ void loop() {
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
         }
-        display_set_bio();
+        table_set_bio();
         display_frame();
         mode=1;
         delay(300);
@@ -200,7 +192,7 @@ void loop() {
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
         }
-        display_set_acc();
+        table_set_acc();
         display_frame();
         mode=4;
         delay(300);
@@ -215,7 +207,7 @@ void loop() {
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
         }
-        display_set_temp();
+        table_set_temp();
         display_frame();
         mode=2;
         delay(300);
@@ -247,7 +239,7 @@ void loop() {
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
         }
-        display_set_bio();
+        table_set_bio();
         display_frame();
         mode=1;
         delay(300);
@@ -262,7 +254,7 @@ void loop() {
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
         }
-        display_set_setting();
+        table_set_setting();
         display_frame();
         mode=3;
         delay(300);
@@ -288,21 +280,21 @@ void loop() {
 char swcheck()
 {
 	int i=0;
-	if (digitalRead(sw1))
+	if (digitalRead(SW_U))
 	{
 		i += 1;
 	}
-	if (digitalRead(sw2))
+	if (digitalRead(SW_M))
 	{
 		i += 3;
 	}
-	if (digitalRead(sw3))
+	if (digitalRead(SW_D))
 	{
 		i += 5;
 	}
-	while (digitalRead(sw1)){delay(100);}
-	while (digitalRead(sw2)){delay(100);}
-	while (digitalRead(sw3)){delay(100);}
+	while (digitalRead(SW_U)){delay(100);}
+	while (digitalRead(SW_M)){delay(100);}
+	while (digitalRead(SW_D)){delay(100);}
 	if (i!=0)
 	{
 		switch (i)
