@@ -121,19 +121,19 @@ void LCD_smooth_on(int val,int Base)
 {
 	delay(10);
 	for(;output_light<Base;output_light+=5){
-		analogWrite(TFT_LIGHT,output_light);
+		ledcWrite(0,output_light);
 		delay(val);
 	}
-	analogWrite(TFT_LIGHT,Base);
+	ledcWrite(0,Base);
 	delay(10);
 }
 void LCD_smooth_off(int val)
 {
 	delay(10);
 	for(;output_light>0;output_light-=5){
-		analogWrite(TFT_LIGHT,output_light);
+		ledcWrite(0,output_light);
 		delay(val);
 	}
-	analogWrite(TFT_LIGHT,0);
+	ledcWrite(0, 0);
 	delay(10);
 }

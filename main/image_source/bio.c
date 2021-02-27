@@ -2,9 +2,7 @@
 // Generated from: closeup-beautiful-view-nature-green-leaves-blurred-greenery-tree-background-with-sunlight-public-garden-park_50039-1183.jpg
 // Time generated: 2021-02-27 오후 2:28:47
 // Dimensions    : 160x80 pixels
-// Size          : 25,600 Bytes
-
-#include <avr/pgmspace.h>
+// Size          : 25,600 Byt
 
 const unsigned short bio[0x3200] PROGMEM ={
 0x2280, 0x2AE0, 0x2AA0, 0x2AA0, 0x2AC0, 0x32E0, 0x32E0, 0x32E0, 0x32E0, 0x32E0, 0x32E0, 0x3300, 0x3320, 0x3B60, 0x4BC2, 0x4BE4,   // 0x0010 (16)

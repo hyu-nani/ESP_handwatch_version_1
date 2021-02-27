@@ -1,7 +1,7 @@
 ﻿
 static int now_h=0,now_m=0,now_s=0,now_d=0;
 static int old_h=0,old_m=0,old_d=0;
-
+int now_ms,prev_ms;
 uint16_t CLK_BG_color = BLACK;
 
 void CLOCK()

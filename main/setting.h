@@ -77,7 +77,7 @@ void matrix()
 				int i = map(backlight,0,1000,99,0);
 				LCD_fill_Rect(11,41,58,i,SET_BG_color);
 				LCD_fill_Rect(11,41+i,58,100-i,YELLOW);
-				analogWrite(TFT_LIGHT,backlight);
+        ledcWrite(0, backlight);
 				delay(10);
 			}
 		}

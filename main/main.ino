@@ -9,12 +9,11 @@
 #include "ST7735S.h"
 #include "LCD_basic.h"
 #include "LCD_action.h"
-#include "WiFi.h"
 #include <math.h>
 
-#define sw1 D0
-#define sw2 D3
-#define sw3 D4
+#define sw1 13
+#define sw2 12
+#define sw3 5
 
 int backlight = 1000;
 char swcheck();
@@ -31,30 +30,31 @@ const int pg_change_num = 20;
 
 void setup() {
 	Serial.begin(115200);
+  SPIClass(VSPI);
 	SPI.begin();
 	LCD_portset();
-	mySPISettings = SPISettings(20000000, MSBFIRST, SPI_MODE0); //ESP speed /4
+	mySPISettings = SPISettings(60000000, MSBFIRST, SPI_MODE0); //ESP speed /4
 	pinMode(sw1,INPUT_PULLUP);
 	pinMode(sw2,INPUT);
 	pinMode(sw3,INPUT);
 	LCD_Init();
-  //LCD_image(0,0,LCD_W,LCD_H,loading[0]);
-	LCD_smooth_on(3,backlight);
+  LCD_image(0,0,LCD_W,LCD_H,loading[0]);
+	LCD_smooth_on(4,backlight);
   delay(10);
   for (int i=0 ; i< 29 ;i++)
   {
-    //LCD_image(0,0,LCD_W,LCD_H,loading[i]);
+    LCD_image(0,0,LCD_W,LCD_H,loading[i]);
   }
   //wifi_init();
   delay(1);
   initial_display();
   for (int i=0 ; i< 29 ;i++)
   {
-   // LCD_image(0,0,LCD_W,LCD_H,loading[i]);
+    LCD_image(0,0,LCD_W,LCD_H,loading[i]);
   }
   delay(1);
-	LCD_smooth_off(2);
-	now = time(nullptr);
+	LCD_smooth_off(3);
+	
 	//configTime(GMT_SEC,DST_SEC,"kr.pool.ntp.org");
 }
 
@@ -64,7 +64,7 @@ void loop() {
   //==========================================================
   while(mode == 0){
     print_display(display_x,display_y);
-    LCD_smooth_on(3,backlight);
+    LCD_smooth_on(4,backlight);
     while(1){
       print_display(display_x,display_y);
       delay(100);
@@ -288,21 +288,21 @@ void loop() {
 char swcheck()
 {
 	int i=0;
-	if (digitalRead(sw1)==0)
+	if (digitalRead(sw1))
 	{
 		i += 1;
 	}
-	if (digitalRead(sw2)==0)
+	if (digitalRead(sw2))
 	{
 		i += 3;
 	}
-	if (digitalRead(sw3)==0)
+	if (digitalRead(sw3))
 	{
 		i += 5;
 	}
-	while (digitalRead(sw1)==0){delay(100);}
-	while (digitalRead(sw2)==0){delay(100);}
-	while (digitalRead(sw3)==0){delay(100);}
+	while (digitalRead(sw1)){delay(100);}
+	while (digitalRead(sw2)){delay(100);}
+	while (digitalRead(sw3)){delay(100);}
 	if (i!=0)
 	{
 		switch (i)

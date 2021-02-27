@@ -23,10 +23,10 @@
 #define LBBLUE           0X2B12
 #define TRANSPARENT  0xFFFFFFFF
 
-#define TFT_DC  D1
-#define TFT_RST D2
-#define TFT_CS  D6
-#define TFT_LIGHT D8
+#define TFT_DC  15
+#define TFT_RST 14
+#define TFT_CS  32
+#define TFT_LIGHT 16
 
 #define LCD_W 160 //106 / 26
 #define LCD_H 80 //161 / 1
@@ -150,8 +150,9 @@ void LCD_portset(){
 	digitalWrite(TFT_CS,LOW);
 	pinMode(TFT_DC,OUTPUT);
 	pinMode(TFT_RST,OUTPUT);
-	pinMode(TFT_LIGHT,OUTPUT);
 	delay_ms(100);
+  ledcSetup(0, 5000, 8);    
+  ledcAttachPin(TFT_LIGHT, 0); //TFT_light 0 chenal
 }
 void LCD_Init(void)
 {
