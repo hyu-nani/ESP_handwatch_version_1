@@ -104,7 +104,7 @@ void loop() {
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
         }
-        display_set_setting();
+        display_set_temp();
         display_frame();
         mode=2;
         delay(300);
@@ -119,7 +119,7 @@ void loop() {
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
         }
-        display_set_temp();
+        display_set_acc();
         display_frame();
         mode=4;
         delay(300);
@@ -152,7 +152,7 @@ void loop() {
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
         }
-        display_set_temp();
+        display_set_setting();
         display_frame();
         mode=3;
         delay(300);
@@ -200,7 +200,7 @@ void loop() {
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
         }
-        display_set_bio();
+        display_set_acc();
         display_frame();
         mode=4;
         delay(300);
@@ -215,7 +215,7 @@ void loop() {
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
         }
-        display_set_setting();
+        display_set_temp();
         display_frame();
         mode=2;
         delay(300);

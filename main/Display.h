@@ -45,14 +45,24 @@ void print_display(int x, int y){
 	}
 	SPI.endTransaction();
 }
-
+void display_set_acc(){
+  int k=0;
+  for(table_y = 80 ; table_y < 160 ; table_y++)
+  {
+    for(table_x = 0 ; table_x < 160 ; table_x++)
+    {
+      display_table[table_y][table_x] = (word)pgm_read_word(rainbow+k);
+      k++;
+    }
+  }
+}
 void display_set_bio(){
   int k=0;
   for(table_y = 80 ; table_y < 160 ; table_y++)
   {
     for(table_x = 0 ; table_x < 160 ; table_x++)
     {
-      display_table[table_y][table_x] = (word)pgm_read_word(girl+k);
+      display_table[table_y][table_x] = (word)pgm_read_word(bio+k);
       k++;
     }
   }
@@ -63,7 +73,7 @@ void display_set_setting(){
   {
     for(table_x = 0 ; table_x < 160 ; table_x++)
     {
-      display_table[table_y][table_x] = (word)pgm_read_word(picture+k);
+      display_table[table_y][table_x] = (word)pgm_read_word(setting+k);
       k++;
     }
   }

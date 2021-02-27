@@ -10,6 +10,8 @@ image folder
 #include "loading_gif.h"
 #include "rainbow.c"
 #include "frame.c"
+#include "bio.c"
+#include "setting.c"
 //icon
 
 //
