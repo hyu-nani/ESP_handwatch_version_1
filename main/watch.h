@@ -1,6 +1,6 @@
 ﻿#define EN2				35 
 #define BAT_voltage		34
-#define CS_SD			33
+#define SD_CS			33
 #define Card_detect		27
 #define wireless			26
 #define sensor_power		25
@@ -12,7 +12,7 @@
 #define SW_M				12
 #define SW_D				5
 #define charge			2
-#define CS_ADXL			4
+#define ADXL_CS			4
 #define Power			17
 #define SCK				18
 #define MISO				19
@@ -32,12 +32,13 @@ void watch_pinset(){
 	pinMode(TFT_RST,OUTPUT);
 	pinMode(EN2,OUTPUT);
 	pinMode(Power,OUTPUT);
-	pinMode(CS_ADXL,OUTPUT);
+	pinMode(ADXL_CS,OUTPUT);
+	pinMode(SD_CS,OUTPUT);
 	pinMode(SCK,OUTPUT);
 	
-	digitalWrite(CS_SD,HIGH);
-	digitalWrite(CS_ADXL,HIGH);
-	digitalWrite(TFT_CS,LOW);
+	digitalWrite(SD_CS,HIGH);
+	digitalWrite(ADXL_CS,HIGH);
+	digitalWrite(TFT_CS,HIGH);
 	digitalWrite(Power,HIGH);
 	digitalWrite(EN2,LOW);
 	ledcSetup(0, 5000, 8);

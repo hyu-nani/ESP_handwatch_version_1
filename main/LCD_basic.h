@@ -7,6 +7,7 @@ int lcd_light=0;
 
 void LCD_Fill(u16 color)
 {
+	LCD_CS_Clr();
 	u16 i,j;
 	SPI.beginTransaction(mySPISettings);
 	LCD_Address_Set(0,0,LCD_W-1,LCD_H-1);
@@ -19,11 +20,13 @@ void LCD_Fill(u16 color)
 		}
 	}
 	SPI.endTransaction();
+	LCD_CS_Set();
 }
 
 
 void LCD_image(u16 x0,u16 y0,u16 x1,u16 y1 ,const short unsigned A[])
 {
+	LCD_CS_Clr();
 	u16 i,j;
 	int k=0;
 	SPI.beginTransaction(mySPISettings);
@@ -38,11 +41,12 @@ void LCD_image(u16 x0,u16 y0,u16 x1,u16 y1 ,const short unsigned A[])
 		}
 	}
 	SPI.endTransaction();
+	LCD_CS_Set();
 }
 
 void LCD_fill_Rect(u16 x, u16 y, u16 w, u16 h,u16 color)
 {
-
+	LCD_CS_Clr();
 	SPI.beginTransaction(mySPISettings);
 	if((x >= LCD_W) || (y >= LCD_H)) return;
 	if((x + w - 1) >= LCD_W)  w = LCD_W  - x;
@@ -57,10 +61,12 @@ void LCD_fill_Rect(u16 x, u16 y, u16 w, u16 h,u16 color)
 		}
 	}
 	SPI.endTransaction();
+	LCD_CS_Set();
 }
 
 void LCD_HLine(u16 x, u16 y, u16 w, u16 color)
 {
+	LCD_CS_Clr();
 	if((x >= LCD_W) || (y >= LCD_H)) return;
 	if((x+w-1) >= LCD_W)  w = LCD_W-x;
 	SPI.beginTransaction(mySPISettings);
@@ -70,8 +76,10 @@ void LCD_HLine(u16 x, u16 y, u16 w, u16 color)
 		LCD_WR_DATA(color);
 	}
 	SPI.endTransaction();
+	LCD_CS_Set();
 }
 void LCD_VLine(u16 x, u16 y, u16 h,u16 color) {
+	LCD_CS_Clr();
 	// Rudimentary clipping
 	if((x >= LCD_W) || (y >= LCD_H)) return;
 	if((y+h-1) >= LCD_H)
@@ -83,9 +91,11 @@ void LCD_VLine(u16 x, u16 y, u16 h,u16 color) {
 		LCD_WR_DATA(color);
 	}
 	SPI.endTransaction();
+	LCD_CS_Set();
 }
 void LCD_Pixel(u16 x, u16 y,u16 thin ,u16 color)
 {
+	LCD_CS_Clr();
 	if((x < 0) ||(x >= LCD_W) || (y < 0) || (y >= LCD_H)) return;
 
 	SPI.beginTransaction(mySPISettings);
@@ -95,10 +105,12 @@ void LCD_Pixel(u16 x, u16 y,u16 thin ,u16 color)
 		LCD_WR_DATA(color);
 	}
 	SPI.endTransaction();
+	LCD_CS_Set();
 }
 
 
 void drawCircleHelper( u16 x0, u16 y0,u16 r, uint8_t cornername,u16 thin, u16 color) {
+	LCD_CS_Clr();
 	int16_t f     = 1 - r;
 	int16_t ddF_x = 1;
 	int16_t ddF_y = -2 * r;
@@ -131,10 +143,11 @@ void drawCircleHelper( u16 x0, u16 y0,u16 r, uint8_t cornername,u16 thin, u16 co
 			LCD_Pixel(x0 - x, y0 - y,thin, color);
 		}
 	}
+	LCD_CS_Set();
 }
 
 void fillCircleHelper(u16 x0, u16 y0, u16 r,uint8_t cornername, u16 delta, u16 color) {
-
+	LCD_CS_Clr();
 	int16_t f     = 1 - r;
 	int16_t ddF_x = 1;
 	int16_t ddF_y = -2 * r;
@@ -160,25 +173,33 @@ void fillCircleHelper(u16 x0, u16 y0, u16 r,uint8_t cornername, u16 delta, u16 c
 			LCD_VLine(x0-y, y0-x, 2*x+1+delta, color);
 		}
 	}
+	LCD_CS_Set();
 }
 void LCD_fill_Circle(u16 x0, u16 y0, u16 r,u16 color) {
+	LCD_CS_Clr();
 	LCD_VLine(x0, y0-r, 2*r+1, color);
 	fillCircleHelper(x0, y0, r, 3, 0, color);
+	LCD_CS_Set();
 }
 void LCD_Circle(u16 x0, u16 y0, u16 r,u16 thin,u16 color) {
+	LCD_CS_Clr();
 	LCD_Pixel(x0,y0-r,thin,color);
 	LCD_Pixel(x0,y0+r,thin,color);
 	LCD_Pixel(x0-r,y0,thin,color);
 	LCD_Pixel(x0+r,y0,thin,color);
 	drawCircleHelper(x0,y0,r,15,thin,color);
+	LCD_CS_Set();
 }
 void LCD_Rect(u16 x, u16 y,u16 w, u16 h,u16 color) {
+	LCD_CS_Clr();
 	LCD_HLine(x, y, w, color);
 	LCD_HLine(x, y+h-1, w, color);
 	LCD_VLine(x, y, h, color);
 	LCD_VLine(x+w-1, y, h, color);
+	LCD_CS_Set();
 }
 void LCD_Round_Rec(u16 x, u16 y, u16 w,u16 h, u16 r, u16 color) {
+	LCD_CS_Clr();
 	// smarter version
 	LCD_HLine(x+r  , y    , w-2*r, color); // Top
 	LCD_HLine(x+r  , y+h-1, w-2*r, color); // Bottom
@@ -189,8 +210,10 @@ void LCD_Round_Rec(u16 x, u16 y, u16 w,u16 h, u16 r, u16 color) {
 	drawCircleHelper(x+w-r-1, y+r    , r, 2,1, color);
 	drawCircleHelper(x+w-r-1, y+h-r-1, r, 4,1, color);
 	drawCircleHelper(x+r    , y+h-r-1, r, 8,1, color);
+	LCD_CS_Set();
 }
 void LCD_Line(u16 x0, u16 y0,u16 x1, u16 y1, u16 thin, u16 color) {
+	LCD_CS_Clr();
 	u16 steep = abs(y1 - y0) > abs(x1 - x0);
 	if (steep) {
 		LCD_swap(x0, y0);
@@ -227,9 +250,10 @@ void LCD_Line(u16 x0, u16 y0,u16 x1, u16 y1, u16 thin, u16 color) {
 			err += dx;
 		}
 	}
+	LCD_CS_Set();
 }
 void LCD_Char_bg(u16 x, u16 y, unsigned c,u16 color, u16 bg, uint8_t size) {
-
+	LCD_CS_Clr();
 	if((x >= LCD_W)            || // Clip right
 	(y >= LCD_H)           || // Clip bottom
 	((x + 6 * size - 1) < 0) || // Clip left
@@ -252,10 +276,11 @@ void LCD_Char_bg(u16 x, u16 y, unsigned c,u16 color, u16 bg, uint8_t size) {
 			line >>= 1;
 		}
 	}
+	LCD_CS_Set();
 }
 
 void LCD_Char(u16 x, u16 y, unsigned c,u16 color, uint8_t size) {
-
+	LCD_CS_Clr();
 	if((x >= LCD_W)            || // Clip right
 	(y >= LCD_H)           || // Clip bottom
 	((x + 6 * size - 1) < 0) || // Clip left
@@ -275,27 +300,33 @@ void LCD_Char(u16 x, u16 y, unsigned c,u16 color, uint8_t size) {
 			line >>= 1;
 		}
 	}
+	LCD_CS_Set();
 }
 
 
 void LCD_needle(u16 x,u16 y, u16 w,u16 thin, int value ,u16 color)
 {
+	LCD_CS_Clr();
 	int separate = 60;
 	int S = w*sin(2*PI*value/separate);
 	int C = w*cos(2*PI*value/separate);
 	LCD_Line(x,y,x+S,y-C,thin,color);
+	LCD_CS_Set();
 }
 void LCD_dot(u16 x,u16 y, u16 r,u16 thin ,u16 color)
 {
+	LCD_CS_Clr();
 	int separate = 60;
 	for(int a=0;a<separate;a++){
 		int S = r*sin(2*PI*a/separate);
 		int C = r*cos(2*PI*a/separate);
 		LCD_Pixel(x+S,y-C,thin,color);
 	}
+	LCD_CS_Set();
 }
 void LCD_dot_needle(u16 x,u16 y, u16 w,u16 thin, int value ,u16 color)
 {
+	LCD_CS_Clr();
 	int separate = 60;
 	int S = w*sin(2*PI*value/separate);
 	int C = w*cos(2*PI*value/separate);
@@ -308,12 +339,13 @@ void LCD_dot_needle(u16 x,u16 y, u16 w,u16 thin, int value ,u16 color)
 	LCD_Pixel(x+S-thin,y-C+thin,thin,color);
 	if(value >= (separate*3/4)&&value < (separate*4/4))
 	LCD_Pixel(x+S-thin,y-C-thin,thin,color);
+	LCD_CS_Set();
 }
 
 
 void LCD_print_background(u16 x,u16 y, const char c[],u16 color ,u16 bgcolor ,uint8_t size)
 {
-	
+	LCD_CS_Clr();
 	int i = 0;
 	while(c[i] != '\0'){
 		if (c[i] == '\n') {
@@ -331,9 +363,11 @@ void LCD_print_background(u16 x,u16 y, const char c[],u16 color ,u16 bgcolor ,ui
 		}
 		
 	}
+	LCD_CS_Set();
 }
 void LCD_print(u16 x,u16 y, const char c[],u16 color ,uint8_t size)
 {
+	LCD_CS_Clr();
 	int i = 0;
 	while(c[i] != '\0'){
 		if (c[i] == '\n') {
@@ -350,9 +384,11 @@ void LCD_print(u16 x,u16 y, const char c[],u16 color ,uint8_t size)
 			}
 		}
 	}
+	LCD_CS_Set();
 }
 void LCD_print_background(u16 x,u16 y, int c,u16 color ,u16 bgcolor ,uint8_t size)
 {
+	LCD_CS_Clr();
 	char A[10];
 	int i =0;
 	sprintf(A, "%d", c);
@@ -371,9 +407,11 @@ void LCD_print_background(u16 x,u16 y, int c,u16 color ,u16 bgcolor ,uint8_t siz
 		}
 		i++;
 	}
+	LCD_CS_Set();
 }
 void LCD_print(u16 x,u16 y, int c,u16 color ,uint8_t size)
 {
+	LCD_CS_Clr();
 	char A[10];
 	int i =0;
 	sprintf(A, "%d", c);
@@ -392,7 +430,7 @@ void LCD_print(u16 x,u16 y, int c,u16 color ,uint8_t size)
 		}
 		i++;
 	}
-	
+	LCD_CS_Set();
 }
 
 int output_light=0;

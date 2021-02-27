@@ -30,6 +30,7 @@ void initial_table(){
 
 void print_display(int x, int y){
 	u16 i,j;
+	LCD_CS_Clr();
 	SPI.beginTransaction(mySPISettings);
 	LCD_Address_Set(0,0,LCD_W-1,LCD_H-1);
 	LCD_WR_REG(0x2c);
@@ -41,6 +42,7 @@ void print_display(int x, int y){
 		}
 	}
 	SPI.endTransaction();
+	LCD_CS_Set();
 }
 void table_set_acc(){
 	int k=0;

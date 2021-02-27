@@ -1,13 +1,16 @@
 /*
  *  NANI project : ESP hand watch 
- *  Upload Speeed : 51200 
- *  CPU frequency : 160MHz
- *  Flash size : 4MB (FS:3MB)
+ *  module : ESP32-S
+ *  
+ *  
 */
+#include <SPI.h>
+#include <Wire.h>
 
 #include "image_source/image.h"
 #include "watch.h"
 #include "ST7735S.h"
+#include "SD_card.h"
 #include "LCD_basic.h"
 #include <math.h>
 
@@ -25,26 +28,27 @@ const int pg_change_num = 20;
 
 void setup() {
 	Serial.begin(115200);
-  SPIClass(VSPI);
-	SPI.begin();
+	SPIClass(VSPI);
+	SPI.begin();		//SPI begin
+	Wire.begin();	//i2c begin
 	watch_pinset();
 	mySPISettings = SPISettings(60000000, MSBFIRST, SPI_MODE0); //ESP speed /4
 	LCD_Init();
-  LCD_image(0,0,LCD_W,LCD_H,loading[0]);
+	LCD_image(0,0,LCD_W,LCD_H,loading[0]);
 	LCD_smooth_on(4,backlight);
-  delay(10);
-  for (int i=0 ; i< 29 ;i++)
-  {
-    LCD_image(0,0,LCD_W,LCD_H,loading[i]);
-  }
-  //wifi_init();
-  delay(1);
-  initial_table();
-  for (int i=0 ; i< 29 ;i++)
-  {
-    LCD_image(0,0,LCD_W,LCD_H,loading[i]);
-  }
-  delay(1);
+	delay(10);
+	for (int i=0 ; i< 29 ;i++)
+	{
+		LCD_image(0,0,LCD_W,LCD_H,loading[i]);
+	}
+	//wifi_init();
+	delay(1);
+	initial_table();
+	for (int i=0 ; i< 29 ;i++)
+	{
+		LCD_image(0,0,LCD_W,LCD_H,loading[i]);
+	}
+	delay(1);
 	LCD_smooth_off(3);
 	
 	//configTime(GMT_SEC,DST_SEC,"kr.pool.ntp.org");
