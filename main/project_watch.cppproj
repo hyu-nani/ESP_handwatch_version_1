@@ -235,6 +235,9 @@
     <Compile Include="LCD_basic.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="SD_card.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="setting.h">
       <SubType>compile</SubType>
     </Compile>

@@ -10,7 +10,16 @@ void table_fill(u16 color)
 		}
 	}
 }
-
+void table_fill_block(int num,u16 color){
+	u16 i,j;
+	for(i=0;i<LCD_H*num;i++)
+	{
+		for(j=0;j<table_w;j++)
+		{
+			display_table[i][j] = color;
+		}
+	}
+}
 
 void table_image(u16 x0,u16 y0,u16 x1,u16 y1 ,const short unsigned A[])
 {

@@ -16,7 +16,6 @@ void initial_table(){
 			display_table[table_y][table_x] = BLACK;
 		}
 	}
-	table_print(1,10,"Wrote 3072 bytes (128 compressed) at 0x00008000 in 0.0 seconds (effective 1890.5 kbit/s)...Hash of data verified",WHITE,1);
 	for(table_y = 80 ; table_y < 160 ; table_y++)
 	{
 		for(table_x = 0 ; table_x < 160 ; table_x++)
@@ -50,7 +49,7 @@ void table_set_acc(){
 	{
 		for(table_x = 0 ; table_x < 160 ; table_x++)
 		{
-			display_table[table_y][table_x] = (word)pgm_read_word(rainbow+k);
+			display_table[table_y][table_x] = (word)pgm_read_word(winter+k);
 			k++;
 		}
 	}
@@ -83,7 +82,7 @@ void table_set_temp(){
 	{
 		for(table_x = 0 ; table_x < 160 ; table_x++)
 		{
-			display_table[table_y][table_x] = (word)pgm_read_word(winter+k);
+			display_table[table_y][table_x] = (word)pgm_read_word(rainbow+k);
 			k++;
 		}
 	}

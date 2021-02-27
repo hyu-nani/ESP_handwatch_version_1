@@ -12,6 +12,7 @@
 #include "ST7735S.h"
 #include "SD_card.h"
 #include "LCD_basic.h"
+#include "WiFi_ready.h"
 #include <math.h>
 
 int backlight = 200;
@@ -22,9 +23,11 @@ int mode = 0;
 const int pg_change_num = 20;
 //mode
 
-#include "Clock.h"
 #include "setting.h"
 #include "Display_table.h"
+
+#include "Clock.h"
+
 
 void setup() {
 	Serial.begin(115200);
@@ -41,8 +44,7 @@ void setup() {
 	{
 		LCD_image(0,0,LCD_W,LCD_H,loading[i]);
 	}
-	//wifi_init();
-	delay(1);
+	WiFi_begin();
 	initial_table();
 	for (int i=0 ; i< 29 ;i++)
 	{
@@ -59,9 +61,11 @@ void setup() {
 void loop() {
   //==========================================================
   while(mode == 0){
+	  Clock_init();
     print_display(display_x,display_y);
     LCD_smooth_on(4,backlight);
     while(1){
+      Clock_play();
       print_display(display_x,display_y);
       delay(100);
       data = swcheck();
