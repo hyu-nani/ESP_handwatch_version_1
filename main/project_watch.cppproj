@@ -250,6 +250,9 @@
     <Compile Include="watch.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="WiFi_ready.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="__vm\.project_watch.vsarduino.h">
       <SubType>compile</SubType>
     </Compile>

@@ -2,8 +2,17 @@
  *  NANI project : ESP hand watch 
  *  module : ESP32-S
  *  
- *  
+ *  ESP32 dev module
+ *  921600
+ *  240MHz(WiFi/BT)
+ *  80MHz
+ *  QIO
+ *  16MB
+ *  HUGE APP
+ *  None
+ *  disable
 */
+
 #include <SPI.h>
 #include <Wire.h>
 
@@ -61,7 +70,7 @@ void setup() {
 void loop() {
   //==========================================================
   while(mode == 0){
-	  Clock_init();
+	  Clock_update();
     print_display(display_x,display_y);
     LCD_smooth_on(4,backlight);
     while(1){
