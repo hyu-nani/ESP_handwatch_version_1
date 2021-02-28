@@ -99,7 +99,7 @@ void display_frame()
 	{
 		for(j=0;j<160;j++)
 		{
-      color = color_sub(display_table[i][j],pgm_read_word(frame+k));
+      color = color_sub(display_table[i][j],pgm_read_word(frame_popup+k));
 			display_table[i][j] = color;
 			k++;
 		}
