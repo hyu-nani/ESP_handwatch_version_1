@@ -1,3 +1,4 @@
+
 /*
  *  NANI project : ESP hand watch 
  *  module : ESP32-S
@@ -14,6 +15,7 @@
 */
 
 #include <SPI.h>
+#include <SD.h>
 #include <Wire.h>
 
 #include "image_source/image.h"
@@ -54,6 +56,7 @@ void setup() {
 		LCD_image(0,0,LCD_W,LCD_H,loading[i]);
 	}
 	WiFi_begin();
+  SD_init();
 	initial_table();
 	for (int i=0 ; i< 29 ;i++)
 	{
