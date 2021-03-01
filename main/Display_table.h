@@ -8,7 +8,27 @@ int display_x=0,display_y=0;
 
 #include "table_basic.h"
 
-word color_sub(word A,word B);
+word color_sub(word A,word B){
+	unsigned short A_B=0,A_G=0,A_R=0,B_B=0,B_G=0,B_R=0;
+	unsigned short sub_R=0,sub_G=0,sub_B=0;
+	A_B = A<<11;
+	A_B = A_B >> 11;
+	A_G = A<<5;
+	A_G = A_G >> 10;
+	A_R = A>>11;
+	B_B = B<<11;
+	B_B = B_B>>11;
+	B_G = B<<5;
+	B_G = B_G>>10;
+	B_R = B>>11;
+	if(A_R <= B_R) sub_R = 0;
+	else sub_R = A_R-B_R;sub_R = sub_R<<11;
+	if(A_G <= B_G) sub_G = 0;
+	else sub_G = A_G-B_G;sub_G = sub_G<<5;
+	if(A_B <= B_B) sub_B = 0;
+	else sub_B = A_B-B_B;
+	return (sub_R+sub_G+sub_B);
+}
 void initial_table(){
 	for(table_y = 0 ; table_y<80 ;table_y++)
 	{
@@ -89,40 +109,19 @@ void table_set_temp(){
 	}
 }
 
-void display_frame()
+void display_frame(word x, word y ,word frame_size_w, word frame_size_h,const short unsigned A[])
 {
 	u16 i,j;
 	int k=0;
 	uint8_t line;
-  word color;
-	for(i=80;i<160;i++)
+	word color;
+	for(i=x;i<x+frame_size_h;i++)
 	{
-		for(j=0;j<160;j++)
+		for(j=y;j<y+frame_size_w;j++)
 		{
-      color = color_sub(display_table[i][j],pgm_read_word(frame_popup+k));
+			color = color_sub(display_table[i][j],pgm_read_word(A+k));
 			display_table[i][j] = color;
 			k++;
 		}
 	}
-}
-word color_sub(word A,word B){
-  unsigned short A_B=0,A_G=0,A_R=0,B_B=0,B_G=0,B_R=0;
-  unsigned short sub_R=0,sub_G=0,sub_B=0;
-  A_B = A<<11;
-  A_B = A_B >> 11;
-  A_G = A<<5;
-  A_G = A_G >> 10;
-  A_R = A>>11;
-  B_B = B<<11;
-  B_B = B_B>>11;
-  B_G = B<<5;
-  B_G = B_G>>10;
-  B_R = B>>11;
-  if(A_R <= B_R) sub_R = 0;
-  else sub_R = A_R-B_R;sub_R = sub_R<<11;
-  if(A_G <= B_G) sub_G = 0;
-  else sub_G = A_G-B_G;sub_G = sub_G<<5;
-  if(A_B <= B_B) sub_B = 0;
-  else sub_B = A_B-B_B;
-  return (sub_R+sub_G+sub_B);
 }
