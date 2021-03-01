@@ -10,6 +10,7 @@ image folder
 #include "rainbow.c"
 #include "bio.c"
 #include "setting.c"
+#include "acc.c"
 //icon
 #include "frame_popup.c"
 #include "frame_round.c"

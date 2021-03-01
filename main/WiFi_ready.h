@@ -1,7 +1,7 @@
 ﻿#include <WiFi.h>
 #include "time.h"
-char* ssid       = "iptime1302_2.4";
-char* password   = "0553550772";
+char* ssid       = "A921";
+char* password   = "12345678";
 int GMT = 9;
 char* ntpServer = "pool.ntp.org";
 long  gmtOffset_sec = (GMT*3600);

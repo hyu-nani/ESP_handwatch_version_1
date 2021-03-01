@@ -50,7 +50,7 @@ void table_set_acc(){
 	{
 		for(table_x = 0 ; table_x < 160 ; table_x++)
 		{
-			display_table[table_y][table_x] = (word)pgm_read_word(winter+k);
+			display_table[table_y][table_x] = (word)pgm_read_word(acc+k);
 			k++;
 		}
 	}

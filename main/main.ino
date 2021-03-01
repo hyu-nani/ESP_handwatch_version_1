@@ -73,7 +73,7 @@ void setup() {
 void loop() {
   //==========================================================
   while(mode == 0){
-	  Clock_update();
+    Clock_set();
     print_display(display_x,display_y);
     LCD_smooth_on(4,backlight);
     while(1){
