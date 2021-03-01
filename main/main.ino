@@ -112,6 +112,7 @@ void loop() {
       delay(10);
       data = swcheck();
       if(data == 'D'){
+        Clock_set();
         for(int i = -pg_change_num ;i<=2 ;i++){
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
@@ -127,6 +128,7 @@ void loop() {
         break;
       }
       else if (data == 'U'){
+        Clock_set();
         for(int i = -pg_change_num ;i<=2 ;i++){
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
@@ -142,6 +144,7 @@ void loop() {
         break;
       }
       else if (data == 'M'){
+        Clock_set();
         for(int i = -pg_change_num ;i<=2 ;i++){
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
@@ -160,6 +163,7 @@ void loop() {
       delay(10);
       data = swcheck();
       if(data == 'D'){
+        Clock_set();
         for(int i = -pg_change_num ;i<=2 ;i++){
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
@@ -175,6 +179,7 @@ void loop() {
         break;
       }
       else if (data == 'U'){
+        Clock_set();
         for(int i = -pg_change_num ;i<=2 ;i++){
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
@@ -190,6 +195,7 @@ void loop() {
         break;
       }
       else if (data == 'M'){
+        Clock_set();
         for(int i = -pg_change_num ;i<=2 ;i++){
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
@@ -208,6 +214,7 @@ void loop() {
       delay(10);
       data = swcheck();
       if(data == 'D'){
+        Clock_set();
         for(int i = -pg_change_num ;i<=2 ;i++){
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
@@ -223,6 +230,7 @@ void loop() {
         break;
       }
       else if (data == 'U'){
+        Clock_set();
         for(int i = -pg_change_num ;i<=2 ;i++){
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
@@ -255,6 +263,7 @@ void loop() {
       delay(10);
       data = swcheck();
       if(data == 'D'){
+        Clock_set();
         for(int i = -pg_change_num ;i<=2 ;i++){
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
@@ -270,6 +279,7 @@ void loop() {
         break;
       }
       else if (data == 'U'){
+        Clock_set();
         for(int i = -pg_change_num ;i<=2 ;i++){
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
@@ -285,6 +295,7 @@ void loop() {
         break;
       }
       else if (data == 'M'){
+        Clock_set();
         for(int i = -pg_change_num ;i<=2 ;i++){
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
@@ -312,9 +323,9 @@ char swcheck()
 	{
 		i += 5;
 	}
-	while (digitalRead(SW_U)){delay(100);}
-	while (digitalRead(SW_M)){delay(100);}
-	while (digitalRead(SW_D)){delay(100);}
+	while (digitalRead(SW_U)){delay(10);}
+	while (digitalRead(SW_M)){delay(10);}
+	while (digitalRead(SW_D)){delay(10);}
 	if (i!=0)
 	{
 		switch (i)

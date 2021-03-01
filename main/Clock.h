@@ -60,3 +60,16 @@ void Clock_play()
 		prev_ms = now_ms;
 	}
 }
+void Clock_set()
+{
+    Clock_update();
+    table_fill_block(1,BLACK);
+    table_print(10,10,now_hour,RED,2);
+    table_print(40,10,"Hour",BLUE,2);
+    table_print(10,30,now_minute,RED,2);
+    table_print(40,30,"Minute",BLUE,2);
+    table_print(10,50,now_second,RED,2);
+    table_print(40,50,"Seccond",BLUE,2);
+    table_print(100,10,now_year,RED,1);
+    table_print(130,10,"Year",BLUE,1);
+}
