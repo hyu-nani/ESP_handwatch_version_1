@@ -25,8 +25,7 @@
 #include "LCD_basic.h"
 #include "WiFi_ready.h"
 #include <math.h>
-#include "mode_source/mode.h"
-#include "Display_table.h"
+#include "table/table.h"
 #include "Clock.h"
 
 int backlight = 200;
@@ -80,8 +79,7 @@ void loop() {
       delay(100);
       data = swcheck();
       if(data == 'D'){
-        table_set_bio();
-        display_frame(80,0,160,80,frame_popup);
+        table_set_health();
         mode=1;
         for(int i = -pg_change_num ;i<=2 ;i++){
           display_y+=(9*i*i)/400+1;
@@ -90,8 +88,7 @@ void loop() {
         break;
       }
       else if (data == 'U'){
-        table_set_bio();
-        display_frame(80,0,160,80,frame_popup);
+        table_set_health();
         mode = 1;
         for(int i = -pg_change_num ;i<=2 ;i++){
           display_y+=(9*i*i)/400+1;
@@ -116,7 +113,6 @@ void loop() {
           print_display(display_x,display_y);
         }
         table_set_temp();
-        display_frame(80,0,160,80,frame_popup);
         mode=2;
         delay(300);
         for(int i = -2 ;i<=pg_change_num ;i++){
@@ -131,8 +127,7 @@ void loop() {
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
         }
-        table_set_acc();
-        display_frame(80,0,160,80,frame_popup);
+        table_set_motion();
         mode=4;
         delay(300);
         for(int i =-2 ;i<=pg_change_num ;i++){
@@ -167,7 +162,6 @@ void loop() {
           print_display(display_x,display_y);
         }
         table_set_setting();
-        display_frame(80,0,160,80,frame_popup);
         mode=3;
         delay(300);
         for(int i = -2 ;i<=pg_change_num ;i++){
@@ -182,8 +176,7 @@ void loop() {
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
         }
-        table_set_bio();
-        display_frame(80,0,160,80,frame_popup);
+        table_set_health();
         mode=1;
         delay(300);
         for(int i =-2 ;i<=pg_change_num ;i++){
@@ -217,8 +210,7 @@ void loop() {
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
         }
-        table_set_acc();
-        display_frame(80,0,160,80,frame_popup);
+        table_set_motion();
         mode=4;
         delay(300);
         for(int i = -2 ;i<=pg_change_num ;i++){
@@ -234,7 +226,6 @@ void loop() {
           print_display(display_x,display_y);
         }
         table_set_temp();
-        display_frame(80,0,160,80,frame_popup);
         mode=2;
         delay(300);
         for(int i =-2 ;i<=pg_change_num ;i++){
@@ -244,6 +235,7 @@ void loop() {
         break;
       }
       else if (data == 'M'){
+		table_setmode();
         for(int i = -pg_change_num ;i<=2 ;i++){
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
@@ -266,8 +258,7 @@ void loop() {
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
         }
-        table_set_bio();
-        display_frame(80,0,160,80,frame_popup);
+        table_set_health();
         mode=1;
         delay(300);
         for(int i = -2 ;i<=pg_change_num ;i++){
@@ -283,7 +274,6 @@ void loop() {
           print_display(display_x,display_y);
         }
         table_set_setting();
-        display_frame(80,0,160,80,frame_popup);
         mode=3;
         delay(300);
         for(int i =-2 ;i<=pg_change_num ;i++){
@@ -305,6 +295,24 @@ void loop() {
   }
   //================================================================
   //option
+  while (mode == 5)
+  {
+	while (1)
+	{	
+		table_setmode();
+		delay(1);
+		data = swcheck();
+		if (data == 'M'){
+			table_set_setting();
+			for(int i =-2 ;i<=pg_change_num ;i++){
+        display_y+=(9*i*i)/400+1;
+        print_display(display_x,display_y);
+      }
+			mode=3;
+			break;
+		}
+	}
+  }
 }
 char swcheck()
 {

@@ -8,7 +8,7 @@ int display_x=0,display_y=0;
 
 #include "table_basic.h"
 
-word color_sub(word A,word B){
+word color_sub(word A,word B){ //RGB => 5/6/5 16bit
 	unsigned short A_B=0,A_G=0,A_R=0,B_B=0,B_G=0,B_R=0;
 	unsigned short sub_R=0,sub_G=0,sub_B=0;
 	A_B = A<<11;
@@ -64,60 +64,16 @@ void print_display(int x, int y){
 	SPI.endTransaction();
 	LCD_CS_Set();
 }
-void table_set_acc(){
-	int k=0;
-	for(table_y = 80 ; table_y < 160 ; table_y++)
-	{
-		for(table_x = 0 ; table_x < 160 ; table_x++)
-		{
-			display_table[table_y][table_x] = (word)pgm_read_word(acc+k);
-			k++;
-		}
-	}
-}
-void table_set_bio(){
-	int k=0;
-	for(table_y = 80 ; table_y < 160 ; table_y++)
-	{
-		for(table_x = 0 ; table_x < 160 ; table_x++)
-		{
-			display_table[table_y][table_x] = (word)pgm_read_word(bio+k);
-			k++;
-		}
-	}
-}
-void table_set_setting(){
-	int k=0;
-	for(table_y = 80 ; table_y < 160 ; table_y++)
-	{
-		for(table_x = 0 ; table_x < 160 ; table_x++)
-		{
-			display_table[table_y][table_x] = (word)pgm_read_word(setting+k);
-			k++;
-		}
-	}
-}
-void table_set_temp(){
-	int k=0;
-	for(table_y = 80 ; table_y < 160 ; table_y++)
-	{
-		for(table_x = 0 ; table_x < 160 ; table_x++)
-		{
-			display_table[table_y][table_x] = (word)pgm_read_word(rainbow+k);
-			k++;
-		}
-	}
-}
 
-void display_frame(word x, word y ,word frame_size_w, word frame_size_h,const short unsigned A[])
+void table_set_frame(word x, word y ,word frame_size_w, word frame_size_h,const short unsigned A[])
 {
 	u16 i,j;
 	int k=0;
 	uint8_t line;
 	word color;
-	for(i=x;i<x+frame_size_h;i++)
+	for(i=y;i<y+frame_size_h;i++)
 	{
-		for(j=y;j<y+frame_size_w;j++)
+		for(j=x;j<x+frame_size_w;j++)
 		{
 			color = color_sub(display_table[i][j],pgm_read_word(A+k));
 			display_table[i][j] = color;
@@ -125,3 +81,33 @@ void display_frame(word x, word y ,word frame_size_w, word frame_size_h,const sh
 		}
 	}
 }
+void table_set_background(word x, word y ,word frame_size_w, word frame_size_h,const short unsigned A[])
+{
+	u16 i,j;
+	int k=0;
+	for(i=y;i<y+frame_size_h;i++)
+	{
+		for(j=x;j<x+frame_size_w;j++)
+		{
+			display_table[i][j] = (word)pgm_read_word(A+k);
+			k++;
+		}
+	}
+}
+void table_set_background(word x, word y ,word frame_size_w, word frame_size_h,word A)
+{
+	u16 i,j;
+	int k=0;
+	for(i=y;i<y+frame_size_h;i++)
+	{
+		for(j=x;j<x+frame_size_w;j++)
+		{
+			display_table[i][j] = A;
+			k++;
+		}
+	}
+}
+#include "health.h"
+#include "motion.h"
+#include "setting.h"
+#include "temperature.h"

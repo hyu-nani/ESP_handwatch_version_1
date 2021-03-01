@@ -217,13 +217,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="image_source" />
+    <Folder Include="table" />
     <Folder Include="__vm\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clock.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="Display_table.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="font.h">
@@ -235,6 +233,24 @@
     <Compile Include="LCD_basic.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="table\table.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="table\health.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="table\motion.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="table\setting.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="table\table_basic.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="table\temperature.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="SD_card.h">
       <SubType>compile</SubType>
     </Compile>
@@ -242,9 +258,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="ST7735S.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="table_basic.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="watch.h">
