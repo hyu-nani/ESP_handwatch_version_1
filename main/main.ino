@@ -18,6 +18,11 @@
 #include <SD.h>
 #include <Wire.h>
 
+int mode = 0;
+int backlight = 200;
+const int pg_change_num = 20;
+char swcheck();
+
 #include "image_source/image.h"
 #include "watch.h"
 #include "ST7735S.h"
@@ -28,12 +33,10 @@
 #include "table/table.h"
 #include "Clock.h"
 
-int backlight = 200;
-char swcheck();
-void modechange(char a);
-int mode = 0;
 
-const int pg_change_num = 20;
+
+
+
 //mode
 
 
@@ -235,7 +238,7 @@ void loop() {
         break;
       }
       else if (data == 'M'){
-		table_setmode();
+		  table_setmode();
         for(int i = -pg_change_num ;i<=2 ;i++){
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
@@ -297,21 +300,8 @@ void loop() {
   //option
   while (mode == 5)
   {
-	while (1)
-	{	
-		table_setmode();
-		delay(1);
-		data = swcheck();
-		if (data == 'M'){
-			table_set_setting();
-			for(int i =-2 ;i<=pg_change_num ;i++){
-        display_y+=(9*i*i)/400+1;
-        print_display(display_x,display_y);
-      }
-			mode=3;
-			break;
-		}
-	}
+  	table_setmode_loop();
+	break;
   }
 }
 char swcheck()
@@ -332,48 +322,31 @@ char swcheck()
 	while (digitalRead(SW_U)){delay(10);}
 	while (digitalRead(SW_M)){delay(10);}
 	while (digitalRead(SW_D)){delay(10);}
-	if (i!=0)
+	switch (i)
 	{
-		switch (i)
-		{
-		case 1:
-			return 'U';	//up
-			break;
-		case 3:
-			return 'M';	//middle
-			break;
-		case 4:
-			return 'S'; //middle & up
-			break;
-		case 5:
-			return 'D';	//down
-			break;
-		case 6:
-			return 'A';	//down & up
-			break;
-		case 8:
-			return 'B'; //middle & down
-			break;
-		case 9:
-			return 'A'; //ALL
-			break;	
-		}
-	}
-	return 0;
-}
-
-void modechange(char a)
-{
-	if (a =='U')
-	{
-		mode++;
-	}
-	else if (a == 'M')
-	{
-		mode=0;
-	}
-	else if (a == 'D')
-	{
-		mode--;
+	case 1:
+		return 'U';	//up
+		break;
+	case 3:
+		return 'M';	//middle
+		break;
+	case 4:
+		return 'S'; //middle & up
+		break;
+	case 5:
+		return 'D';	//down
+		break;
+	case 6:
+		return 'A';	//down & up
+		break;
+	case 8:
+		return 'B'; //middle & down
+		break;
+	case 9:
+		return 'A'; //ALL
+		break;	
+	default:
+		return 'n';
+		break;
 	}
 }
