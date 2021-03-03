@@ -8,11 +8,13 @@
 }
 
 int cursor_x=10,cursor_y=20;
+int option_page=1;
+void menu_select();
 
-void table_setmode(){
+void table_setmode(){ //first image set
 	table_set_background(0,0,160,80,WHITE);
 	table_print(cursor_x,cursor_y,"=>",RED,1);
-	table_print(10,10,"========SETTING========",BLUE,1);
+	table_print(10,10,"=======SETTING/1=======",BLUE,1);
 	table_print(20,20," Backlight",BLACK,1);
 	table_print(20,30," GMT-set",BLACK,1);
 	table_print(20,40," SUMMER TIME",BLACK,1);
@@ -20,19 +22,53 @@ void table_setmode(){
 	table_print(20,60," << BACK",BLACK,1);
 	table_set_frame(0,0,160,80,frame_round);
 }
-void table_setmode_loop(){
+void table_setmode_loop(){ //setting loop
 	while(1)
 	{
+		delay(10);
 		data = swcheck();
 		table_set_background(0,0,160,80,WHITE);
 		table_print(cursor_x,cursor_y,"=>",RED,1);
-		table_print(10,10,"========SETTING========",BLUE,1);
-		table_print(20,20," Backlight",BLACK,1);
-		table_print(20,30," GMT-set",BLACK,1);
-		table_print(20,40," SUMMER TIME",BLACK,1);
-		table_print(20,50," >> NEXT Page",BLACK,1);
-		table_print(20,60," << BACK",BLACK,1);
-		
+		if(option_page==1){
+			table_print(10,10,"=======SETTING/1=======",BLUE,1);
+			table_print(20,20," Backlight",BLACK,1);
+			table_print(20,30," GMT-set",BLACK,1);
+			table_print(20,40," SUMMER TIME",BLACK,1);
+			table_print(20,50," >> NEXT Page",BLACK,1);
+			table_print(20,60," << BACK",BLACK,1);
+		}
+		else if(option_page==2){
+			table_print(10,10,"=======SETTING/2=======",BLUE,1);
+			table_print(20,20," Background image",BLACK,1);
+			table_print(20,30," acc menu",BLACK,1);
+			table_print(20,40," time color",BLACK,1);
+			table_print(20,50," >> NEXT Page",BLACK,1);
+			table_print(20,60," << BACK Page",BLACK,1);
+		}
+		else if(option_page==3){
+			table_print(10,10,"=======SETTING/3=======",BLUE,1);
+			table_print(20,20," Background color",BLACK,1);
+			table_print(20,30," hleath mode",BLACK,1);
+			table_print(20,40," time package",BLACK,1);
+			table_print(20,50," >> NEXT Page",BLACK,1);
+			table_print(20,60," << BACK Page",BLACK,1);
+		}
+		else if(option_page==4){
+			table_print(10,10,"=======SETTING/4=======",BLUE,1);
+			table_print(20,20," OMG",BLACK,1);
+			table_print(20,30," Please",BLACK,1);
+			table_print(20,40," help me",BLACK,1);
+			table_print(20,50," >> NEXT Page",BLACK,1);
+			table_print(20,60," << BACK Page",BLACK,1);
+		}
+		else if(option_page==5){
+			table_print(10,10,"=======SETTING/5=======",BLUE,1);
+			table_print(20,20," oh no",BLACK,1);
+			table_print(20,30," to much",BLACK,1);
+			table_print(20,40," homework",BLACK,1);
+			table_print(20,50," >> NEXT Page",BLACK,1);
+			table_print(20,60," << BACK Page",BLACK,1);
+		}
 		table_set_frame(0,0,160,80,frame_round);
 		if(data=='U' && cursor_y !=20){
 			cursor_y -= 10;
@@ -41,19 +77,65 @@ void table_setmode_loop(){
 			cursor_y += 10;
 		}
 		else if(data=='M'){
-			if(cursor_y == 60){ //back
+			if(cursor_y == 60&&option_page==0){ //back
 				table_set_setting();
 				for(int i =-2 ;i<=pg_change_num ;i++){
 					display_y+=(9*i*i)/400+1;
 					print_display(display_x,display_y);
 				}
-				mode=3;
+				mode=5;
 				cursor_x = 10;
 				cursor_y = 20;
 				break;
 			}
-			cursor_x +=10;
+			else if(cursor_y == 60&&option_page!=0){ //back page
+				option_page--;
+			}
+			else if(cursor_y == 50&&option_page<5){ //next page
+				option_page++;
+				cursor_x = 10;
+				cursor_y = 20;
+			}
+			menu_select();
 		}
 		print_display(display_x,display_y);
+	}
+}
+void menu_select(){
+	if (cursor_y == 20&&option_page==1) //backlight
+	{
+	}
+	else if (cursor_y == 30&&option_page==1)
+	{
+	}
+	else if (cursor_y == 40&&option_page==1)
+	{
+	}
+	else if (cursor_y == 20&&option_page==2)
+	{
+	}
+	else if (cursor_y == 30&&option_page==2)
+	{
+	}
+	else if (cursor_y == 40&&option_page==2)
+	{
+	}
+	else if (cursor_y == 20&&option_page==3)
+	{
+	}
+	else if (cursor_y == 30&&option_page==3)
+	{
+	}
+	else if (cursor_y == 40&&option_page==3)
+	{
+	}
+	else if (cursor_y == 20&&option_page==4)
+	{
+	}
+	else if (cursor_y == 30&&option_page==4)
+	{
+	}
+	else if (cursor_y == 40&&option_page==4)
+	{
 	}
 }

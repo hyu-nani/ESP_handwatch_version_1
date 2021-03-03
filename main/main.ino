@@ -72,7 +72,7 @@ void setup() {
 
 void loop() {
   //========================================================== 0
-  while(mode == 0){
+  while(mode == 0){ //clock
     Clock_set();
     print_display(display_x,display_y);
     LCD_smooth_on(4,backlight);
@@ -103,7 +103,7 @@ void loop() {
   }
   
   //========================================================== 1 
-  while(mode == 1){   //bio
+  while(mode == 1){   //health
     
     while(1){
       print_display(display_x,display_y);
@@ -116,7 +116,7 @@ void loop() {
           print_display(display_x,display_y);
         }
         table_set_temp();
-        mode=2;
+        mode=3;
         delay(300);
         for(int i = -2 ;i<=pg_change_num ;i++){
           display_y+=(9*i*i)/400+1;
@@ -131,7 +131,7 @@ void loop() {
           print_display(display_x,display_y);
         }
         table_set_motion();
-        mode=4;
+        mode=7;
         delay(300);
         for(int i =-2 ;i<=pg_change_num ;i++){
           display_y+=(9*i*i)/400+1;
@@ -152,7 +152,7 @@ void loop() {
   }
   
   //==========================================================
-  while(mode == 2){   //temp
+  while(mode == 3){   //temp
     
     while(1){
       print_display(display_x,display_y);
@@ -165,7 +165,7 @@ void loop() {
           print_display(display_x,display_y);
         }
         table_set_setting();
-        mode=3;
+        mode=5;
         delay(300);
         for(int i = -2 ;i<=pg_change_num ;i++){
           display_y+=(9*i*i)/400+1;
@@ -201,7 +201,7 @@ void loop() {
   }
   
   //==========================================================
-  while(mode == 3){   //setting
+  while(mode == 5){   //setting
     
     while(1){
       print_display(display_x,display_y);
@@ -214,7 +214,7 @@ void loop() {
           print_display(display_x,display_y);
         }
         table_set_motion();
-        mode=4;
+        mode=7;
         delay(300);
         for(int i = -2 ;i<=pg_change_num ;i++){
           display_y+=(9*i*i)/400+1;
@@ -229,7 +229,7 @@ void loop() {
           print_display(display_x,display_y);
         }
         table_set_temp();
-        mode=2;
+        mode=3;
         delay(300);
         for(int i =-2 ;i<=pg_change_num ;i++){
           display_y+=(9*i*i)/400+1;
@@ -243,13 +243,20 @@ void loop() {
           display_y-=(9*i*i)/400+1;
           print_display(display_x,display_y);
         }
-        mode=5;
+        mode=6;
         break;
       }
     }
   }
+  //================================================================
+  //option
+  while (mode == 6)
+  {
+  	table_setmode_loop();
+	break;
+  }
   //==========================================================
-  while(mode == 4){   //acc
+  while(mode == 7){   //acc
     
     while(1){
       print_display(display_x,display_y);
@@ -277,7 +284,7 @@ void loop() {
           print_display(display_x,display_y);
         }
         table_set_setting();
-        mode=3;
+        mode=5;
         delay(300);
         for(int i =-2 ;i<=pg_change_num ;i++){
           display_y+=(9*i*i)/400+1;
@@ -296,13 +303,7 @@ void loop() {
       }
     }
   }
-  //================================================================
-  //option
-  while (mode == 5)
-  {
-  	table_setmode_loop();
-	break;
-  }
+  
 }
 char swcheck()
 {
