@@ -31,17 +31,17 @@ void table_setmode_loop(){ //setting loop
 		table_print(cursor_x,cursor_y,"=>",RED,1);
 		if(option_page==1){
 			table_print(10,10,"=======SETTING/1=======",BLUE,1);
-			table_print(20,20," Backlight",BLACK,1);
-			table_print(20,30," GMT-set",BLACK,1);
-			table_print(20,40," SUMMER TIME",BLACK,1);
+			table_print(20,20," WiFi",BLACK,1);
+			table_print(20,30," Bluetooth",BLACK,1);
+			table_print(20,40," SD card",BLACK,1);
 			table_print(20,50," >> NEXT Page",BLACK,1);
 			table_print(20,60," << BACK",BLACK,1);
 		}
 		else if(option_page==2){
 			table_print(10,10,"=======SETTING/2=======",BLUE,1);
-			table_print(20,20," Background image",BLACK,1);
-			table_print(20,30," acc menu",BLACK,1);
-			table_print(20,40," time color",BLACK,1);
+			table_print(20,20," Time set",BLACK,1);
+			table_print(20,30," GMT",BLACK,1);
+			table_print(20,40," Summer time",BLACK,1);
 			table_print(20,50," >> NEXT Page",BLACK,1);
 			table_print(20,60," << BACK Page",BLACK,1);
 		}
@@ -102,13 +102,13 @@ void table_setmode_loop(){ //setting loop
 	}
 }
 void menu_select(){
-	if (cursor_y == 20&&option_page==1) //backlight
+	if (cursor_y == 20&&option_page==1)			//wifi
 	{
 	}
-	else if (cursor_y == 30&&option_page==1)
+	else if (cursor_y == 30&&option_page==1)		//bluetooth
 	{
 	}
-	else if (cursor_y == 40&&option_page==1)
+	else if (cursor_y == 40&&option_page==1)		//SDcard
 	{
 	}
 	else if (cursor_y == 20&&option_page==2)
