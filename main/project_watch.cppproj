@@ -233,6 +233,9 @@
     <Compile Include="LCD_basic.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="main_loop.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="table\table.h">
       <SubType>compile</SubType>
     </Compile>
@@ -252,9 +255,6 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="SD_card.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="setting.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="ST7735S.h">

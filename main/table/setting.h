@@ -29,7 +29,7 @@ void table_setmode_loop(){ //setting loop
 		delay(10);
 		data = swcheck();
 		table_set_background(0,0,160,80,WHITE);
-		table_print(cursor_x,cursor_y,"=>",RED,1);
+		table_print(cursor_x,cursor_y,"E>",RED,1);
 		if(option_page==1){
 			table_print(10,10,"=======SETTING/1=======",BLUE,1);
 			table_print(20,20," WiFi",BLACK,1);
@@ -105,9 +105,11 @@ void table_setmode_loop(){ //setting loop
 			}
 			else if (cursor_y == 40&&option_page==1)		//SDcard
 			{
+				SD_CS_Clr();
 				cardType = SD.cardType();
-				cardSize = SD.cardSize() / (1024 * 1024);
+				cardSize = SD.totalBytes() / (1024 * 1024);
 				cardUse =  SD.usedBytes() / (1024 * 1024);
+				SD_CS_Set();
 				while (1)
 				{
 					delay(10);
