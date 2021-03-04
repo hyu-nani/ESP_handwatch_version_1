@@ -36,10 +36,11 @@ void watch_pinset(){
 	pinMode(SD_CS,OUTPUT);
 	pinMode(SCK,OUTPUT);
 	
+	//initialization
 	digitalWrite(SD_CS,HIGH);
 	digitalWrite(ADXL_CS,HIGH);
 	digitalWrite(TFT_CS,HIGH);
-	digitalWrite(Power,HIGH);
+	digitalWrite(Power,HIGH);	//if you want to off the device. then change HIGH to LOW a this pin 
 	digitalWrite(EN2,LOW);
 	ledcSetup(0, 5000, 8);
 	ledcAttachPin(TFT_LIGHT,0); //TFT_light 0 chenal

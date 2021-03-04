@@ -12,7 +12,7 @@ void table_fill(u16 color)
 }
 void table_fill_block(int num,u16 color){
 	u16 i,j;
-	for(i=0;i<LCD_H*num;i++)
+	for(i=80*(1-num);i<LCD_H +(80*(1-num));i++)
 	{
 		for(j=0;j<table_w;j++)
 		{
@@ -315,16 +315,16 @@ void table_print_background(u16 x,u16 y, const char c[],u16 color ,u16 bgcolor ,
 }
 void table_print(u16 x,u16 y, const char c[],u16 color ,uint8_t size)
 {
-	int i = 0;
-	while(c[i] != '\0'){
-		if (c[i] == '\n') {
+	int m = 0;
+	while(c[m] != '\0'){
+		if (c[m] == '\n') {
 			y += size*8;
 			x  = 0;
 		}
 		else {
-			table_Char(x, y, c[i], color, size);
+			table_Char(x, y, c[m], color, size);
 			x += 6*size;
-			i++;
+			m++;
 			if (x > (table_w - size*6)) {
 				y += size*8;
 				x = 0;
@@ -332,46 +332,85 @@ void table_print(u16 x,u16 y, const char c[],u16 color ,uint8_t size)
 		}
 	}
 }
+
 void table_print_background(u16 x,u16 y, int c,u16 color ,u16 bgcolor ,uint8_t size)
 {
 	char A[10];
-	int i =0;
+	int m =0;
 	sprintf(A, "%d", c);
-	while(A[i] != '\0'){
-		if (A[i] == '\n') {
+	while(A[m] != '\0'){
+		if (A[m] == '\n') {
 			y += size*8;
 			x  = 0;
 		}
 		else {
-			table_Char_bg(x, y, A[i], color, bgcolor, size);
+			table_Char_bg(x, y, A[m], color, bgcolor, size);
 			x += 6*size;
 			if (x > (table_w - size*6)) {
 				y += size*8;
 				x = 0;
 			}
 		}
-		i++;
+		m++;
 	}
 }
 void table_print(u16 x,u16 y, int c,u16 color ,uint8_t size)
 {
 	char A[10];
-	int i =0;
+	int m =0;
 	sprintf(A, "%d", c);
-	while(A[i] != '\0'){
-		if (A[i] == '\n') {
+	while(A[m] != '\0'){
+		if (A[m] == '\n') {
 			y += size*8;
 			x  = 0;
 		}
 		else {
-			table_Char(x, y, A[i], color, size);
+			table_Char(x, y, A[m], color, size);
 			x += 6*size;
 			if (x > (table_w - size*6)) {
 				y += size*8;
 				x = 0;
 			}
 		}
-		i++;
+		m++;
 	}
 	
+}
+
+void table_print_SevenSegNumFont32X50(u16 x,u16 y, int c,u16 color){
+	char A[10];
+	int m=0;
+	sprintf(A, "%d", c);
+	while (A[m]!='\0')
+	{
+		if (A[m] == '\n') {
+			y += 50;
+			x  = 0;
+		}
+		else{
+			if((x >= table_w)            || // Clip right
+			(y >= table_h)           || // Clip bottom
+			((x + 32 ) < 0) || // Clip left
+			((y + 50 ) < 0))   // Clip top
+			return;
+			uint8_t line;
+			for (int8_t i=0; i<50; i++ ) {
+				for(int8_t k=0;k<4;k++){
+					line = pgm_read_byte(SevenSegNumFont+4+((200*(A[m]-48))+i*4+k));
+					for (int8_t j = 7; j>=0; j--) {
+						if (line & 0x1) {
+							table_Pixel(x+j+8*k, y+i,1,color);
+						}
+						line >>= 1;
+					}
+				}
+			}
+			x += 35;
+			if (x > (table_w - 32)) {
+				y += 50;
+				x = 0;
+			}
+		}
+		m++;
+	}
 }

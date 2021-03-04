@@ -160,7 +160,7 @@ void testFileIO(fs::FS &fs, const char * path){
 
 uint8_t cardType;
 uint64_t cardSize;
-
+uint64_t cardUse;
 
 void SD_init(){
 	SD_CS_Clr();
@@ -200,7 +200,8 @@ void SD_init(){
 	//renameFile(SD, "/hello.txt", "/foo.txt");
 	readFile(SD, "/foo.txt");
 	testFileIO(SD, "/test.txt");
+	cardUse =  SD.usedBytes() / (1024 * 1024);
 	Serial.printf("Total space: %lluMB\n", SD.totalBytes() / (1024 * 1024));
-	Serial.printf("Used space: %lluMB\n", SD.usedBytes() / (1024 * 1024));
+	Serial.printf("Used space: %lluMB\n",cardUse);
 	SD_CS_Set();
 }

@@ -22,6 +22,7 @@ int mode = 0;
 int backlight = 200;
 const int pg_change_num = 20;
 char swcheck();
+word data;
 
 #include "image_source/image.h"
 #include "watch.h"
@@ -51,7 +52,7 @@ void setup() {
 		LCD_image(0,0,LCD_W,LCD_H,loading[i]);
 	}
 	WiFi_begin();
-  SD_init();
+	//SD_init();
 	initial_table();
 	for (int i=0 ; i< 29 ;i++)
 	{

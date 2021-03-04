@@ -31,7 +31,7 @@ void Clock_update()
   weekday = timeinfo.tm_wday +1;
   
 }
-
+void Clock_set();
 int H_x = 10,H_y = 10;
 int M_x = 60,M_y = 10;
 int S_x = 130,S_y = 50;
@@ -46,14 +46,7 @@ void Clock_play()
       now_second =0;
       now_minute++;
     }
-		table_print(10,10,now_hour,RED,2);
-		table_print(40,10,"Hour",BLUE,2);
-		table_print(10,30,now_minute,RED,2);
-		table_print(40,30,"Minute",BLUE,2);
-		table_print(10,50,now_second,RED,2);
-		table_print(40,50,"Seccond",BLUE,2);
-		table_print(100,10,now_year,RED,1);
-		table_print(130,10,"Year",BLUE,1);
+		Clock_set();
 	}
 	if(now_ms - prev_ms>60000){
 		Clock_update();
@@ -64,12 +57,6 @@ void Clock_set()
 {
     Clock_update();
     table_fill_block(1,BLACK);
-    table_print(10,10,now_hour,RED,2);
-    table_print(40,10,"Hour",BLUE,2);
-    table_print(10,30,now_minute,RED,2);
-    table_print(40,30,"Minute",BLUE,2);
-    table_print(10,50,now_second,RED,2);
-    table_print(40,50,"Seccond",BLUE,2);
-    table_print(100,10,now_year,RED,1);
-    table_print(130,10,"Year",BLUE,1);
+    table_print_SevenSegNumFont32X50(10,10,now_second,WHITE);
+	table_print(10,40,"HOW???ABCDabcd",BLUE,1);
 }

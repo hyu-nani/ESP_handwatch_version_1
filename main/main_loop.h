@@ -1,4 +1,12 @@
-﻿void main_loop(){
+﻿/*
+ * main_loop.h
+ *
+ * Created: 2021-03-04 오후 7:10:30
+ *  Author: cube_
+ */ 
+
+//loop main
+void main_loop(){
 	//========================================================== 0
 	while(mode == 0){ //clock
 		Clock_set();
