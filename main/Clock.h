@@ -57,6 +57,7 @@ void Clock_set()
 {
     Clock_update();
     table_fill_block(1,BLACK);
-    table_print_SevenSegNumFont32X50(10,10,now_second,WHITE);
-	table_print(10,40,"HOW???ABCDabcd",BLUE,1);
+    table_print_SevenSegNumFont32X50(5,10,now_hour,BLUE);
+	table_print_SevenSegNumFont32X50(90,10,now_minute,GREEN);
+	table_print(70,60,now_second,RED,2);
 }
