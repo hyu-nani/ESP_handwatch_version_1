@@ -292,9 +292,8 @@ void table_dot_needle(u16 x,u16 y, u16 w,u16 thin, int value ,u16 color)
 }
 
 
-void table_print_background(u16 x,u16 y, const char c[],u16 color ,u16 bgcolor ,uint8_t size)
+void table_print_background(u16 x,u16 y, String c,u16 color ,u16 bgcolor ,uint8_t size)
 {
-	
 	int i = 0;
 	while(c[i] != '\0'){
 		if (c[i] == '\n') {
@@ -313,7 +312,7 @@ void table_print_background(u16 x,u16 y, const char c[],u16 color ,u16 bgcolor ,
 		
 	}
 }
-void table_print(u16 x,u16 y, const char c[],u16 color ,uint8_t size)
+void table_print(u16 x,u16 y, String c,u16 color ,uint8_t size)
 {
 	int m = 0;
 	while(c[m] != '\0'){
@@ -332,7 +331,6 @@ void table_print(u16 x,u16 y, const char c[],u16 color ,uint8_t size)
 		}
 	}
 }
-
 void table_print_background(u16 x,u16 y, int c,u16 color ,u16 bgcolor ,uint8_t size)
 {
 	char A[10];

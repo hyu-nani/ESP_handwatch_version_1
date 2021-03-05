@@ -13,7 +13,7 @@ void menu_select();
 
 void table_setmode(){ //first image set
 	table_set_background(0,0,160,80,WHITE);
-	table_print(cursor_x,cursor_y,"=>",RED,1);
+	table_print(cursor_x,cursor_y,"E>",RED,1);
 	table_print(10,10,"=======SETTING/1=======",BLUE,1);
 	table_print(20,20," WiFi",BLACK,1);
 	table_print(20,30," Bluetooth",BLACK,1);
@@ -26,6 +26,7 @@ void table_setmode_loop(){ //setting loop
 	while(1)
 	{
 		reset:
+		
 		delay(10);
 		data = swcheck();
 		table_set_background(0,0,160,80,WHITE);
@@ -97,8 +98,62 @@ void table_setmode_loop(){ //setting loop
 				cursor_x = 10;
 				cursor_y = 20;
 			}
+			////////////////////////////////////////////////////////////////////////////////////////
+			
 			if (cursor_y == 20&&option_page==1)			//wifi
 			{
+				return_scan:
+				WiFi_scan();
+				int select=0;
+				while (1)
+				{
+					
+					delay(10);
+					data = swcheck();
+					table_fill_block(1,WHITE);				  //
+					table_print(10,10,"======= Network =======",BLUE,1);
+					table_print(cursor_x,cursor_y,"E>",RED,1);
+					for (int i=0;i<5;i++)
+					{
+						table_print(25,20+(i*10),Network_SSID[i],BLACK,1);
+						table_print(100,20+(i*10),Network_RSSI[i],BLACK,1);
+					}
+					table_set_frame(0,0,160,80,frame_round);
+					if(data=='U' && cursor_y !=20){
+						cursor_y -= 10;
+						select--;
+					}
+					else if(data=='D' && cursor_y !=60){
+						cursor_y += 10;
+						select++;
+					}
+					else if(data=='M'){
+						char copy[50];
+						Network_SSID[select].toCharArray(copy, 50);
+						
+						table_fill_block(1,WHITE);	
+						table_print(10,35,"===== CONNECTING.. =====",RED,1);
+						table_set_frame(0,0,160,80,frame_round);
+						print_display(display_x,display_y);
+						
+						Serial.println(copy);
+						WiFi.begin(copy, password);
+						while (WiFi.status() != WL_CONNECTED) {
+							delay(500);
+							Serial.print(".");
+						}
+						table_fill_block(1,WHITE);
+						table_print(10,35,"====== CONNECTED ======",BLUE,1);
+						table_set_frame(0,0,160,80,frame_round);
+						print_display(display_x,display_y);
+						Serial.println(" CONNECTED");
+						after_connect();
+						delay(500);
+						cursor_y=20;
+						goto reset;
+					}
+					print_display(display_x,display_y);
+				}
 			}
 			else if (cursor_y == 30&&option_page==1)		//bluetooth
 			{
