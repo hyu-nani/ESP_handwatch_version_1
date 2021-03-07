@@ -1,4 +1,4 @@
-﻿#define table_swap(a, b) { u16 t = a; a = b; b = t; }
+#define table_swap(a, b) { u16 t = a; a = b; b = t; }
 void table_fill(u16 color)
 {
 	u16 i,j;
@@ -211,7 +211,7 @@ void table_Line(u16 x0, u16 y0,u16 x1, u16 y1, u16 thin, u16 color) {
 }
 void table_Char_bg(u16 x, u16 y, unsigned c,u16 color, u16 bg, uint8_t size) {
 
-	if((x >= table_w)            || // Clip right
+	if((x >= table_w)        || // Clip right
 	(y >= table_h)           || // Clip bottom
 	((x + 6 * size - 1) < 0) || // Clip left
 	((y + 8 * size - 1) < 0))   // Clip top
