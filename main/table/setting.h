@@ -1,4 +1,4 @@
-﻿void table_set_setting() //pop-up image
+void table_set_setting() //pop-up image
 {
 	table_set_background(0,80,160,80,setting);
 	//
@@ -143,7 +143,7 @@ void table_setmode_loop(){ //setting loop
 							Serial.print(".");
 						}
 						table_fill_block(1,WHITE);
-						table_print(10,35,"====== CONNECTED ======",BLUE,1);
+						table_print(10,35,"====== CONNECTED =======",BLUE,1);
 						table_set_frame(0,0,160,80,frame_round);
 						print_display(display_x,display_y);
 						Serial.println(" CONNECTED");
