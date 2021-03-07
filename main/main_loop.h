@@ -7,7 +7,7 @@
 
 //loop main
 void main_loop(){
-	//========================================================== 0
+	//========================================================== default clock
 	while(mode == 0){ //clock
 		Clock_set();
 		print_display(display_x,display_y);
@@ -38,8 +38,8 @@ void main_loop(){
 		}
 	}
 	
-	//========================================================== 1
-	while(mode == 1){   //health
+	//========================================================== health mode
+	while(mode == 1){   
 		
 		while(1){
 			print_display(display_x,display_y);
@@ -86,9 +86,13 @@ void main_loop(){
 			}
 		}
 	}
-	
-	//==========================================================
-	while(mode == 3){   //temp
+	//========================================================== into health
+	while(mode == 2)
+	{
+	  
+	}
+	//========================================================== temperature
+	while(mode == 3){
 		
 		while(1){
 			print_display(display_x,display_y);
@@ -135,9 +139,14 @@ void main_loop(){
 			}
 		}
 	}
-	
+	//========================================================== into temperature
+	while(mode == 4)
+	{
+	  
+	}
 	//========================================================== setting pop-up
-	while(mode == 5){   
+	while(mode == 5)
+	{   
 		
 		while(1){
 			print_display(display_x,display_y);
