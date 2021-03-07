@@ -198,8 +198,8 @@ void SD_init()
 	writeFile(SD, "/hello.txt", "Hello ");
 	appendFile(SD, "/hello.txt", "World!\n");
 	readFile(SD, "/hello.txt");
-	//deleteFile(SD, "/foo.txt");
-	//renameFile(SD, "/hello.txt", "/foo.txt");
+	deleteFile(SD, "/foo.txt");
+	renameFile(SD, "/hello.txt", "/foo.txt");
 	readFile(SD, "/foo.txt");
 	testFileIO(SD, "/test.txt");
 	cardUse =  SD.usedBytes() / (1024 * 1024);
