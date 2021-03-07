@@ -1,6 +1,7 @@
 
 #define SD_CS_Clr()  digitalWrite(SD_CS,LOW)
 #define SD_CS_Set()  digitalWrite(SD_CS,HIGH)
+
 File dataFile;
 
 void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
@@ -159,11 +160,12 @@ void testFileIO(fs::FS &fs, const char * path){
 
 
 uint8_t cardType;
-uint64_t cardSize;
-uint64_t cardUse;
+uint64_t cardSize; //total size
+uint64_t cardUse; //use data size
 
-void SD_init(){
-	SD_CS_Clr();
+void SD_init()
+{
+	SD_CS_Clr(); //active sd
 	if(!SD.begin(SD_CS)){
 		Serial.println("Card Mount Failed");
 		return;
