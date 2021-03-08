@@ -118,8 +118,7 @@ void main_loop(){
 			data = swcheck();
 			if(data == 'D')
 			{
-				if(connect_wifi ==true)
-					Clock_set();
+				Clock_set();
 				for(int i = -pg_change_num ;i<=2 ;i++)
 				{
 					display_y-=(9*i*i)/400+1;
@@ -137,8 +136,7 @@ void main_loop(){
 			}
 			else if (data == 'U')
 			{
-				if(connect_wifi ==true)
-					Clock_set();
+				Clock_set();
 				for(int i = -pg_change_num ;i<=2 ;i++)
 				{
 					display_y-=(9*i*i)/400+1;
@@ -156,8 +154,7 @@ void main_loop(){
 			}
 			else if (data == 'M')
 			{
-				if(connect_wifi ==true)
-					Clock_set();
+				Clock_set();
 				for(int i = -pg_change_num ;i<=2 ;i++)
 				{
 					display_y-=(9*i*i)/400+1;
@@ -185,8 +182,7 @@ void main_loop(){
 			delay(10);
 			data = swcheck();
 			if(data == 'D'){
-				if(connect_wifi ==true)
-					Clock_set();
+				Clock_set();
 				for(int i = -pg_change_num ;i<=2 ;i++)
 				{
 					display_y-=(9*i*i)/400+1;
@@ -204,8 +200,7 @@ void main_loop(){
 			}
 			else if (data == 'U')
 			{
-				if(connect_wifi ==true)
-					Clock_set();
+				Clock_set();
 				for(int i = -pg_change_num ;i<=2 ;i++)
 				{
 					display_y-=(9*i*i)/400+1;
@@ -252,8 +247,7 @@ void main_loop(){
 			data = swcheck();
 			if(data == 'D')
 			{
-				if(connect_wifi ==true)
-					Clock_set();
+				Clock_set();
 				for(int i = -pg_change_num ;i<=2 ;i++)
 				{
 					display_y-=(9*i*i)/400+1;
@@ -271,8 +265,7 @@ void main_loop(){
 			}
 			else if (data == 'U')
 			{
-				if(connect_wifi ==true)
-					Clock_set();
+				Clock_set();
 				for(int i = -pg_change_num ;i<=2 ;i++)
 				{
 					display_y-=(9*i*i)/400+1;
@@ -290,8 +283,7 @@ void main_loop(){
 			}
 			else if (data == 'M')
 			{
-				if(connect_wifi ==true)
-					Clock_set();
+				Clock_set();
 				for(int i = -pg_change_num ;i<=2 ;i++)
 				{
 					display_y-=(9*i*i)/400+1;

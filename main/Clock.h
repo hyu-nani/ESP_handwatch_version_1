@@ -36,21 +36,27 @@ int H_x = 10,H_y = 10;
 int M_x = 60,M_y = 10;
 int S_x = 130,S_y = 50;
 int D_x = 120,D_y = 20;
+
 void Clock_play()
 {
-	now_ms = millis();
-	if((now_ms - prev_ms)%1000<100){
-		table_fill_block(1,BLACK);
-		now_second++;
-    if(now_second == 60){
-      now_second =0;
-      now_minute++;
-    }
-		Clock_set();
+	if(connect_wifi == true){
+		now_ms = millis();
+		if((now_ms - prev_ms)%1000<100){
+			table_fill_block(1,BLACK);
+			now_second++;
+		if(now_second == 60){
+		  now_second =0;
+		  now_minute++;
+		}
+			Clock_set();
+		}
+		if(now_ms - prev_ms>60000){
+			Clock_update();
+			prev_ms = now_ms;
+		}
 	}
-	if(now_ms - prev_ms>60000){
-		Clock_update();
-		prev_ms = now_ms;
+	else{
+		
 	}
 }
 void Clock_set()
