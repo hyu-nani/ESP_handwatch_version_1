@@ -207,3 +207,12 @@ void SD_init()
 	Serial.printf("Used space: %lluMB\n",cardUse);
 	SD_CS_Set();
 }
+
+
+void read_data_file(){
+	SD_CS_Clr(); //active sd
+	readFile(SD, "/wifi_password.txt");
+	
+	
+	SD_CS_Set();
+}

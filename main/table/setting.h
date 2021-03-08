@@ -102,7 +102,6 @@ void table_setmode_loop(){ //setting loop
 			
 			if (cursor_y == 20&&option_page==1)			//wifi
 			{
-				return_scan:
 				WiFi_scan();
 				int select=0;
 				while (1)
@@ -130,17 +129,23 @@ void table_setmode_loop(){ //setting loop
 					else if(data=='M'){
 						char copy[50];
 						Network_SSID[select].toCharArray(copy, 50);
-						
-						table_fill_block(1,WHITE);	
-						table_print(10,35,"===== CONNECTING.. =====",RED,1);
+						while
+						table_fill_block(1,WHITE);
+						table_print(10,35,"===== CONNECTING.. =====",YELLOW,1);
 						table_set_frame(0,0,160,80,frame_round);
 						print_display(display_x,display_y);
 						
 						Serial.println(copy);
 						WiFi.begin(copy, password);
+						long starttime = millis();
 						while (WiFi.status() != WL_CONNECTED) {
 							delay(500);
 							Serial.print(".");
+							if(starttime+4000 < millis()){
+								table_fill_block(1,WHITE);
+								table_print(10,35,"======= FAIL.. =======",RED,1);
+								goto reset;
+							}
 						}
 						table_fill_block(1,WHITE);
 						table_print(10,35,"====== CONNECTED =======",BLUE,1);

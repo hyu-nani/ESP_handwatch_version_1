@@ -26,6 +26,7 @@ void update_time()
 {
 	if(!getLocalTime(&timeinfo)){
 		Serial.println("Failed to obtain time");
+		connect_wifi = false;
 		return;
 	}
 	//Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
@@ -34,6 +35,7 @@ void update_time()
 String Network_SSID[10];
 int32_t Network_RSSI[10];
 String Network_PSWD[10];
+
 bool connect_wifi = false;
 
 void WiFi_scan(){
@@ -63,4 +65,5 @@ void WiFi_scan(){
 
 void after_connect(){
 	configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+	connect_wifi = true;
 }
