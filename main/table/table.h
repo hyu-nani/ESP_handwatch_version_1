@@ -26,6 +26,25 @@ word color_sub(word A,word B){ //RGB => 5/6/5 16bit
 	else sub_B = A_B-B_B;
 	return (sub_R+sub_G+sub_B);
 }
+word color_sum(word A,word B){ //RGB => 5/6/5 16bit
+	unsigned short A_B=0,A_G=0,A_R=0,B_B=0,B_G=0,B_R=0;
+	unsigned short sub_R=0,sub_G=0,sub_B=0;
+	A_R = A & 0xF800;
+	A_G = A & 0x07E0;
+	A_B = A & 0x001F;
+	B_R = B & 0xF800;
+	B_G = B & 0x07E0;
+	B_B = B & 0x001F;
+	
+	sub_R = A_R+B_R;
+	if(sub_R > 0xF800) sub_R = 0xF800;
+	sub_G = A_G+B_G;
+	if(sub_G > 0x07E0) sub_G = 0x07E0;
+	sub_B = A_B+B_B;
+	if(sub_B > 0x001F) sub_B = 0x001F;
+	
+	return (sub_R+sub_G+sub_B);
+}
 void initial_table(){
 	for(table_y = 0 ; table_y<80 ;table_y++)
 	{

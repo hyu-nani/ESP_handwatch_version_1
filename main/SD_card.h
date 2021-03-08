@@ -171,7 +171,7 @@ void SD_init()
 		return;
 	}
 	cardType = SD.cardType();
-
+	
 	if(cardType == CARD_NONE){
 		Serial.println("No SD card attached");
 		return;
