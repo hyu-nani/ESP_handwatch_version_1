@@ -30,11 +30,11 @@ word data;
 #include "SD_card.h"
 #include "LCD_basic.h"
 #include "WiFi_ready.h"
+#include "bluetooth.h"
 #include <math.h>
 #include "table/table.h"
 #include "Clock.h"
 #include "main_loop.h"
-
 
 void setup() {
 	Serial.begin(115200);

@@ -15,11 +15,13 @@ void WiFi_begin(){
 		Serial.print(".");
 	}
 	Serial.println(" CONNECTED");
+	connect_wifi = true;
 	configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
 }
 
 
 struct tm timeinfo;  
+
 void update_time()
 {
 	if(!getLocalTime(&timeinfo)){
@@ -33,6 +35,7 @@ String Network_SSID[10];
 int32_t Network_RSSI[10];
 String Network_PSWD[10];
 bool connect_wifi = false;
+
 void WiFi_scan(){
 	Serial.println("scan start");
 	int n = WiFi.scanNetworks();
