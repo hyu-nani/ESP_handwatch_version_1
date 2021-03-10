@@ -211,6 +211,7 @@ void SD_init()
 
 void read_data_file(){
 	SD_CS_Clr(); //active sd
+  /*
 	const char * path = "/wifi_password.txt";
 	Serial.printf("Reading file: %s\n", path);
 	File file = fs.open(path);
@@ -227,7 +228,7 @@ void read_data_file(){
 		i++;
 	}
 	file.close();
-	
+	*/
 	
 	SD_CS_Set();
 }

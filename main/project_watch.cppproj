@@ -221,6 +221,9 @@
     <Folder Include="__vm\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="bluetooth.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Clock.h">
       <SubType>compile</SubType>
     </Compile>
