@@ -44,13 +44,13 @@ void table_setmode_loop(){ //setting loop
 			table_print(10,10,"=======SETTING/2=======",BLUE,1);
 			table_print(20,20," Time set",BLACK,1);
 			table_print(20,30," Backlight",BLACK,1);
-			table_print(20,40," Summer time",BLACK,1);
+			table_print(20,40," set",BLACK,1);
 			table_print(20,50," >> NEXT Page",BLACK,1);
 			table_print(20,60," << BACK Page",BLACK,1);
 		}
 		else if(option_page==3){
 			table_print(10,10,"=======SETTING/3=======",BLUE,1);
-			table_print(20,20," Background color",BLACK,1);
+			table_print(20,20," set",BLACK,1);
 			table_print(20,30," hleath mode",BLACK,1);
 			table_print(20,40," time package",BLACK,1);
 			table_print(20,50," >> NEXT Page",BLACK,1);
@@ -229,10 +229,6 @@ void table_setmode_loop(){ //setting loop
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 20&&option_page==2&&option_active == true)		//time set
 			{
-				table_fill_block(1,WHITE);
-				table_print(10,10,"=======TIME SET=======",BLACK,1);
-				print_display(display_x,display_y);
-				delay(10);
 				bool  set_active = false;
 				cursor_y = 20;
 				while(true)
@@ -241,10 +237,10 @@ void table_setmode_loop(){ //setting loop
 					table_fill_block(1,WHITE);
 					table_print(10,cursor_y,"E>",RED,1);
 					table_print(10,10,"=======TIME SET=======",BLUE,1);
-					table_print(20,20,"Summer Time =",BLACK,1);table_print(100,20,daylightOffset_sec,BLACK,1);table_print(130,20,"ms",BLACK,1);
-					table_print(20,30,"Sec period  =",BLACK,1);table_print(100,30,sec_period*4,BLACK,1);table_print(130,30,"ms",BLACK,1);
-					table_print(20,40,"+GMT Set    =",BLACK,1);table_print(100,40,GMT,BLACK,1);table_print(130,40,"hour",BLACK,1);
-					table_print(20,50,"CLOCK SET >>",BLACK,1);
+					table_print(20,20," Summer Time =",BLACK,1);table_print(100,20,daylightOffset_sec,BLACK,1);table_print(130,20,"ms",BLACK,1);
+					table_print(20,30," Sec period  =",BLACK,1);table_print(100,30,sec_period*4,BLACK,1);table_print(130,30,"ms",BLACK,1);
+					table_print(20,40," +GMT Set    =",BLACK,1);table_print(100,40,GMT,BLACK,1);table_print(130,40,"hour",BLACK,1);
+					table_print(20,50," CLOCK SET >>",BLACK,1);
 			    table_print(20,60," << BACK Page",BLACK,1);
 			
 					table_set_frame(0,0,160,80,frame_round);
@@ -306,11 +302,12 @@ void table_setmode_loop(){ //setting loop
 					      CLOCK_SET:
 					      data = swcheck();
 					      table_fill_block(1,WHITE);
+	      				table_print(10,cursor_y,"E>",RED,1);
 					      table_print(10,10,"=======CLOCK SET=======",BLUE,1);
-					      table_print(20,20,"hour   =",BLACK,1);table_print(60,20,now_hour,BLACK,1);
-					      table_print(20,30,"Minute =",BLACK,1);table_print(60,30,now_minute,BLACK,1);
-					      table_print(20,40,"Second =",BLACK,1);table_print(60,40,now_second,BLACK,1);
-					      table_print(20,50,"WiFi update",BLACK,1);
+					      table_print(20,20," hour   =",BLACK,1);table_print(60,20,now_hour,BLACK,1);
+					      table_print(20,30," Minute =",BLACK,1);table_print(60,30,now_minute,BLACK,1);
+					      table_print(20,40," Second =",BLACK,1);table_print(60,40,now_second,BLACK,1);
+					      table_print(20,50," WiFi update",BLACK,1);
 					      table_print(20,60," << BACK Page",BLACK,1);
 					      table_set_frame(0,0,160,80,frame_round);
 					      print_display(display_x,display_y);
@@ -396,7 +393,7 @@ void table_setmode_loop(){ //setting loop
 				}
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
-			else if (cursor_y == 40&&option_page==2&&option_active == true)		//summer time
+			else if (cursor_y == 40&&option_page==2&&option_active == true)		//
 			{
 			  while(true)
 			  {
