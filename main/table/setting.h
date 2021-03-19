@@ -243,7 +243,7 @@ void table_setmode_loop(){ //setting loop
 					table_print(20,20,"Summer Time  =",BLACK,1);table_print(100,30,daylightOffset_sec,BLACK,1);table_print(130,30,"ms",BLACK,1);
 					table_print(20,30,"1 Sec period =",BLACK,1);table_print(100,30,sec_period*4,BLACK,1);table_print(130,30,"ms",BLACK,1);
 					table_print(20,40,"GMT Set      =",BLACK,1);table_print(100,30,GMT,BLACK,1);table_print(130,30,"+hour",BLACK,1);
-					table_print(20,50,"Set hour,min,sec >>",BLACK,1);
+					table_print(20,50,"CLOCK SET >>",BLACK,1);
 			    table_print(20,60," << BACK Page",BLACK,1);
 			
 					table_set_frame(0,0,160,80,frame_round);
@@ -269,6 +269,20 @@ void table_setmode_loop(){ //setting loop
 					  else if(cursor_y == 30)
 					  {
 					    
+					  }
+					  else if(cursor_y == 50)
+					  {
+					    
+					    while(true)
+					    {
+					      table_fill_block(1,WHITE);
+					      table_print(10,10,"=======CLOCK SET=======",BLUE,1);
+					      table_print(20,20,"hour =",BLACK,1);
+					      table_print(20,30,"Minute =",BLACK,1);
+					      
+					      table_set_frame(0,0,160,80,frame_round);
+					      print_display(display_x,display_y);
+					    }
 					  }
 					}
 				}
