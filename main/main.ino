@@ -18,6 +18,7 @@
 #include <Wire.h>
 #include <EEPROM.h>
 #include <math.h>
+#include <WiFi.h>
 
 #include "Global_variable.h"
 #include "EEPROM_RW.h"
