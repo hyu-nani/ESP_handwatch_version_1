@@ -23,7 +23,7 @@ void table_setmode(){ //first image set
 	table_set_frame(0,0,160,80,frame_round);
 }
 void table_setmode_loop(){ //setting loop
-	while(1)
+	while(true)
 	{
 		reset:
 		
@@ -99,12 +99,13 @@ void table_setmode_loop(){ //setting loop
 				cursor_y = 20;
 			}
 			////////////////////////////////////////////////////////////////////////////////////////
-			
+			////////////////                        OPTION                            //////////////
+			////////////////////////////////////////////////////////////////////////////////////////
 			if (cursor_y == 20&&option_page==1)			//wifi
 			{
 				WiFi_scan();
 				int select=0;
-				while (1)
+				while (true)
 				{
 					
 					delay(10);
@@ -162,6 +163,12 @@ void table_setmode_loop(){ //setting loop
 			///////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 30&&option_page==1)		//bluetooth
 			{
+			  table_fill_block(1,WHITE);
+			  
+			  while(true)
+			  {
+			    
+			  }
 			}
 			///////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 40&&option_page==1)		//SDcard
@@ -171,7 +178,7 @@ void table_setmode_loop(){ //setting loop
 				cardSize = SD.totalBytes() / (1024 * 1024);
 				cardUse =  SD.usedBytes() / (1024 * 1024);
 				SD_CS_Set();
-				while (1)
+				while (true)
 				{
 					delay(10);
 					data = swcheck();
@@ -191,7 +198,7 @@ void table_setmode_loop(){ //setting loop
 					table_print(20,40,"Size: ",BLACK,1);
 					table_print(50,40,cardSize,LIGHTGREEN,1);
 					table_print(82,40,"MB",BLACK,1);
-					table_print(20,50,"Use: ",BLACK,1);
+					table_print(20,50,"USE: ",BLACK,1);
 					table_print(50,50,cardUse,LIGHTGREEN,1);
 					table_print(82,50,"MB",BLACK,1);
 					
@@ -206,14 +213,29 @@ void table_setmode_loop(){ //setting loop
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 20&&option_page==2)		//time set
 			{
+			  table_fill_block(1,WHITE);
+			  table_print(10,10,"=========TIME SET========");
+			  
+			  while(true)
+			  {
+			    
+			  }
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 30&&option_page==2)		//GMT
 			{
+			  while(true)
+			  {
+			    
+			  }
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 40&&option_page==2)		//summer time
 			{
+			  while(true)
+			  {
+			    
+			  }
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 20&&option_page==3)
