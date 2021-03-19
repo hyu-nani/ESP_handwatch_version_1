@@ -18,9 +18,8 @@
 #include <SD.h>
 #include <Wire.h>
 
-int mode = 0;
-int backlight = 200;
-const int pg_change_num = 20;
+#include "Global_variable.h"
+
 char swcheck();
 word data;
 
