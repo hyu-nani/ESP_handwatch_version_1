@@ -260,29 +260,31 @@ void table_setmode_loop(){ //setting loop
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 30&&option_page==2&&option_active == true)		//Backlight
 			{
-				table_fill_block(1,WHITE);
-				table_print(10,10,"======Backlight======",BLACK,1);
-				print_display(display_x,display_y);
-				delay(10);
+				//table_fill_block(1,WHITE);
+				//table_print(10,10,"====== Backlight ======",BLACK,1);
+				//table_set_frame(0,0,160,80,frame_round);
+				//print_display(display_x,display_y);
+				//delay(10);
 				while(true)
 				{
 					table_fill_block(1,WHITE);
 					int val = map(backlight,0,255,20,120);
-					table_print(10,10,"======Backlight======",BLUE,1);
+					table_print(10,10,"====== Backlight ======",BLUE,1);
 					table_Rect(20,35,120,10,GREEN);
 					table_fill_Rect(20,35,val,10,GREEN);
 					table_set_frame(0,0,160,80,frame_round);
 					print_display(display_x,display_y);
-					data = swcheck();
+					data = swcheck_no_stop();
+					LCD_smooth_on(1,backlight);
 					if(data == 'M'){
 						option_active = false;
 						EEPROM_Data_Save();
 						goto reset;
 					}
-					else if(data == 'U'){
+					else if(data == 'U'&&backlight<256){
 						backlight++;
 					}
-					else if(data == 'D'){
+					else if(data == 'D'&&backlight>0){
 						backlight--;
 					}
 					else{}

@@ -41,9 +41,10 @@ void table_fill_Rect(u16 x, u16 y, u16 w, u16 h,u16 color)
 	if((x >= table_w) || (y >= table_h)) return;
 	if((x + w - 1) >= table_w)  w = table_w  - x;
 	if((y + h - 1) >= table_h) h = table_h - y;
-
-	for(y=h; y>0; y--) {
-		for(x=w; x>0; x--) {
+	h = h+y;
+	w = w+x;
+	for(; y<h; y++) {
+		for(; x<w; x++) {
 			display_table[y][x] = color;
 		}
 	}
