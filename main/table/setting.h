@@ -230,7 +230,7 @@ void table_setmode_loop(){ //setting loop
 			    table_print(10,10,"=========TIME SET========",BLUE,1);
 			    table_print(10,30,"1 Sec period =",BLACK,1);
 			    table_print(100,30,sec_period,BLACK,1);
-			   
+			    print_display(display_x,display_y);
 			  }
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
