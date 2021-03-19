@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Global_variable.h
  *
  * Created: 2021-03-19 오후 8:20:56
@@ -9,6 +9,11 @@
 int mode =	0;
 int backlight =						200;
 const int pg_change_num =			20;
+
+//wifi
+int   daylightOffset_sec = 0;//3600 summer time
+int   GMT = 9;
+bool  connect_wifi = false;
 
 
 //clock
