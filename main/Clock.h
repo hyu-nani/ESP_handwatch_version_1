@@ -1,11 +1,6 @@
 
-static int now_hour=0,now_minute=0,now_second=0,now_day=0,now_year=0;
-static int month,weekday;
-static int old_hour=0,old_minute=0,old_day=0,old_year=0;
-unsigned long prev_ms=0,get_time_ms=0;
 uint16_t CLOCK_BG_color = BLACK;
-unsigned long now_ms=millis();
-  /*
+/*
 struct tm
 {
 int    tm_sec;   //   Seconds [0,60]. 
