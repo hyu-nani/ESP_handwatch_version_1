@@ -67,7 +67,7 @@ void table_setmode_loop(){ //setting loop
 			table_print(10,10,"=======SETTING/5=======",BLUE,1);
 			table_print(20,20," oh no",BLACK,1);
 			table_print(20,30," to much",BLACK,1);
-			table_print(20,40," Turn Off",BLACK,1);
+			table_print(20,40," Turn Off Device",BLACK,1);
 			table_print(20,50," >> NEXT Page",BLACK,1);
 			table_print(20,60," << BACK Page",BLACK,1);
 		}
@@ -272,6 +272,26 @@ void table_setmode_loop(){ //setting loop
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 40&&option_page==4)
 			{
+			}
+			//////////////////////////////////////////////////////////////////////////////////////////////////////
+	    else if (cursor_y == 20&&option_page==5)
+			{
+			}
+			//////////////////////////////////////////////////////////////////////////////////////////////////////
+			else if (cursor_y == 30&&option_page==5)
+			{
+			}
+			//////////////////////////////////////////////////////////////////////////////////////////////////////
+			else if (cursor_y == 40&&option_page==5) //Turn Off Device
+			{
+			  table_fill_block(1,WHITE);
+			  table_print(10,35,"DEVICE TURN OFF",RED,2);
+			  print_display(display_x,display_y);
+			  delay(1000);
+			  //Serial.disconnect();
+			  //WiFi.disconnect();
+			  //SD.disconnect();
+			  digitalWrite(Power,LOW); //turn off
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 		}
