@@ -13,12 +13,14 @@
  *  None
  *  disable
 */
-
 #include <SPI.h>
 #include <SD.h>
 #include <Wire.h>
+#include <EEPROM.h>
+#include <math.h>
 
 #include "Global_variable.h"
+#include "EEPROM_RW.h"
 
 char swcheck();
 word data;
@@ -30,13 +32,14 @@ word data;
 #include "LCD_basic.h"
 #include "WiFi_ready.h"
 #include "bluetooth.h"
-#include <math.h>
 #include "table/table.h"
 #include "Clock.h"
 #include "main_loop.h"
 
 void setup() {
 	Serial.begin(115200);
+	EEPROM.begin(20);
+	EEPROM_Data_Read();
 	SPIClass(VSPI);
 	SPI.begin();		//SPI begin
 	Wire.begin();	//i2c begin

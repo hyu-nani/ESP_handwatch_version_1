@@ -9,6 +9,7 @@ void table_set_setting() //pop-up image
 
 int cursor_x=10,cursor_y=20;
 int option_page=1;
+bool option_active = false;
 void menu_select();
 
 void table_setmode(){ //first image set
@@ -42,7 +43,7 @@ void table_setmode_loop(){ //setting loop
 		else if(option_page==2){
 			table_print(10,10,"=======SETTING/2=======",BLUE,1);
 			table_print(20,20," Time set",BLACK,1);
-			table_print(20,30," GMT",BLACK,1);
+			table_print(20,30," Backlight",BLACK,1);
 			table_print(20,40," Summer time",BLACK,1);
 			table_print(20,50," >> NEXT Page",BLACK,1);
 			table_print(20,60," << BACK Page",BLACK,1);
@@ -68,7 +69,7 @@ void table_setmode_loop(){ //setting loop
 			table_print(20,20," oh no",BLACK,1);
 			table_print(20,30," to much",BLACK,1);
 			table_print(20,40," Turn Off Device",BLACK,1);
-			table_print(20,50," >> NEXT Page",BLACK,1);
+			table_print(20,50," ",BLACK,1);
 			table_print(20,60," << BACK Page",BLACK,1);
 		}
 		table_set_frame(0,0,160,80,frame_round);
@@ -98,18 +99,22 @@ void table_setmode_loop(){ //setting loop
 				cursor_x = 10;
 				cursor_y = 20;
 			}
+			else{
+				option_active = true;
+			}
 			
 			////////////////////////////////////////////////////////////////////////////////////////
 			////////////////                        OPTION                            //////////////
 			////////////////////////////////////////////////////////////////////////////////////////
 			
-			if (cursor_y == 20&&option_page==1)			//wifi
+			if (cursor_y == 20&&option_page==1&&option_active == true)			//wifi
 			{
 			  table_fill_block(1,WHITE);
 			  table_print(10,35,"====== SCANNING.. ======",BLUE,1);
+			  table_set_frame(0,0,160,80,frame_round);
 			  print_display(display_x,display_y);
 				WiFi_scan();
-				int select=0;
+				int select_wifi=0;
 				while (true)
 				{
 					
@@ -126,17 +131,17 @@ void table_setmode_loop(){ //setting loop
 					table_set_frame(0,0,160,80,frame_round);
 					if(data=='U' && cursor_y !=20){
 						cursor_y -= 10;
-						select--;
+						select_wifi--;
 					}
 					else if(data=='D' && cursor_y !=60){
 						cursor_y += 10;
-						select++;
+						select_wifi++;
 					}
 					else if(data=='M'){
 						char copy[50];
-						Network_SSID[select].toCharArray(copy, 50);
+						Network_SSID[select_wifi].toCharArray(copy, 50);
 						table_fill_block(1,WHITE);
-						table_print(10,35,"===== CONNECTING.. =====",YELLOW,1);
+						table_print(10,35,"===== CONNECTING.. =====",BLUE,1);
 						table_set_frame(0,0,160,80,frame_round);
 						print_display(display_x,display_y);
 						
@@ -149,8 +154,10 @@ void table_setmode_loop(){ //setting loop
 							if(starttime+4000 < millis()){
 								table_fill_block(1,WHITE);
 								table_print(10,35,"======= FAIL.. =======",RED,1);
+								table_set_frame(0,0,160,80,frame_round);
 								print_display(display_x,display_y);
-								delay(100);
+								delay(1000);
+								cursor_y=20;
 								goto reset;
 							}
 						}
@@ -162,13 +169,14 @@ void table_setmode_loop(){ //setting loop
 						after_connect();
 						delay(500);
 						cursor_y=20;
+						option_active = false;
 						goto reset;
 					}
 					print_display(display_x,display_y);
 				}
 			}
 			///////////////////////////////////////////////////////////////////////////////////////////////////
-			else if (cursor_y == 30&&option_page==1)		//bluetooth
+			else if (cursor_y == 30&&option_page==1&&option_active == true)		//bluetooth
 			{
 			  table_fill_block(1,WHITE);
 			 
@@ -178,7 +186,7 @@ void table_setmode_loop(){ //setting loop
 			  }
 			}
 			///////////////////////////////////////////////////////////////////////////////////////////////////
-			else if (cursor_y == 40&&option_page==1)		//SDcard
+			else if (cursor_y == 40&&option_page==1&&option_active == true)		//SDcard
 			{
 				SD_CS_Clr();
 				cardType = SD.cardType();
@@ -213,28 +221,75 @@ void table_setmode_loop(){ //setting loop
 					table_set_frame(0,0,160,80,frame_round);
 					print_display(display_x,display_y);
 					if(data=='M'){
+						option_active = false;
 						goto reset;
 					}
 				}
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
-			else if (cursor_y == 20&&option_page==2)		//time set
+			else if (cursor_y == 20&&option_page==2&&option_active == true)		//time set
 			{
-			  table_fill_block(1,WHITE);
-			  table_print(10,10,"=======TIME SET=======",BLACK,1);
-			  print_display(display_x,display_y);
-			  delay(10);
-			  while(true)
-			  {
-			    table_fill_block(1,WHITE);
-			    table_print(10,10,"=======TIME SET=======",BLUE,1);
-			    table_print(10,30,"1 Sec period =",BLACK,1);
-			    //table_print(100,30,sec_period,BLACK,1);
-			    print_display(display_x,display_y);
-			  }
+				table_fill_block(1,WHITE);
+				table_print(10,10,"=======TIME SET=======",BLACK,1);
+				print_display(display_x,display_y);
+				delay(10);
+				while(true)
+				{
+					table_fill_block(1,WHITE);
+					table_print(10,10,"=======TIME SET=======",BLUE,1);
+					table_print(10,30,"1 Sec period =",BLACK,1);
+					table_print(100,30,sec_period*4,BLACK,1);
+					table_print(140,30,"ms",BLACK,1);
+					table_set_frame(0,0,160,80,frame_round);
+					print_display(display_x,display_y);
+					data = swcheck();
+					if(data == 'M'){
+						option_active = false;
+						EEPROM_Data_Save();
+						goto reset;
+					}
+					else if(data == 'U'){
+						sec_period++;	
+					}
+					else if(data == 'D'){
+						sec_period--;
+					}
+					else{}
+				}
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
-			else if (cursor_y == 30&&option_page==2)		//GMT
+			else if (cursor_y == 30&&option_page==2&&option_active == true)		//Backlight
+			{
+				table_fill_block(1,WHITE);
+				table_print(10,10,"======Backlight======",BLACK,1);
+				print_display(display_x,display_y);
+				delay(10);
+				while(true)
+				{
+					table_fill_block(1,WHITE);
+					int val = map(backlight,0,255,20,120);
+					table_print(10,10,"======Backlight======",BLUE,1);
+					table_Rect(20,35,120,10,GREEN);
+					table_fill_Rect(20,35,val,10,GREEN);
+					table_set_frame(0,0,160,80,frame_round);
+					print_display(display_x,display_y);
+					data = swcheck();
+					if(data == 'M'){
+						option_active = false;
+						EEPROM_Data_Save();
+						goto reset;
+					}
+					else if(data == 'U'){
+						backlight++;
+					}
+					else if(data == 'D'){
+						backlight--;
+					}
+					else{}
+				}
+			}
+			//////////////////////////////////////////////////////////////////////////////////////////////////////
+			else if (cursor_y == 40&&option_page==2&&option_active == true)		//summer time
 			{
 			  while(true)
 			  {
@@ -242,47 +297,39 @@ void table_setmode_loop(){ //setting loop
 			  }
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
-			else if (cursor_y == 40&&option_page==2)		//summer time
-			{
-			  while(true)
-			  {
-			    
-			  }
-			}
-			//////////////////////////////////////////////////////////////////////////////////////////////////////
-			else if (cursor_y == 20&&option_page==3)
+			else if (cursor_y == 20&&option_page==3&&option_active == true)
 			{
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
-			else if (cursor_y == 30&&option_page==3)
+			else if (cursor_y == 30&&option_page==3&&option_active == true)
 			{
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
-			else if (cursor_y == 40&&option_page==3)
+			else if (cursor_y == 40&&option_page==3&&option_active == true)
 			{
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
-			else if (cursor_y == 20&&option_page==4)
+			else if (cursor_y == 20&&option_page==4&&option_active == true)
 			{
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
-			else if (cursor_y == 30&&option_page==4)
+			else if (cursor_y == 30&&option_page==4&&option_active == true)
 			{
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
-			else if (cursor_y == 40&&option_page==4)
+			else if (cursor_y == 40&&option_page==4&&option_active == true)
 			{
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
-	    else if (cursor_y == 20&&option_page==5)
+			else if (cursor_y == 20&&option_page==5&&option_active == true)
 			{
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
-			else if (cursor_y == 30&&option_page==5)
+			else if (cursor_y == 30&&option_page==5&&option_active == true)
 			{
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
-			else if (cursor_y == 40&&option_page==5) //Turn Off Device
+			else if (cursor_y == 40&&option_page==5&&option_active == true) //Turn Off Device
 			{
 			  table_fill_block(1,WHITE);
 			  table_print(10,35,"DEVICE TURN OFF",RED,2);
@@ -291,6 +338,7 @@ void table_setmode_loop(){ //setting loop
 			  //Serial.disconnect();
 			  //WiFi.disconnect();
 			  //SD.disconnect();
+			  option_active = false;
 			  digitalWrite(Power,LOW); //turn off
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////

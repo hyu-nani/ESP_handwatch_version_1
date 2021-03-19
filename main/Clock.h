@@ -2,11 +2,9 @@
 static int now_hour=0,now_minute=0,now_second=0,now_day=0,now_year=0;
 static int month,weekday;
 static int old_hour=0,old_minute=0,old_day=0,old_year=0;
-unsigned long prev_ms=0;
+unsigned long prev_ms=0,get_time_ms=0;
 uint16_t CLOCK_BG_color = BLACK;
 unsigned long now_ms=millis();
-unsigned long sec_period = 1000;
-unsigned long update_cycle_time = 60000;
   /*
 struct tm
 {
@@ -44,18 +42,20 @@ int D_x = 120,D_y = 20;
 void Clock_play()
 {
 	now_ms = millis();
-	if((now_ms - prev_ms)%sec_period<100){
+	if(now_ms - prev_ms > sec_period*4){
 		table_fill_block(1,BLACK);
 		now_second++;
-	if(now_second == 60){
-		now_second =0;
-		now_minute++;
-	}
+		prev_ms = now_ms;
+		if(now_second == 60){
+			now_second =0;
+			now_minute++;
+		}
 		Clock_set();
 	}
-	if(now_ms - prev_ms>update_cycle_time){
+	if(now_ms - get_time_ms > update_cycle_time){
 		Clock_update();
-		prev_ms = now_ms;
+		get_time_ms = now_ms;
+		Serial.println(update_cycle_time);
 	}
 }
 void Clock_set()

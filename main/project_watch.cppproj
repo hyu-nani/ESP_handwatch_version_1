@@ -230,6 +230,9 @@
     <Compile Include="font.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="Global_variable.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="image_source\image.h">
       <SubType>compile</SubType>
     </Compile>
