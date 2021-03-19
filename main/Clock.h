@@ -6,6 +6,7 @@ unsigned long prev_ms=0;
 uint16_t CLOCK_BG_color = BLACK;
 unsigned long now_ms=millis();
 unsigned long sec_period = 1000;
+unsigned long update_cycle_time = 60000;
   /*
 struct tm
 {
@@ -52,7 +53,7 @@ void Clock_play()
 	}
 		Clock_set();
 	}
-	if(now_ms - prev_ms>60000){
+	if(now_ms - prev_ms>update_cycle_time){
 		Clock_update();
 		prev_ms = now_ms;
 	}
