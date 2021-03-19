@@ -1,4 +1,4 @@
-﻿
+
 static int now_hour=0,now_minute=0,now_second=0,now_day=0,now_year=0;
 static int month,weekday;
 static int old_hour=0,old_minute=0,old_day=0,old_year=0;
@@ -58,9 +58,9 @@ void Clock_play()
 }
 void Clock_set()
 {
-    Clock_update();
-    table_fill_block(1,BLACK);
-    table_print_SevenSegNumFont32X50(5,10,now_hour,BLUE);
+  Clock_update();
+  table_fill_block(1,BLACK);
+  table_print_SevenSegNumFont32X50(5,10,now_hour,BLUE);
 	table_print_SevenSegNumFont32X50(90,10,now_minute,GREEN);
 	table_print(70,60,now_second,RED,2);
 }
