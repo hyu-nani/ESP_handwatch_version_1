@@ -1,8 +1,7 @@
-﻿#include "font.h"
+#include "font.h"
 
 #define LCD_swap(a, b) { u16 t = a; a = b; b = t; }
 boolean wrap;
-int lcd_light=0;
 
 void LCD_Fill(u16 color)
 {
