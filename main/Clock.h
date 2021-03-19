@@ -5,6 +5,7 @@ static int old_hour=0,old_minute=0,old_day=0,old_year=0;
 unsigned long prev_ms=0;
 uint16_t CLOCK_BG_color = BLACK;
 unsigned long now_ms=millis();
+unsigned long sec_period = 1000;
   /*
 struct tm
 {
@@ -42,7 +43,7 @@ int D_x = 120,D_y = 20;
 void Clock_play()
 {
 	now_ms = millis();
-	if((now_ms - prev_ms)%1000<100){
+	if((now_ms - prev_ms)%sec_period<100){
 		table_fill_block(1,BLACK);
 		now_second++;
 	if(now_second == 60){
