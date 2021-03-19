@@ -171,7 +171,7 @@ void table_setmode_loop(){ //setting loop
 			else if (cursor_y == 30&&option_page==1)		//bluetooth
 			{
 			  table_fill_block(1,WHITE);
-			  
+			 
 			  while(true)
 			  {
 			    
@@ -226,7 +226,11 @@ void table_setmode_loop(){ //setting loop
 			  delay(10);
 			  while(true)
 			  {
-			    
+			    table_fill_block(1,WHITE);
+			    table_print(10,10,"=========TIME SET========",BLUE,1);
+			    table_print(10,30,"1 Sec period =",BLACK,1);
+			    table_print(100,30,sec_period,BLACK,1);
+			   
 			  }
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
