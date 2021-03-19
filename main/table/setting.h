@@ -260,11 +260,6 @@ void table_setmode_loop(){ //setting loop
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 30&&option_page==2&&option_active == true)		//Backlight
 			{
-				//table_fill_block(1,WHITE);
-				//table_print(10,10,"====== Backlight ======",BLACK,1);
-				//table_set_frame(0,0,160,80,frame_round);
-				//print_display(display_x,display_y);
-				//delay(10);
 				while(true)
 				{
 					table_fill_block(1,WHITE);
