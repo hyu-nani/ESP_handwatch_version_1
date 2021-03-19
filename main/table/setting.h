@@ -310,6 +310,7 @@ void table_setmode_loop(){ //setting loop
 					      table_print(20,20,"hour   =",BLACK,1);table_print(60,20,now_hour,BLACK,1);
 					      table_print(20,30,"Minute =",BLACK,1);table_print(60,30,now_minute,BLACK,1);
 					      table_print(20,40,"Second =",BLACK,1);table_print(60,40,now_second,BLACK,1);
+					      table_print(20,50,"WiFi update",BLACK,1);
 					      table_print(20,60," << BACK Page",BLACK,1);
 					      table_set_frame(0,0,160,80,frame_round);
 					      print_display(display_x,display_y);
