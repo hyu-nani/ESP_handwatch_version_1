@@ -98,11 +98,16 @@ void table_setmode_loop(){ //setting loop
 				cursor_x = 10;
 				cursor_y = 20;
 			}
+			
 			////////////////////////////////////////////////////////////////////////////////////////
 			////////////////                        OPTION                            //////////////
 			////////////////////////////////////////////////////////////////////////////////////////
+			
 			if (cursor_y == 20&&option_page==1)			//wifi
 			{
+			  table_fill_block(1,WHITE);
+			  table_print(10,35,"====== SCANNING.. ======",BLUE,1);
+			  print_display(display_x,display_y);
 				WiFi_scan();
 				int select=0;
 				while (true)
