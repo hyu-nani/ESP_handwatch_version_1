@@ -221,8 +221,9 @@ void table_setmode_loop(){ //setting loop
 			else if (cursor_y == 20&&option_page==2)		//time set
 			{
 			  table_fill_block(1,WHITE);
-			  table_print(10,10,"=========TIME SET========");
-			  
+			  table_print(10,10,"=========TIME SET========",BLACK,1);
+			  print_display(display_x,display_y);
+			  delay(10);
 			  while(true)
 			  {
 			    
