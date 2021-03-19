@@ -1,4 +1,4 @@
-#include <WiFi.h>
+
 #include "time.h"
 
 char* ssid       = "613";
@@ -16,7 +16,6 @@ void WiFi_begin(){
 	connect_wifi = true;
 	configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
 }
-
 
 struct tm timeinfo;  
 
