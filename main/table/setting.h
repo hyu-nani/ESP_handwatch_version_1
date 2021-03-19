@@ -158,7 +158,7 @@ void table_setmode_loop(){ //setting loop
 						table_print(10,35,"====== CONNECTED =======",BLUE,1);
 						table_set_frame(0,0,160,80,frame_round);
 						print_display(display_x,display_y);
-						Serial.println(" CONNECTED");
+						Serial.println("CONNECTED");
 						after_connect();
 						delay(500);
 						cursor_y=20;
