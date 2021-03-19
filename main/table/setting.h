@@ -241,9 +241,9 @@ void table_setmode_loop(){ //setting loop
 					table_fill_block(1,WHITE);
 					table_print(10,cursor_y,"E>",RED,1);
 					table_print(10,10,"=======TIME SET=======",BLUE,1);
-					table_print(20,20,"Summer Time  =",BLACK,1);table_print(100,30,daylightOffset_sec,BLACK,1);table_print(130,30,"ms",BLACK,1);
-					table_print(20,30,"1 Sec period =",BLACK,1);table_print(100,30,sec_period*4,BLACK,1);table_print(130,30,"ms",BLACK,1);
-					table_print(20,40,"+GMT Set     =",BLACK,1);table_print(100,30,GMT,BLACK,1);table_print(130,30,"hour",BLACK,1);
+					table_print(20,20,"Summer Time =",BLACK,1);table_print(100,20,daylightOffset_sec,BLACK,1);table_print(130,20,"ms",BLACK,1);
+					table_print(20,30,"Sec period  =",BLACK,1);table_print(100,30,sec_period*4,BLACK,1);table_print(130,30,"ms",BLACK,1);
+					table_print(20,40,"+GMT Set    =",BLACK,1);table_print(100,40,GMT,BLACK,1);table_print(130,40,"hour",BLACK,1);
 					table_print(20,50,"CLOCK SET >>",BLACK,1);
 			    table_print(20,60," << BACK Page",BLACK,1);
 			
@@ -262,37 +262,37 @@ void table_setmode_loop(){ //setting loop
 					else
 					{
 					  set_active = true;
-					  if(cursor_y == 20)      //SUMMER TIME
+					  if(cursor_y == 20&&set_active==true)      //SUMMER TIME
 					  {
-					    if(data == 'U'&&set_active==true)
+					    if(data == 'U')
 					      daylightOffset_sec +=600;
-					    else if(data == 'D'&&set_active==true)
+					    else if(data == 'D')
 					      daylightOffset_sec -=600;
-					    else if(data == 'M'&&set_active==true)
+					    else if(data == 'M')
 					    {
 					      set_active = false;
 					      goto TIME_SET;
 					    }
 					  }
-					  else if(cursor_y == 30)//sec_period
+					  else if(cursor_y == 30&&set_active==true)//sec_period
 					  {
-					    if(data == 'U'&&set_active==true)
+					    if(data == 'U')
 					      sec_period += 1;
-					    else if(data == 'D'&&set_active==true)
+					    else if(data == 'D')
 					      sec_period -= 1;
-					    else if(data == 'M'&&set_active==true)
+					    else if(data == 'M')
 					    {
 					      set_active = false;
 					      goto TIME_SET;
 					    }
 					  }
-					  else if(cursor_y == 40)//GMT
+					  else if(cursor_y == 40&&set_active==true)//GMT
 					  {
-					    if(data == 'U'&&set_active==true)
+					    if(data == 'U')
 					      GMT += 1;
-					    else if(data == 'D'&&set_active==true)
+					    else if(data == 'D')
 					      GMT -= 1;
-					    else if(data == 'M'&&set_active==true)
+					    else if(data == 'M')
 					    {
 					      set_active = false;
 					      goto TIME_SET;
@@ -303,26 +303,63 @@ void table_setmode_loop(){ //setting loop
 					    cursor_y =20;
 					    while(true)
 					    {
+					      CLOCK_SET:
 					      data = swcheck();
 					      table_fill_block(1,WHITE);
 					      table_print(10,10,"=======CLOCK SET=======",BLUE,1);
-					      table_print(20,20,"hour =",BLACK,1);
-					      table_print(20,30,"Minute =",BLACK,1);
-					      table_print(20,40,"Second =",BLACK,1);
+					      table_print(20,20,"hour   =",BLACK,1);table_print(60,20,now_hour,BLACK,1);
+					      table_print(20,30,"Minute =",BLACK,1);table_print(60,30,now_minute,BLACK,1);
+					      table_print(20,40,"Second =",BLACK,1);table_print(60,40,now_second,BLACK,1);
 					      table_print(20,60," << BACK Page",BLACK,1);
 					      table_set_frame(0,0,160,80,frame_round);
 					      print_display(display_x,display_y);
-					      if(data == 'D')
+					      if(data == 'D'&&set_active==false)
 					        cursor_y += 10;
-					      else if(data == 'U')
+					      else if(data == 'U'&&set_active==false)
 					        cursor_y -= 10;
 					      else if(data == 'M'&&cursor_y==60)
 					      {
+					        set_active = false;
 					        goto TIME_SET;
 					      }
 					      else
 					      {
-					        
+					        if(cursor_y == 20&&set_active==true)
+					        {
+					          if(data == 'U')
+					            now_hour ++;
+					          else if(data == 'D')
+					            now_hour --;
+					          else if(data == 'M')
+					          {
+					            set_active = false;
+					            goto CLOCK_SET;
+					          }
+					        }
+					        else if(cursor_y == 30&&set_active==true)
+					        {
+					          if(data == 'U')
+					            now_minute ++;
+					          else if(data == 'D')
+					            now_minute --;
+					          else if(data == 'M')
+					          {
+					            set_active = false;
+					            goto CLOCK_SET;
+					          }
+					        }
+					        else if(cursor_y == 40&&set_active==true)
+					        {
+					          if(data == 'U')
+					            now_second ++;
+					          else if(data == 'D')
+					            now_second --;
+					          else if(data == 'M')
+					          {
+					            set_active = false;
+					            goto CLOCK_SET;
+					          }
+					        }
 					      }
 					    }
 					  }
