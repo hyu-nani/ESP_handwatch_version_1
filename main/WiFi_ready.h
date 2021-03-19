@@ -7,7 +7,7 @@ int GMT = 9;
 char* ntpServer = "pool.ntp.org";
 long  gmtOffset_sec = (GMT*3600);
 int   daylightOffset_sec = 0;//3600 summer time
-bool connect_wifi = false;
+bool  connect_wifi = false;
 
 void WiFi_begin(){
 	//WiFi.begin(ssid, password);
