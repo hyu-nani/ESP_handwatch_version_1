@@ -149,6 +149,8 @@ void table_setmode_loop(){ //setting loop
 							if(starttime+4000 < millis()){
 								table_fill_block(1,WHITE);
 								table_print(10,35,"======= FAIL.. =======",RED,1);
+								print_display(display_x,display_y);
+								delay(100);
 								goto reset;
 							}
 						}
