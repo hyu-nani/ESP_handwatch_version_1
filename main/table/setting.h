@@ -153,7 +153,7 @@ void table_setmode_loop(){ //setting loop
 							Serial.print(".");
 							if(starttime+4000 < millis()){
 								table_fill_block(1,WHITE);
-								table_print(10,35,"======= FAIL.. =======",RED,1);
+								table_print(10,35,"======== FAIL.. ========",RED,1);
 								table_set_frame(0,0,160,80,frame_round);
 								print_display(display_x,display_y);
 								delay(1000);
@@ -229,138 +229,153 @@ void table_setmode_loop(){ //setting loop
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 20&&option_page==2&&option_active == true)		//time set
 			{
-				bool  set_active = false;
+				bool set_active = false;
 				cursor_y = 20;
+				if (daylightOffset_sec%600!=0)
+				daylightOffset_sec = 0;
+				if (GMT > 20)
+				GMT = 0;					
 				while(true)
 				{
-				  TIME_SET:
+					TIME_SET:
 					table_fill_block(1,WHITE);
+					if(set_active==false)
 					table_print(10,cursor_y,"E>",RED,1);
+					else
+					table_print(10,cursor_y,"S>",RED,1);
+					
 					table_print(10,10,"=======TIME SET=======",BLUE,1);
-					table_print(20,20," Summer Time =",BLACK,1);table_print(100,20,daylightOffset_sec,BLACK,1);table_print(130,20,"ms",BLACK,1);
-					table_print(20,30," Sec period  =",BLACK,1);table_print(100,30,sec_period*4,BLACK,1);table_print(130,30,"ms",BLACK,1);
-					table_print(20,40," +GMT Set    =",BLACK,1);table_print(100,40,GMT,BLACK,1);table_print(130,40,"hour",BLACK,1);
+					table_print(20,20," Summer Time=",BLACK,1);table_print(100,20,daylightOffset_sec,BLACK,1);table_print(130,20,"ms",BLACK,1);
+					table_print(20,30," Sec period =",BLACK,1);table_print(100,30,sec_period*4,BLACK,1);table_print(130,30,"ms",BLACK,1);
+					table_print(20,40," +GMT Set   =",BLACK,1);table_print(100,40,GMT,BLACK,1);table_print(130,40,"hour",BLACK,1);
 					table_print(20,50," CLOCK SET >>",BLACK,1);
-			    table_print(20,60," << BACK Page",BLACK,1);
+					table_print(20,60," << BACK Page",BLACK,1);
 			
 					table_set_frame(0,0,160,80,frame_round);
 					print_display(display_x,display_y);
+					
 					data = swcheck();
-					if(data == 'U'&&set_active == false)
-						cursor_y-=10;	
-					else if(data == 'D'&&set_active == false)
-						cursor_y+=10;
-					else if(data == 'M'&&cursor_y == 60){
+					
+					if(cursor_y == 20&&set_active==true)      //SUMMER TIME
+					{
+						if(data == 'U')
+						daylightOffset_sec +=600;
+						else if(data == 'D')
+						daylightOffset_sec -=600;
+						else if(data == 'M')						
+						{
+							set_active = false;
+							goto TIME_SET;
+						}
+					}
+					else if(cursor_y == 30&&set_active==true)//sec_period
+					{
+						if(data == 'U')
+						sec_period += 1;
+						else if(data == 'D')
+						sec_period -= 1;
+					    else if(data == 'M')
+					    {
+							set_active = false;
+							goto TIME_SET;
+					    }
+					}
+					else if(cursor_y == 40&&set_active==true)//GMT
+					{
+						if(data == 'U')
+						GMT += 1;
+					    else if(data == 'D')
+						GMT -= 1;
+					    else if(data == 'M')
+					    {
+							set_active = false;
+							goto TIME_SET;
+					    }
+					}
+					else if(cursor_y == 50&&set_active==true)
+					{
+						set_active=false;
+						cursor_y =20;
+					    while(true)
+					    {
+							CLOCK_SET:
+							
+							table_fill_block(1,WHITE);
+      						if(set_active==false)
+      						table_print(10,cursor_y,"E>",RED,1);
+      						else
+      						table_print(10,cursor_y,"S>",RED,1);
+							  
+							table_print(10,10,"=======CLOCK SET=======",BLUE,1);
+							table_print(20,20," hour   =",BLACK,1);table_print(90,20,now_hour,BLACK,1);
+							table_print(20,30," Minute =",BLACK,1);table_print(90,30,now_minute,BLACK,1);
+							table_print(20,40," Second =",BLACK,1);table_print(90,40,now_second,BLACK,1);
+							table_print(20,50," WiFi update",BLACK,1);
+							table_print(20,60," << BACK Page",BLACK,1);
+							table_set_frame(0,0,160,80,frame_round);
+							print_display(display_x,display_y);
+							data = swcheck();
+							
+							if(cursor_y == 20&&set_active==true)
+							{
+								if(data == 'U')
+								now_hour ++;
+								else if(data == 'D')
+								now_hour --;
+								else if(data == 'M')
+								{
+									set_active = false;
+									goto CLOCK_SET;
+								}
+							}
+							else if(cursor_y == 30&&set_active==true)
+							{
+								if(data == 'U')
+								now_minute ++;
+								else if(data == 'D')
+								now_minute --;
+								else if(data == 'M')
+								{
+									set_active = false;
+									goto CLOCK_SET;
+								}
+							}
+							else if(cursor_y == 40&&set_active==true)
+							{
+								if(data == 'U')
+								now_second ++;
+								else if(data == 'D')
+								now_second --;
+								else if(data == 'M')
+								{
+									set_active = false;
+									goto CLOCK_SET;
+								}
+							}
+							if(data == 'U'&&set_active == false&&cursor_y>20)
+							cursor_y-=10;
+							else if(data == 'D'&&set_active == false&&cursor_y<60)
+							cursor_y+=10;
+							else if(data == 'M'&&cursor_y != 60)
+							set_active = true;
+							else if(data == 'M'&&cursor_y==60)
+							{
+								set_active = false;
+								goto TIME_SET;
+							}
+						}
+					}
+					if(data == 'U'&&set_active == false&&cursor_y>20)
+					cursor_y-=10;
+					else if(data == 'D'&&set_active == false&&cursor_y<60)
+					cursor_y+=10;
+					else if(data == 'M'&&cursor_y != 60)
+					set_active = true;
+					else if(data == 'M'&&cursor_y == 60)
+					{
 						option_active = false;
 						EEPROM_Data_Save();
 						goto reset;
-					}
-					else
-					{
-					  set_active = true;
-					  if(cursor_y == 20&&set_active==true)      //SUMMER TIME
-					  {
-					    if(data == 'U')
-					      daylightOffset_sec +=600;
-					    else if(data == 'D')
-					      daylightOffset_sec -=600;
-					    else if(data == 'M')
-					    {
-					      set_active = false;
-					      goto TIME_SET;
-					    }
-					  }
-					  else if(cursor_y == 30&&set_active==true)//sec_period
-					  {
-					    if(data == 'U')
-					      sec_period += 1;
-					    else if(data == 'D')
-					      sec_period -= 1;
-					    else if(data == 'M')
-					    {
-					      set_active = false;
-					      goto TIME_SET;
-					    }
-					  }
-					  else if(cursor_y == 40&&set_active==true)//GMT
-					  {
-					    if(data == 'U')
-					      GMT += 1;
-					    else if(data == 'D')
-					      GMT -= 1;
-					    else if(data == 'M')
-					    {
-					      set_active = false;
-					      goto TIME_SET;
-					    }
-					  }
-					  else if(cursor_y == 50)
-					  {
-					    cursor_y =20;
-					    while(true)
-					    {
-					      CLOCK_SET:
-					      data = swcheck();
-					      table_fill_block(1,WHITE);
-	      				table_print(10,cursor_y,"E>",RED,1);
-					      table_print(10,10,"=======CLOCK SET=======",BLUE,1);
-					      table_print(20,20," hour   =",BLACK,1);table_print(60,20,now_hour,BLACK,1);
-					      table_print(20,30," Minute =",BLACK,1);table_print(60,30,now_minute,BLACK,1);
-					      table_print(20,40," Second =",BLACK,1);table_print(60,40,now_second,BLACK,1);
-					      table_print(20,50," WiFi update",BLACK,1);
-					      table_print(20,60," << BACK Page",BLACK,1);
-					      table_set_frame(0,0,160,80,frame_round);
-					      print_display(display_x,display_y);
-					      if(data == 'D'&&set_active==false)
-					        cursor_y += 10;
-					      else if(data == 'U'&&set_active==false)
-					        cursor_y -= 10;
-					      else if(data == 'M'&&cursor_y==60)
-					      {
-					        set_active = false;
-					        goto TIME_SET;
-					      }
-					      else
-					      {
-					        if(cursor_y == 20&&set_active==true)
-					        {
-					          if(data == 'U')
-					            now_hour ++;
-					          else if(data == 'D')
-					            now_hour --;
-					          else if(data == 'M')
-					          {
-					            set_active = false;
-					            goto CLOCK_SET;
-					          }
-					        }
-					        else if(cursor_y == 30&&set_active==true)
-					        {
-					          if(data == 'U')
-					            now_minute ++;
-					          else if(data == 'D')
-					            now_minute --;
-					          else if(data == 'M')
-					          {
-					            set_active = false;
-					            goto CLOCK_SET;
-					          }
-					        }
-					        else if(cursor_y == 40&&set_active==true)
-					        {
-					          if(data == 'U')
-					            now_second ++;
-					          else if(data == 'D')
-					            now_second --;
-					          else if(data == 'M')
-					          {
-					            set_active = false;
-					            goto CLOCK_SET;
-					          }
-					        }
-					      }
-					    }
-					  }
 					}
 				}
 			}
@@ -370,23 +385,25 @@ void table_setmode_loop(){ //setting loop
 				while(true)
 				{
 					table_fill_block(1,WHITE);
-					int val = map(backlight,0,255,20,120);
+					int val = map(backlight,0,255,0,120);
 					table_print(10,10,"====== Backlight ======",BLUE,1);
 					table_Rect(20,35,120,10,GREEN);
 					table_fill_Rect(20,35,val,10,GREEN);
 					table_set_frame(0,0,160,80,frame_round);
+					table_print(70,60,backlight,BLUE,1);
 					print_display(display_x,display_y);
 					data = swcheck_no_stop();
 					LCD_smooth_on(1,backlight);
 					if(data == 'M'){
 						option_active = false;
 						EEPROM_Data_Save();
+						data = swcheck();
 						goto reset;
 					}
-					else if(data == 'U'&&backlight<256){
+					else if(data == 'U'&&backlight<255){
 						backlight++;
 					}
-					else if(data == 'D'&&backlight>0){
+					else if(data == 'D'&&backlight>1){
 						backlight--;
 					}
 					else{}
@@ -435,15 +452,15 @@ void table_setmode_loop(){ //setting loop
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 40&&option_page==5&&option_active == true) //Turn Off Device
 			{
-			  table_fill_block(1,WHITE);
-			  table_print(10,35,"DEVICE TURN OFF",RED,2);
-			  print_display(display_x,display_y);
-			  delay(1000);
-			  //Serial.disconnect();
-			  //WiFi.disconnect();
-			  //SD.disconnect();
-			  option_active = false;
-			  digitalWrite(Power,LOW); //turn off
+				table_fill_block(1,WHITE);
+				table_print(10,35,"DEVICE TURN OFF",RED,2);
+				print_display(display_x,display_y);
+				delay(1000);
+				//Serial.disconnect();
+				//WiFi.disconnect();
+				//SD.disconnect();
+				option_active = false;
+				digitalWrite(Power,LOW); //turn off
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 		}

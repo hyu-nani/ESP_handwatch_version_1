@@ -37,15 +37,13 @@ void table_image(u16 x0,u16 y0,u16 x1,u16 y1 ,const short unsigned A[])
 
 void table_fill_Rect(u16 x, u16 y, u16 w, u16 h,u16 color)
 {
-
+	u16 x0,y0;
 	if((x >= table_w) || (y >= table_h)) return;
 	if((x + w - 1) >= table_w)  w = table_w  - x;
 	if((y + h - 1) >= table_h) h = table_h - y;
-	h = h+y;
-	w = w+x;
-	for(; y<h; y++) {
-		for(; x<w; x++) {
-			display_table[y][x] = color;
+	for(y0=y; y0<y+h; y0++) {
+		for(x0=x; x0<x+w; x0++) {
+			display_table[y0][x0] = color;
 		}
 	}
 }

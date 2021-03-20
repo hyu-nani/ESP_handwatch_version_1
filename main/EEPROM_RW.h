@@ -9,7 +9,7 @@ void EEPROM_Data_Save(){
 	EEPROM.write(2,sec_period);
 	EEPROM.write(3,update_cycle_time);
 	EEPROM.write(4,GMT);
-	EEPROM.write(5.daylightOffset_sec);
+	EEPROM.write(5,daylightOffset_sec);
 	EEPROM.commit();
 }
 void EEPROM_Data_Read(){
