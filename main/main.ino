@@ -77,17 +77,11 @@ char swcheck()
 {
 	int i=0;
 	if (digitalRead(SW_U))
-	{
 		i += 1;
-	}
 	if (digitalRead(SW_M))
-	{
 		i += 3;
-	}
 	if (digitalRead(SW_D))
-	{
 		i += 5;
-	}
 	while (digitalRead(SW_U)){delay(10);}
 	while (digitalRead(SW_M)){delay(10);}
 	while (digitalRead(SW_D)){delay(10);}
@@ -123,17 +117,11 @@ char swcheck_no_stop()
 {
 	int i=0;
 	if (digitalRead(SW_U))
-	{
 		i += 1;
-	}
 	if (digitalRead(SW_M))
-	{
 		i += 3;
-	}
 	if (digitalRead(SW_D))
-	{
 		i += 5;
-	}
 	switch (i)
 	{
 	case 1:
