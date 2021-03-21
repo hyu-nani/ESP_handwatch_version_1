@@ -1,8 +1,10 @@
 
-/*
+/*  제작자 : 배현한
  *  NANI project : ESP hand watch 
  *  module : ESP32-S
  *  
+ *  Arduino Board Set
+ *
  *  ESP32 dev module
  *  921600
  *  240MHz(WiFi/BT)
@@ -12,6 +14,11 @@
  *  HUGE APP
  *  None
  *  disable
+ 
+  ESP32 전용 스마트 워치 데이터 파일입니다. 
+  핀셋에 대한 내용은 watch.h 파일에 있으니 포트를 수정해야한다면 
+  watch 파일을 열어 수정하기 바랍니다.
+  
 */
 #include <SPI.h>
 #include <SD.h>
