@@ -50,14 +50,13 @@ void Clock_play()
 	if(now_ms - get_time_ms > update_cycle_time){
 		Clock_update();
 		get_time_ms = now_ms;
-		Serial.println(update_cycle_time);
 	}
 }
 void Clock_set()
 {
-  Clock_update();
-  table_fill_block(1,BLACK);
-  table_print_SevenSegNumFont32X50(5,10,now_hour,BLUE);
+	Clock_update();
+	table_fill_block(1,BLACK);
+	table_print_SevenSegNumFont32X50(5,10,now_hour,BLUE);
 	table_print_SevenSegNumFont32X50(90,10,now_minute,GREEN);
 	table_print(70,60,now_second,RED,2);
 }

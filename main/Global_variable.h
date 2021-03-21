@@ -6,15 +6,20 @@
  */ 
 
 //main
-int mode =	0;
-int backlight =						200;
-const int pg_change_num =			20;
+int			mode =	0;
+int			backlight =						200;
+const int	pg_change_num =			20;
 
 //wifi
-int   daylightOffset_sec = 0;//3600 summer time
-int   GMT = 9;
-bool  connect_wifi = false;
+int		daylightOffset_sec = 0;//3600 summer time
+int		GMT = 9;
+bool	connect_wifi	= false;
 
+//SD
+bool	connect_SD		= false;
+
+//bluetooth
+bool	connect_BT		= false;
 
 //clock
 int now_hour=0,now_minute=0,now_second=0,now_day=0,now_year=0;
@@ -24,3 +29,38 @@ unsigned long prev_ms=0,get_time_ms=0;
 unsigned long now_ms=millis();
 unsigned long sec_period =			1000;
 unsigned long update_cycle_time =	60000;
+
+word convert_CtoB(char A){
+	if (A == '0')
+	return 0;
+	else if(A=='1')
+	return 1;
+	else if(A=='2')
+	return 2;
+	else if(A=='3')
+	return 3;
+	else if(A=='4')
+	return 4;
+	else if(A=='5')
+	return 5;
+	else if(A=='6')
+	return 6;
+	else if(A=='7')
+	return 7;
+	else if(A=='8')
+	return 8;
+	else if(A=='9')
+	return 9;
+	else if(A=='A')
+	return 10;
+	else if(A=='B')
+	return 11;
+	else if(A=='C')
+	return 12;
+	else if(A=='D')
+	return 13;
+	else if(A=='E')
+	return 14;
+	else if(A=='F')
+	return 15;
+}

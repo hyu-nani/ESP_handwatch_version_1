@@ -1,9 +1,12 @@
 
 #define SD_CS_Clr()  digitalWrite(SD_CS,LOW)
 #define SD_CS_Set()  digitalWrite(SD_CS,HIGH)
-
+#define Image_width 160
+#define Image_hight 80
 File dataFile;
 
+unsigned short load_image[Image_hight][Image_width] = {0};
+	
 void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
     
     Serial.printf("Listing directory: %s\n", dirname);
@@ -67,7 +70,53 @@ void readFile(fs::FS &fs, const char * path){
     }
     file.close();
 }
-
+void loadImage(fs::FS &fs, const char * path){
+	Serial.printf("loading image file: %s\n", path);
+	File file = fs.open(path);
+	if(!file){
+		Serial.println("Failed to open file for reading");
+		return;
+	}
+	int i=0,ix=0,iy=0;
+	unsigned short A,B,C,D;
+	char code[7];
+	word color_data;
+	while(file.available()){
+		//Serial.write(file.read());
+		//Serial.write('\n');
+		code[i] = char(file.read());
+		i++;
+		if(i==8)
+		{
+			i=0;
+			A = convert_CtoB(code[3]);
+			B = convert_CtoB(code[4]);
+			C = convert_CtoB(code[5]);
+			D = convert_CtoB(code[6]);
+			A << 12;
+			B << 8;
+			C << 4;
+			color_data = A+B+C+D;
+			load_image[iy][ix] = color_data;	
+			ix++;
+			if (ix>Image_width){
+				ix=0;
+				iy++;		
+			}
+		}
+	}
+	file.close();
+	ix=0;iy=0;
+	Serial.println("done!");
+	for(iy=0;iy<80;iy++)
+	{
+		for(ix=0;ix<160;ix++){
+			Serial.write(load_image[iy][ix]);	
+		}
+	}
+	Serial.println("done!");
+	//Serial.println(code);
+}
 void writeFile(fs::FS &fs, const char * path, const char * message){
     Serial.printf("Writing file: %s\n", path);
     File file = fs.open(path, FILE_WRITE);
@@ -168,8 +217,10 @@ void SD_init()
 	SD_CS_Clr(); //active sd
 	if(!SD.begin(SD_CS)){
 		Serial.println("Card Mount Failed");
+		connect_SD == false;
 		return;
 	}
+	connect_SD = true;
 	cardType = SD.cardType();
 	
 	if(cardType == CARD_NONE){

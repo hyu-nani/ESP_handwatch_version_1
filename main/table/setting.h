@@ -189,6 +189,14 @@ void table_setmode_loop(){ //setting loop
 			else if (cursor_y == 40&&option_page==1&&option_active == true)		//SDcard
 			{
 				SD_CS_Clr();
+				SD.end();
+				delay(100);
+				if(!SD.begin(SD_CS)){
+					Serial.println("Card Mount Failed");
+					connect_SD = false;
+				}
+				else
+					connect_SD = true;
 				cardType = SD.cardType();
 				cardSize = SD.totalBytes() / (1024 * 1024);
 				cardUse =  SD.usedBytes() / (1024 * 1024);
@@ -220,6 +228,7 @@ void table_setmode_loop(){ //setting loop
 					table_print(20,60,"Press middle button..",BLACK,1);
 					table_set_frame(0,0,160,80,frame_round);
 					print_display(display_x,display_y);
+					loadImage(SD, "/Background_image/Setting_image.c");
 					if(data=='M'){
 						option_active = false;
 						goto reset;
