@@ -78,44 +78,38 @@ void loadImage(fs::FS &fs, const char * path){
 		return;
 	}
 	int i=0,ix=0,iy=0;
-	unsigned short A,B,C,D;
-	char code[7];
+	word A,B,C,D;
+	char code;
 	word color_data;
-	while(file.available()){
+	while(file.available())
+	{
 		//Serial.write(file.read());
 		//Serial.write('\n');
-		code[i] = char(file.read());
-		i++;
-		if(i==8)
+		code = char(file.read());
+		if(code == '0')
 		{
-			i=0;
-			A = convert_CtoB(code[3]);
-			B = convert_CtoB(code[4]);
-			C = convert_CtoB(code[5]);
-			D = convert_CtoB(code[6]);
-			A << 12;
-			B << 8;
-			C << 4;
-			color_data = A+B+C+D;
-			load_image[iy][ix] = color_data;	
-			ix++;
-			if (ix>Image_width){
-				ix=0;
-				iy++;		
+			if(char(file.read()) == 'x')
+			{
+				A = convert_CtoB(char(file.read())) << 12;
+				B = convert_CtoB(char(file.read())) << 8;
+				C = convert_CtoB(char(file.read())) << 4;
+				D = convert_CtoB(char(file.read()));
+				load_image[iy][ix] = A+B+C+D;
+				ix++;
+				if(ix >= Image_width){
+					iy++;
+					ix=0;
+				}
 			}
+		}
+		else if(code == '/'||code == '[') //주석 제거 remove //
+		{
+			for(int j=0;j<5;j++)
+				file.read();
 		}
 	}
 	file.close();
-	ix=0;iy=0;
-	Serial.println("done!");
-	for(iy=0;iy<80;iy++)
-	{
-		for(ix=0;ix<160;ix++){
-			Serial.write(load_image[iy][ix]);	
-		}
-	}
-	Serial.println("done!");
-	//Serial.println(code);
+	Serial.println("done!");W
 }
 void writeFile(fs::FS &fs, const char * path, const char * message){
     Serial.printf("Writing file: %s\n", path);

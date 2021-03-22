@@ -18,6 +18,7 @@ bool	connect_wifi	= false;
 //SD
 bool	connect_SD		= false;
 
+	
 //bluetooth
 bool	connect_BT		= false;
 
@@ -31,36 +32,39 @@ unsigned long sec_period =			1000;
 unsigned long update_cycle_time =	60000;
 
 word convert_CtoB(char A){
+	unsigned short B=16;
 	if (A == '0')
-	return 0;
+	B = 0;
 	else if(A=='1')
-	return 1;
+	B = 1;
 	else if(A=='2')
-	return 2;
+	B = 2;
 	else if(A=='3')
-	return 3;
+	B = 3;
 	else if(A=='4')
-	return 4;
+	B = 4;
 	else if(A=='5')
-	return 5;
+	B = 5;
 	else if(A=='6')
-	return 6;
+	B = 6;
 	else if(A=='7')
-	return 7;
+	B = 7;
 	else if(A=='8')
-	return 8;
+	B = 8;
 	else if(A=='9')
-	return 9;
+	B = 9;
 	else if(A=='A')
-	return 10;
+	B = 10;
 	else if(A=='B')
-	return 11;
+	B = 11;
 	else if(A=='C')
-	return 12;
+	B = 12;
 	else if(A=='D')
-	return 13;
+	B = 13;
 	else if(A=='E')
-	return 14;
+	B = 14;
 	else if(A=='F')
-	return 15;
+	B = 15;
+	if(B != 16)
+	return B;
 }

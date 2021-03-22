@@ -123,7 +123,19 @@ void table_set_background(word x, word y ,word frame_size_w, word frame_size_h,w
 		}
 	}
 }
-
+void loadTableSetBackground(word x, word y ,word frame_size_w, word frame_size_h)
+{
+	u16 i,j;
+	int k=0;
+	for(i=y;i<y+frame_size_h;i++)
+	{
+		for(j=x;j<x+frame_size_w;j++)
+		{
+			display_table[i][j] = load_image[i][j];
+			k++;
+		}
+	}
+}
 //PAGE
 #include "health.h"
 #include "motion.h"

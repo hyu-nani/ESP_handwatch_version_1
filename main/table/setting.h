@@ -200,12 +200,15 @@ void table_setmode_loop(){ //setting loop
 				cardType = SD.cardType();
 				cardSize = SD.totalBytes() / (1024 * 1024);
 				cardUse =  SD.usedBytes() / (1024 * 1024);
+				loadImage(SD, "/Background_image/Setting_image.c");
+				loadTableSetBackground(0,0,160,80);
 				SD_CS_Set();
 				while (true)
 				{
 					delay(10);
 					data = swcheck();
-					table_fill_block(1,WHITE);				  //
+					//table_fill_block(1,WHITE);				  //
+					loadTableSetBackground(0,0,160,80);
 					table_print(10,10,"======= SD card =======",BLUE,1);
 					int cx=20, cy=20;
 					if(cardType == CARD_MMC){
@@ -228,7 +231,6 @@ void table_setmode_loop(){ //setting loop
 					table_print(20,60,"Press middle button..",BLACK,1);
 					table_set_frame(0,0,160,80,frame_round);
 					print_display(display_x,display_y);
-					loadImage(SD, "/Background_image/Setting_image.c");
 					if(data=='M'){
 						option_active = false;
 						goto reset;
