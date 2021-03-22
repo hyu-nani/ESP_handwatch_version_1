@@ -1,6 +1,7 @@
 void table_set_setting() //pop-up image
 {
-	table_set_background(0,80,160,80,setting);
+	loadImage(SD,load_image, "/Background_image/setting_background.c");
+	loadTableSetBackground(0,80,160,80,load_image);
 	//
 	
 	//
@@ -109,10 +110,10 @@ void table_setmode_loop(){ //setting loop
 			
 			if (cursor_y == 20&&option_page==1&&option_active == true)			//wifi
 			{
-			  table_fill_block(1,WHITE);
-			  table_print(10,35,"====== SCANNING.. ======",BLUE,1);
-			  table_set_frame(0,0,160,80,frame_round);
-			  print_display(display_x,display_y);
+				table_fill_block(1,WHITE);
+				table_print(10,35,"====== SCANNING.. ======",BLUE,1);
+				table_set_frame(0,0,160,80,frame_round);
+				print_display(display_x,display_y);
 				WiFi_scan();
 				int select_wifi=0;
 				while (true)
@@ -200,15 +201,14 @@ void table_setmode_loop(){ //setting loop
 				cardType = SD.cardType();
 				cardSize = SD.totalBytes() / (1024 * 1024);
 				cardUse =  SD.usedBytes() / (1024 * 1024);
-				loadImage(SD, "/Background_image/Setting_image.c");
-				loadTableSetBackground(0,0,160,80);
+				table_fill_block(1,WHITE);
 				SD_CS_Set();
 				while (true)
 				{
 					delay(10);
 					data = swcheck();
 					//table_fill_block(1,WHITE);				  //
-					loadTableSetBackground(0,0,160,80);
+					table_fill_block(1,WHITE);
 					table_print(10,10,"======= SD card =======",BLUE,1);
 					int cx=20, cy=20;
 					if(cardType == CARD_MMC){

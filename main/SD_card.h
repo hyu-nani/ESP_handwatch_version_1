@@ -1,12 +1,9 @@
 
 #define SD_CS_Clr()  digitalWrite(SD_CS,LOW)
 #define SD_CS_Set()  digitalWrite(SD_CS,HIGH)
-#define Image_width 160
-#define Image_hight 80
+
 File dataFile;
 
-unsigned short load_image[Image_hight][Image_width] = {0};
-	
 void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
     
     Serial.printf("Listing directory: %s\n", dirname);
@@ -70,14 +67,15 @@ void readFile(fs::FS &fs, const char * path){
     }
     file.close();
 }
-void loadImage(fs::FS &fs, const char * path){
+void loadImage(fs::FS &fs, unsigned short array[] ,const char * path){
+	SD_CS_Clr();
 	Serial.printf("loading image file: %s\n", path);
 	File file = fs.open(path);
 	if(!file){
 		Serial.println("Failed to open file for reading");
 		return;
 	}
-	int i=0,ix=0,iy=0;
+	int k=0;
 	word A,B,C,D;
 	char code;
 	word color_data;
@@ -94,12 +92,8 @@ void loadImage(fs::FS &fs, const char * path){
 				B = convert_CtoB(char(file.read())) << 8;
 				C = convert_CtoB(char(file.read())) << 4;
 				D = convert_CtoB(char(file.read()));
-				load_image[iy][ix] = A+B+C+D;
-				ix++;
-				if(ix >= Image_width){
-					iy++;
-					ix=0;
-				}
+				array[k] = A+B+C+D;
+				k++;
 			}
 		}
 		else if(code == '/'||code == '[') //주석 제거 remove //
@@ -109,7 +103,8 @@ void loadImage(fs::FS &fs, const char * path){
 		}
 	}
 	file.close();
-	Serial.println("done!");W
+	Serial.println("done!");
+	SD_CS_Set();
 }
 void writeFile(fs::FS &fs, const char * path, const char * message){
     Serial.printf("Writing file: %s\n", path);
@@ -250,6 +245,9 @@ void SD_init()
 	cardUse =  SD.usedBytes() / (1024 * 1024);
 	Serial.printf("Total space: %lluMB\n", SD.totalBytes() / (1024 * 1024));
 	Serial.printf("Used space: %lluMB\n",cardUse);
+	
+	loadImage(SD,load_image, "/Background_image/health_background.c");
+	
 	SD_CS_Set();
 }
 

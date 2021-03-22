@@ -85,14 +85,11 @@ void table_set_frame(word x, word y ,word frame_size_w, word frame_size_h,const 
 {
 	u16 i,j;
 	int k=0;
-	uint8_t line;
-	word color;
 	for(i=y;i<y+frame_size_h;i++)
 	{
 		for(j=x;j<x+frame_size_w;j++)
 		{
-			color = color_sub(display_table[i][j],pgm_read_word(A+k));
-			display_table[i][j] = color;
+			display_table[i][j] = color_sub(display_table[i][j],pgm_read_word(A+k));
 			k++;
 		}
 	}
@@ -123,7 +120,8 @@ void table_set_background(word x, word y ,word frame_size_w, word frame_size_h,w
 		}
 	}
 }
-void loadTableSetBackground(word x, word y ,word frame_size_w, word frame_size_h)
+
+void loadTableSetBackground(word x, word y ,word frame_size_w, word frame_size_h, unsigned short array[])
 {
 	u16 i,j;
 	int k=0;
@@ -131,7 +129,7 @@ void loadTableSetBackground(word x, word y ,word frame_size_w, word frame_size_h
 	{
 		for(j=x;j<x+frame_size_w;j++)
 		{
-			display_table[i][j] = load_image[i][j];
+			display_table[i][j] = array[k];
 			k++;
 		}
 	}

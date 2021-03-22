@@ -17,7 +17,7 @@ void main_loop(){
 		{
 			Clock_play();
 			print_display(display_x,display_y);
-			delay(100);
+			delay(1);
 			data = swcheck();
 			if(data == 'D')
 			{
@@ -51,7 +51,7 @@ void main_loop(){
 		while(true)
 		{
 			print_display(display_x,display_y);
-			delay(10);
+			delay(1);
 			data = swcheck();
 			if(data == 'D')
 			{
@@ -63,7 +63,6 @@ void main_loop(){
 				}
 				table_set_temp();
 				mode=3;
-				delay(300);
 				for(int i = -2 ;i<=pg_change_num ;i++)
 				{
 					display_y+=(9*i*i)/400+1;
@@ -81,7 +80,6 @@ void main_loop(){
 				}
 				table_set_motion();
 				mode=7;
-				delay(300);
 				for(int i =-2 ;i<=pg_change_num ;i++)
 				{
 					display_y+=(9*i*i)/400+1;
@@ -114,7 +112,7 @@ void main_loop(){
 		while(true)
 		{
 			print_display(display_x,display_y);
-			delay(10);
+			delay(1);
 			data = swcheck();
 			if(data == 'D')
 			{
@@ -126,7 +124,6 @@ void main_loop(){
 				}
 				table_set_setting();
 				mode=5;
-				delay(300);
 				for(int i = -2 ;i<=pg_change_num ;i++)
 				{
 					display_y+=(9*i*i)/400+1;
@@ -144,7 +141,6 @@ void main_loop(){
 				}
 				table_set_health();
 				mode=1;
-				delay(300);
 				for(int i =-2 ;i<=pg_change_num ;i++)
 				{
 					display_y+=(9*i*i)/400+1;
@@ -179,7 +175,7 @@ void main_loop(){
 		while(true)
 		{
 			print_display(display_x,display_y);
-			delay(10);
+			delay(1);
 			data = swcheck();
 			if(data == 'D'){
 				Clock_set();
@@ -190,7 +186,6 @@ void main_loop(){
 				}
 				table_set_motion();
 				mode=7;
-				delay(300);
 				for(int i = -2 ;i<=pg_change_num ;i++)
 				{
 					display_y+=(9*i*i)/400+1;
@@ -208,7 +203,6 @@ void main_loop(){
 				}
 				table_set_temp();
 				mode=3;
-				delay(300);
 				for(int i =-2 ;i<=pg_change_num ;i++)
 				{
 					display_y+=(9*i*i)/400+1;
@@ -243,7 +237,7 @@ void main_loop(){
 		while(true)
 		{
 			print_display(display_x,display_y);
-			delay(10);
+			delay(1);
 			data = swcheck();
 			if(data == 'D')
 			{
@@ -255,7 +249,6 @@ void main_loop(){
 				}
 				table_set_health();
 				mode=1;
-				delay(300);
 				for(int i = -2 ;i<=pg_change_num ;i++)
 				{
 					display_y+=(9*i*i)/400+1;
@@ -273,7 +266,6 @@ void main_loop(){
 				}
 				table_set_setting();
 				mode=5;
-				delay(300);
 				for(int i =-2 ;i<=pg_change_num ;i++)
 				{
 					display_y+=(9*i*i)/400+1;

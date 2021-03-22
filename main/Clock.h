@@ -1,3 +1,8 @@
+void Clock_set();
+int H_x = 10,H_y = 10;
+int M_x = 60,M_y = 10;
+int S_x = 130,S_y = 50;
+int D_x = 120,D_y = 20;
 
 uint16_t CLOCK_BG_color = BLACK;
 /*
@@ -27,12 +32,10 @@ void Clock_update()
 		now_year = timeinfo.tm_year + 1900;
 		weekday = timeinfo.tm_wday +1;
 	}  
+	else{
+		
+	}
 }
-void Clock_set();
-int H_x = 10,H_y = 10;
-int M_x = 60,M_y = 10;
-int S_x = 130,S_y = 50;
-int D_x = 120,D_y = 20;
 
 void Clock_play()
 {

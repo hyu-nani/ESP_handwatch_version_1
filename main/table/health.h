@@ -1,6 +1,7 @@
 ﻿void table_set_health()
 {
-	table_set_background(0,80,160,80,bio);
+	loadImage(SD,load_image, "/Background_image/health_background.c");
+	loadTableSetBackground(0,80,160,80,load_image);
 	table_set_frame(0,80,160,80,frame_popup);	
-
+	Serial.println("set");
 }
