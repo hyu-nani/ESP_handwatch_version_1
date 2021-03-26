@@ -1,9 +1,10 @@
 /*
  * EEPROM_RW.h
- *
+ *  EEPROM 에 관한 모든 정보 기입
  * Created: 2021-03-19 오후 9:49:07
  *  Author: cube_
  */ 
+ 
 void EEPROM_Data_Save(){
 	EEPROM.write(1,backlight);
 	EEPROM.write(2,sec_period);
