@@ -401,7 +401,7 @@ void table_setmode_loop(){ //setting loop
 					table_Rect(20,35,120,10,GREEN);
 					table_fill_Rect(20,35,val,10,GREEN);
 					table_set_frame(0,0,160,80,frame_round);
-					table_print(70,60,backlight,BLUE,1);
+					table_print(70,60,backlight-1,BLUE,1);
 					print_display(display_x,display_y);
 					data = swcheck_no_stop();
 					LCD_smooth_on(1,backlight);
@@ -411,13 +411,13 @@ void table_setmode_loop(){ //setting loop
 						data = swcheck();
 						goto reset;
 					}
-					else if(data == 'U'&&backlight<255){
-						backlight+=10;
-					}
-					else if(data == 'D'&&backlight>1){
-						backlight-=10;
-					}
-					else{}
+					else if(data == 'U'&&backlight<250)
+					backlight+=10;
+					else if(data == 'D'&&backlight>1)
+					backlight-=10;
+					if(backlight%10!=1)
+					backlight--;
+						
 				}
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
