@@ -8,7 +8,7 @@
 int			mode =	0;
 int			backlight =						200;
 const int	pg_change_num =			20;
-
+int			battery_value = 0;
 
 
 	

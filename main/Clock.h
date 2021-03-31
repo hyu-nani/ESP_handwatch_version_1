@@ -48,7 +48,17 @@ void Clock_play()
 			now_second =0;
 			now_minute++;
 		}
+		if(now_minute == 60){
+			now_minute = 0;
+			now_hour++;
+		}
+		if (now_hour == 24){
+			now_hour = 0;
+			now_day++;
+		}
 		Clock_set();
+		battery_value = analogRead(BAT_voltage);
+		battery_value = map(battery_value,0,4000,0,330);
 	}
 	if(now_ms - get_time_ms > update_cycle_time){
 		Clock_update();
@@ -62,4 +72,5 @@ void Clock_set()
 	table_print_SevenSegNumFont32X50(5,10,now_hour,BLUE);
 	table_print_SevenSegNumFont32X50(90,10,now_minute,GREEN);
 	table_print(70,60,now_second,RED,2);
+	table_print(20,60,2*battery_value,CYAN,1);
 }

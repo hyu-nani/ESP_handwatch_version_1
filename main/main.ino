@@ -63,6 +63,7 @@ void setup() {
 		LCD_image(0,0,LCD_W,LCD_H,loading[i]);
 	}
 	//WiFi_begin();
+	watch_init();
 	SD_init();
 	initial_table();
 	for (int i=0 ; i< 29 ;i++)
