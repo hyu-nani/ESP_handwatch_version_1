@@ -28,6 +28,7 @@ void main_loop(){
 					display_y+=(9*i*i)/400+1;
 					print_display(display_x,display_y);
 				}
+				table_fill_block(1,BLACK);
 				break;
 			}
 			else if (data == 'U')
@@ -39,6 +40,7 @@ void main_loop(){
 					display_y+=(9*i*i)/400+1;
 					print_display(display_x,display_y);
 				}
+				table_fill_block(1,BLACK);
 				break;
 			}
 		}
@@ -55,7 +57,7 @@ void main_loop(){
 			data = swcheck();
 			if(data == 'D')
 			{
-				Clock_set();
+				table_fill_block(1,BLACK);
 				for(int i = -pg_change_num ;i<=2 ;i++)
 				{
 					display_y-=(9*i*i)/400+1;
@@ -72,7 +74,7 @@ void main_loop(){
 			}
 			else if (data == 'U')
 			{
-				Clock_set();
+				table_fill_block(1,BLACK);
 				for(int i = -pg_change_num ;i<=2 ;i++)
 				{
 					display_y-=(9*i*i)/400+1;
@@ -116,7 +118,7 @@ void main_loop(){
 			data = swcheck();
 			if(data == 'D')
 			{
-				Clock_set();
+				table_fill_block(1,BLACK);
 				for(int i = -pg_change_num ;i<=2 ;i++)
 				{
 					display_y-=(9*i*i)/400+1;
@@ -133,7 +135,7 @@ void main_loop(){
 			}
 			else if (data == 'U')
 			{
-				Clock_set();
+				table_fill_block(1,BLACK);
 				for(int i = -pg_change_num ;i<=2 ;i++)
 				{
 					display_y-=(9*i*i)/400+1;
@@ -178,7 +180,7 @@ void main_loop(){
 			delay(1);
 			data = swcheck();
 			if(data == 'D'){
-				Clock_set();
+				table_fill_block(1,BLACK);
 				for(int i = -pg_change_num ;i<=2 ;i++)
 				{
 					display_y-=(9*i*i)/400+1;
@@ -195,7 +197,7 @@ void main_loop(){
 			}
 			else if (data == 'U')
 			{
-				Clock_set();
+				table_fill_block(1,BLACK);
 				for(int i = -pg_change_num ;i<=2 ;i++)
 				{
 					display_y-=(9*i*i)/400+1;
@@ -241,7 +243,7 @@ void main_loop(){
 			data = swcheck();
 			if(data == 'D')
 			{
-				Clock_set();
+				table_fill_block(1,BLACK);
 				for(int i = -pg_change_num ;i<=2 ;i++)
 				{
 					display_y-=(9*i*i)/400+1;
@@ -258,7 +260,7 @@ void main_loop(){
 			}
 			else if (data == 'U')
 			{
-				Clock_set();
+				table_fill_block(1,BLACK);
 				for(int i = -pg_change_num ;i<=2 ;i++)
 				{
 					display_y-=(9*i*i)/400+1;

@@ -36,7 +36,7 @@ void watch_pinset()
 	pinMode(ADXL_CS,OUTPUT);
 	pinMode(SD_CS,OUTPUT);
 	pinMode(SCK,OUTPUT);
-	
+	pinMode(charge,INPUT_PULLUP);
 	//initialization
 	digitalWrite(SD_CS,HIGH);
 	digitalWrite(ADXL_CS,HIGH);
@@ -48,6 +48,9 @@ void watch_pinset()
 }
 void watch_init()
 {
-	battery_value = analogRead(BAT_voltage);
-	
+	battery_value	=	analogRead(BAT_voltage);
+	if(digitalRead(charge)==0)
+	charge_state = true;
+	else
+	charge_state = false;
 }

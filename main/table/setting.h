@@ -1,9 +1,9 @@
 void table_set_setting() //pop-up image
 {
-	loadImage(SD,load_image, "/Background_image/setting_background.c");
-	loadTableSetBackground(0,80,160,80,load_image);
+	//loadImage(SD,load_image, "/Background_image/setting_background.c");
+	//loadTableSetBackground(0,80,160,80,load_image);
 	//
-	
+	table_image(0,80,160,80,set_image);
 	//
 	table_set_frame(0,80,160,80,frame_popup);	
 }
@@ -412,10 +412,10 @@ void table_setmode_loop(){ //setting loop
 						goto reset;
 					}
 					else if(data == 'U'&&backlight<255){
-						backlight++;
+						backlight+=10;
 					}
 					else if(data == 'D'&&backlight>1){
-						backlight--;
+						backlight-=10;
 					}
 					else{}
 				}

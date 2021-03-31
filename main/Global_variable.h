@@ -6,10 +6,11 @@
  */ 
 //main
 int			mode =	0;
-int			backlight =						200;
-const int	pg_change_num =			20;
-int			battery_value = 0;
-
+int			backlight =				201;
+const int	pg_change_num	=		20;
+float		battery_value	=		0;
+float		batteryVolt		=		0;
+bool		charge_state	=		false;
 
 	
 //wifi

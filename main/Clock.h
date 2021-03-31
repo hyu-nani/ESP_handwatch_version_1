@@ -57,8 +57,12 @@ void Clock_play()
 			now_day++;
 		}
 		Clock_set();
-		battery_value = analogRead(BAT_voltage);
-		battery_value = map(battery_value,0,4000,0,330);
+		batteryVolt = 200*3.635*analogRead(BAT_voltage)/4095;
+		//battery_value	=	analogRead(BAT_voltage);
+		if(digitalRead(charge)==0)
+		charge_state = true;
+		else
+		charge_state = false;
 	}
 	if(now_ms - get_time_ms > update_cycle_time){
 		Clock_update();
@@ -72,5 +76,17 @@ void Clock_set()
 	table_print_SevenSegNumFont32X50(5,10,now_hour,BLUE);
 	table_print_SevenSegNumFont32X50(90,10,now_minute,GREEN);
 	table_print(70,60,now_second,RED,2);
-	table_print(20,60,2*battery_value,CYAN,1);
+	table_print(10,70,batteryVolt/100,CYAN,1);
+	table_print(16,70,".",CYAN,1);
+	if(batteryVolt-100*int(batteryVolt/100)<10){
+		table_print(22,70,"0",CYAN,1);
+		table_print(28,70,batteryVolt-100*int(batteryVolt/100),CYAN,1);
+	}
+	else
+	table_print(22,70,batteryVolt-100*int(batteryVolt/100),CYAN,1);
+	table_print(34,70,"V",CYAN,1);
+	if(charge_state == true)
+	table_print(100,70,"charge",YELLOW,1);
+	else
+	table_print(100,70,"NOT charge",WHITE,1);
 }

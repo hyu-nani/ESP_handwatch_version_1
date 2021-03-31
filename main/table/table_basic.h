@@ -21,15 +21,16 @@ void table_fill_block(int num,u16 color){
 	}
 }
 
-void table_image(u16 x0,u16 y0,u16 x1,u16 y1 ,const short unsigned A[])
+void table_image(u16 x,u16 y,u16 w,u16 h ,const short unsigned A[])
 {
 	u16 i,j;
 	int k=0;
-	for(i=x0;i<x1;i++)
-	{
-		for(j=y0;j<y1;j++)
-		{
-			display_table[j][i] = (word)pgm_read_word(A+k);
+	if((x >= table_w) || (y >= table_h)) return;
+	if((x + w - 1) >= table_w)  w = table_w  - x;
+	if((y + h - 1) >= table_h) h = table_h - y;
+	for(i=y; i<y+h; i++) {
+		for(j=x; j<x+w; j++) {
+			display_table[i][j] = (word)pgm_read_word(A+k);
 			k++;
 		}
 	}
