@@ -217,10 +217,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="image_source" />
+    <Folder Include="sensor" />
     <Folder Include="table" />
     <Folder Include="__vm\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="APDS9960.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="bluetooth.h">
       <SubType>compile</SubType>
     </Compile>
@@ -243,6 +247,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main_loop.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="MAX30102.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="table\table.h">

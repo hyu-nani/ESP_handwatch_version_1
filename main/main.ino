@@ -41,17 +41,24 @@ word data;
 #include "LCD_basic.h"
 #include "WiFi_ready.h"
 #include "bluetooth.h"
+#include "MAX30102.h"
+#include "APDS9960.h"
+
+#include "DFRobot_SHT20.h"
+DFRobot_SHT20    sht20;
+
 #include "table/table.h"
 #include "Clock.h"
 #include "main_loop.h"
 
 void setup() {
+	Wire.begin();
 	Serial.begin(115200);
 	EEPROM.begin(20);
 	EEPROM_Data_Read();
 	SPIClass(VSPI);
 	SPI.begin();		//SPI begin
-	Wire.begin();	//i2c begin
+	//Wire.begin();	//i2c begin
 	watch_pinset();
 	mySPISettings = SPISettings(60000000, MSBFIRST, SPI_MODE0); //ESP speed /4
 	LCD_Init();

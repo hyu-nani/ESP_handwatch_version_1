@@ -20,6 +20,11 @@
 //#define SCL			  	22
 //#define SDA			  	21
 
+#define sensorOn()	digitalWrite(sensor_power,HIGH);
+#define sensorOff()	digitalWrite(sensor_power,LOW);
+#define deviceOn()	digitalWrite(Power,HIGH);
+#define deviceOff()	digitalWrite(Power,LOW);
+
 void watch_pinset()
 {
 	pinMode(SW_U,INPUT_PULLUP);
@@ -37,18 +42,21 @@ void watch_pinset()
 	pinMode(SD_CS,OUTPUT);
 	pinMode(SCK,OUTPUT);
 	pinMode(charge,INPUT_PULLUP);
+	pinMode(sensor_power,OUTPUT);
 	//initialization
 	digitalWrite(SD_CS,HIGH);
 	digitalWrite(ADXL_CS,HIGH);
 	digitalWrite(TFT_CS,HIGH);
-	digitalWrite(Power,HIGH);	//if you want to off the device. then change HIGH to LOW a this pin 
+	deviceOn();
 	digitalWrite(EN2,LOW);
+	digitalWrite(sensor_power,LOW);
 	ledcSetup(0, 5000, 8);
 	ledcAttachPin(TFT_LIGHT,0); //TFT_light 0 chenal
 }
 void watch_init()
 {
-	battery_value	=	analogRead(BAT_voltage);
+	batteryVolt = 200*3.635*analogRead(BAT_voltage)/4095;
+	//battery_value	=	analogRead(BAT_voltage);
 	if(digitalRead(charge)==0)
 	charge_state = true;
 	else

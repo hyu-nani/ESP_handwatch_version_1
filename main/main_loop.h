@@ -6,6 +6,7 @@
  */ 
 
 //loop main
+void watchBasicTask();
 void main_loop(){
 	//========================================================== default clock
 	while(mode == 0)
@@ -16,6 +17,7 @@ void main_loop(){
 		while(true)
 		{
 			Clock_play();
+			watchBasicTask();
 			print_display(display_x,display_y);
 			delay(1);
 			data = swcheck();
@@ -288,4 +290,12 @@ void main_loop(){
 			}
 		}
 	}
+}
+void watchBasicTask(){
+	batteryVolt = 200*3.635*analogRead(BAT_voltage)/4095;
+	batteryPercent = map(batteryVolt,320,410,0,100);
+	if(digitalRead(charge)==0)
+	charge_state = true;
+	else
+	charge_state = false;
 }

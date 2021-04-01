@@ -8,23 +8,27 @@
 int			mode =	0;
 int			backlight =				201;
 const int	pg_change_num	=		20;
-float		battery_value	=		0;
-float		batteryVolt		=		0;
+float		batteryVolt		=		370;
+int			batteryPercent	=		50;
 bool		charge_state	=		false;
 
 	
 //wifi
-int		daylightOffset_sec = 0;//3600 summer time
-int		GMT = 9;
-bool	connect_wifi	= false;
+int			daylightOffset_sec	=	0;//3600 summer time
+int			GMT					=	9;
+bool		connect_wifi		=	false;
 
 //SD
-bool	connect_SD		= false;
-#define Image_width 160
-#define Image_hight 80
-unsigned short load_image[Image_hight*Image_width] = {0};
+bool			connect_SD		=		false;
+#define			Image_width		160
+#define			Image_hight		80
+unsigned short	load_image[Image_hight*Image_width] = {0};
 //bluetooth
-bool	connect_BT		= false;
+bool			connect_BT		=		false;
+
+//SHT20
+float temp;
+float humd;
 
 //clock
 int now_hour=0,now_minute=0,now_second=0,now_day=0,now_year=0;
@@ -32,7 +36,7 @@ int month,weekday;
 int old_hour=0,old_minute=0,old_day=0,old_year=0;
 unsigned long prev_ms=0,get_time_ms=0;
 unsigned long now_ms=millis();
-unsigned long sec_period =			1000;
+unsigned long sec_period		=	1000;
 unsigned long update_cycle_time =	60000;
 
 word convert_CtoB(char A){

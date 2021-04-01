@@ -12,7 +12,7 @@ int cursor_x=10,cursor_y=20;
 int option_page=1;
 bool option_active = false;
 void menu_select();
-
+void deviceTurnOff();
 void table_setmode(){ //first image set
 	table_set_background(0,0,160,80,WHITE);
 	table_print(cursor_x,cursor_y,"E>",RED,1);
@@ -51,7 +51,7 @@ void table_setmode_loop(){ //setting loop
 		}
 		else if(option_page==3){
 			table_print(10,10,"=======SETTING/3=======",BLUE,1);
-			table_print(20,20," set",BLACK,1);
+			table_print(20,20," SHT20 test",BLACK,1);
 			table_print(20,30," hleath mode",BLACK,1);
 			table_print(20,40," time package",BLACK,1);
 			table_print(20,50," >> NEXT Page",BLACK,1);
@@ -98,7 +98,7 @@ void table_setmode_loop(){ //setting loop
 			else if(cursor_y == 50&&option_page<5){ //next page
 				option_page++;
 				cursor_x = 10;
-				cursor_y = 20;
+				//cursor_y = 20;
 			}
 			else{
 				option_active = true;
@@ -169,7 +169,7 @@ void table_setmode_loop(){ //setting loop
 						Serial.println("CONNECTED");
 						after_connect();
 						delay(500);
-						cursor_y=20;
+						//cursor_y=20;
 						option_active = false;
 						goto reset;
 					}
@@ -423,14 +423,45 @@ void table_setmode_loop(){ //setting loop
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 40&&option_page==2&&option_active == true)		//
 			{
-			  while(true)
-			  {
-			    
-			  }
+			  
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 20&&option_page==3&&option_active == true)
 			{
+				sensorOn();
+				delay(100);
+				sht20.initSHT20();   // Init SHT20 Sensor
+				delay(100);
+				sht20.checkSHT20();  // Check SHT20 Sensor
+				while(true)
+				{
+					data = swcheck();
+					humd = sht20.readHumidity();                  // Read Humidity
+					temp = sht20.readTemperature();               // Read Temperature
+					Serial.print("Time:");
+					Serial.print(millis());
+					Serial.print(" Temperature:");
+					Serial.print(temp, 1);
+					Serial.print("C");
+					Serial.print(" Humidity:");
+					Serial.print(humd, 1);
+					Serial.print("%");
+					Serial.println();
+					table_fill_block(1,WHITE);
+					table_print(10,10,"====== SHT20 test ======",BLUE,1);
+					table_print(20,20,"TEMP:",BLACK,2);
+					table_print(20,40,"HUMD:",BLACK,2);
+					table_print(90,20,temp,BLUE,2);
+					table_print(90,40,humd,GBLUE,2);
+					table_set_frame(0,0,160,80,frame_round);
+					print_display(display_x,display_y);
+					delay(100);
+					if(data == 'M'){
+						option_active = false;
+						sensorOff();
+						goto reset;
+					}
+				}
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 30&&option_page==3&&option_active == true)
@@ -463,18 +494,24 @@ void table_setmode_loop(){ //setting loop
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 40&&option_page==5&&option_active == true) //Turn Off Device
 			{
-				table_fill_block(1,WHITE);
-				table_print(10,35,"DEVICE TURN OFF",RED,2);
-				print_display(display_x,display_y);
-				delay(1000);
-				//Serial.disconnect();
-				//WiFi.disconnect();
-				//SD.disconnect();
+				
 				option_active = false;
-				digitalWrite(Power,LOW); //turn off
+				deviceTurnOff();
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 		}
 		print_display(display_x,display_y);
 	}
+}
+void deviceTurnOff(){
+	EEPROM_Data_Save();
+	SD.end();
+	table_fill_block(1,WHITE);
+	table_print(10,35,"DEVICE TURN OFF",RED,1);
+	table_set_frame(0,0,160,80,frame_round);
+	print_display(display_x,display_y);
+	LCD_smooth_off(100);
+	table_fill_block(1,BLACK);
+	table_print(10,35,"Press and hold, please.",BLUE,1);
+	digitalWrite(Power,LOW); //turn off
 }
