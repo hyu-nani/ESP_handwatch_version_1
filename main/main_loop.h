@@ -9,7 +9,7 @@
 void watchBasicTask();
 void main_loop(){
 	//========================================================== default clock
-	while(mode == 0)
+	if(mode == 0)
 	{ //clock
 		Clock_set();
 		print_display(display_x,display_y);
@@ -33,7 +33,7 @@ void main_loop(){
 				table_fill_block(1,BLACK);
 				break;
 			}
-			else if (data == 'U')
+			else if(data == 'U')
 			{
 				table_set_health();
 				mode = 1;
@@ -49,7 +49,7 @@ void main_loop(){
 	}
 	
 	//========================================================== health mode
-	while(mode == 1)
+	else if(mode == 1)
 	{   
 		
 		while(true)
@@ -105,12 +105,12 @@ void main_loop(){
 		}
 	}
 	//========================================================== into health
-	while(mode == 2)
+	else if(mode == 2)
 	{
 	  
 	}
 	//========================================================== temperature
-	while(mode == 3)
+	else if(mode == 3)
 	{
 		
 		while(true)
@@ -166,15 +166,15 @@ void main_loop(){
 		}
 	}
 	//========================================================== into temperature
-	while(mode == 4)
+	else if(mode == 4)
 	{
 	  while(true)
 	  {
-	    
+		
 	  }
 	}
 	//========================================================== setting pop-up
-	while(mode == 5)
+	else if(mode == 5)
 	{   
 		while(true)
 		{
@@ -229,13 +229,13 @@ void main_loop(){
 	}
 	//================================================================ into setup
 	//option
-	while (mode == 6)
+	else if(mode == 6)
 	{
 		table_setmode_loop();
 		break;
 	}
 	//================================================================ motion mode
-	while(mode == 7)
+	else if(mode == 7)
 	{
 		//initial
 		while(true)
@@ -298,4 +298,17 @@ void watchBasicTask(){
 	charge_state = true;
 	else
 	charge_state = false;
+	if (batteryVolt < 320)
+	{
+		EEPROM_Data_Save();
+		SD.end();
+		table_fill_block(1,WHITE);
+		table_print(10,35,"DEVICE TURN OFF",RED,1);
+		table_set_frame(0,0,160,80,frame_round);
+		print_display(display_x,display_y);
+		LCD_smooth_off(100);
+		table_fill_block(1,BLACK);
+		table_print(10,35,"Press and hold, please.",BLUE,1);
+		digitalWrite(Power,LOW); //turn off
+	}
 }
