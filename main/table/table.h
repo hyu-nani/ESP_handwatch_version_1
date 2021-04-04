@@ -139,3 +139,4 @@ void loadTableSetBackground(word x, word y ,word frame_size_w, word frame_size_h
 #include "motion.h"
 #include "setting.h"
 #include "temperature.h"
+#include "folder.h"

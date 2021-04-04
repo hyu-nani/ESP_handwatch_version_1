@@ -82,8 +82,8 @@ void main_loop(){
 					display_y-=(9*i*i)/400+1;
 					print_display(display_x,display_y);
 				}
-				table_set_motion();
-				mode=7;
+				table_set_folder();
+				mode=9;
 				for(int i =-2 ;i<=pg_change_num ;i++)
 				{
 					display_y+=(9*i*i)/400+1;
@@ -232,7 +232,6 @@ void main_loop(){
 	else if(mode == 6)
 	{
 		table_setmode_loop();
-		break;
 	}
 	//================================================================ motion mode
 	else if(mode == 7)
@@ -251,8 +250,8 @@ void main_loop(){
 					display_y-=(9*i*i)/400+1;
 					print_display(display_x,display_y);
 				}
-				table_set_health();
-				mode=1;
+				table_set_folder();
+				mode=9;
 				for(int i = -2 ;i<=pg_change_num ;i++)
 				{
 					display_y+=(9*i*i)/400+1;
@@ -289,6 +288,69 @@ void main_loop(){
 				break;
 			}
 		}
+	}
+	else if(mode == 8)
+	{
+		
+	}
+	//================================================================ folder mode
+	else if(mode == 9)
+	{
+		while(true)
+		{
+			print_display(display_x,display_y);
+			delay(1);
+			data = swcheck();
+			if(data == 'D'){
+				table_fill_block(1,BLACK);
+				for(int i = -pg_change_num ;i<=2 ;i++)
+				{
+					display_y-=(9*i*i)/400+1;
+					print_display(display_x,display_y);
+				}
+				table_set_health();
+				mode=1;
+				for(int i = -2 ;i<=pg_change_num ;i++)
+				{
+					display_y+=(9*i*i)/400+1;
+					print_display(display_x,display_y);
+				}
+				break;
+			}
+			else if (data == 'U')
+			{
+				table_fill_block(1,BLACK);
+				for(int i = -pg_change_num ;i<=2 ;i++)
+				{
+					display_y-=(9*i*i)/400+1;
+					print_display(display_x,display_y);
+				}
+				table_set_motion();
+				mode=7;
+				for(int i =-2 ;i<=pg_change_num ;i++)
+				{
+					display_y+=(9*i*i)/400+1;
+					print_display(display_x,display_y);
+				}
+				break;
+			}
+			else if (data == 'M')
+			{
+				table_setmode();
+				for(int i = -pg_change_num ;i<=2 ;i++)
+				{
+					display_y-=(9*i*i)/400+1;
+					print_display(display_x,display_y);
+				}
+				mode=10;
+				break;
+			}
+		}
+		
+	}
+	else if(mode == 10)
+	{
+		table_folder_loop();
 	}
 }
 void watchBasicTask(){

@@ -3,9 +3,7 @@ image folder
 */
 
 //80X160
-#include "picture.c"
-#include "logo.h"
-#include "winter.c"
+#include "folder_image.c"
 #include "loading_gif.h"
 #include "temp_image.c"
 #include "health_image.c"

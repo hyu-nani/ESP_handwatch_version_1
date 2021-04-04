@@ -252,6 +252,9 @@
     <Compile Include="MAX30102.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="table\folder.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="table\table.h">
       <SubType>compile</SubType>
     </Compile>
