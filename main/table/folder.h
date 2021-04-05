@@ -1,4 +1,4 @@
-﻿void table_set_folder()
+void table_set_folder()
 {
 	//loadImage(SD,load_image, "/Background_image/health_background.c");
 	//loadTableSetBackground(0,80,160,80,load_image);
@@ -13,9 +13,11 @@ void table_folder_loop()
 	{
 		reset:
 		
-		delay(10);
+		delay(1);
 		data = swcheck();
 		table_set_background(0,0,160,80,WHITE);
 		table_print(cursor_x,cursor_y,"E>",RED,1);
+	  table
+	  
 	}
 }
