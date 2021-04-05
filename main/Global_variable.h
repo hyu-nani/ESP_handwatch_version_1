@@ -23,7 +23,7 @@ bool			connect_SD		=		false;
 #define			Image_width		160
 #define			Image_hight		80
 unsigned short	load_image[Image_hight*Image_width] = {0};
-int*      listDirName[20];
+char*			listDirName[20];
 
 //bluetooth
 bool			connect_BT		=		false;
@@ -45,56 +45,56 @@ word convert_CtoB(char A){
 	unsigned short B=16;
 	switch(A)
 	{
-	  case  '0' :
-	    B = 0;
-	    break;
-	  case  '1' :
-	    B = 1;
-	    break;
-	  case  '2' :
-	    B = 2;
-      break;
-    case  '3' :
-      B = 3;
-      break;
-    case  '4' :
-      B = 4;
-      break;
-    case  '5' :
-      B = 5;
-      break;
-    case  '6' :
-      B = 6;
-      break;
-    case  '7' :
-      B = 7;
-      break;
-    case  '8' :
-      B = 8;
-      break;
-    case  '9' :
-      B = 9;
-      break;
-    case  'A' :
-      B =10;
-      break;
-    case  'B' :
-      B =11;
-      break;
-    case  'C' :
-      B =12;
-      break;
-    case  'D' :
-      B =13;
-      break;
-    case  'E' :
-      B =14;
-      break;
-    case  'F' :
-      B =15;
-      break;
-    default:
-      break;
+		case  '0' :
+			B = 0;
+			break;
+		case  '1' :
+			B = 1;
+			break;
+		case  '2' :
+			B = 2;
+			break;
+		case  '3' :
+			B = 3;
+			break;
+		case  '4' :
+			B = 4;
+			break;
+		case  '5' :
+			B = 5;
+			break;
+		case  '6' :
+			B = 6;
+			break;
+		case  '7' :
+			B = 7;
+			break;
+		case  '8' :
+			B = 8;
+			break;
+		case  '9' :
+			B = 9;
+			break;
+		case  'A' :
+			B =10;
+			break;
+		case  'B' :
+			B =11;
+			break;
+		case  'C' :
+			B =12;
+			break;
+		case  'D' :
+			B =13;
+			break;
+		case  'E' :
+			B =14;
+			break;
+		case  'F' :
+			B =15;
+			break;
+		default:
+			break;
 	}
 	if(B != 16)
 	return B;

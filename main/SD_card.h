@@ -23,14 +23,14 @@ void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
         if(file.isDirectory()){
             //Serial.print("  DIR : ");
             //Serial.println(file.name());
-            listDirName[k]=file.name();
+            //listDirName[k]=file.name();
             if(levels){
                 listDir(fs, file.name(), levels -1);
             }
         } else {
             //Serial.print("  FILE: ");
             //Serial.print(file.name());
-            listDirName[k]=file.name();
+            //listDirName[k]=file.name();
             Serial.print("  SIZE: ");
             Serial.println(file.size());
         }
