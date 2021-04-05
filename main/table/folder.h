@@ -17,7 +17,6 @@ void table_folder_loop()
 		data = swcheck();
 		table_set_background(0,0,160,80,WHITE);
 		table_print(cursor_x,cursor_y,"E>",RED,1);
-	  table
 	  
 	}
 }
