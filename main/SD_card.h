@@ -18,23 +18,25 @@ void listDir(fs::FS &fs, const char * dirname, uint8_t levels){
     }
 
     File file = root.openNextFile();
+    int k=0;
     while(file){
         if(file.isDirectory()){
-            Serial.print("  DIR : ");
-            Serial.println(file.name());
+            //Serial.print("  DIR : ");
+            //Serial.println(file.name());
+            listDirName[k]=file.name();
             if(levels){
                 listDir(fs, file.name(), levels -1);
             }
         } else {
-            Serial.print("  FILE: ");
-            Serial.print(file.name());
+            //Serial.print("  FILE: ");
+            //Serial.print(file.name());
+            listDirName[k]=file.name();
             Serial.print("  SIZE: ");
             Serial.println(file.size());
         }
         file = root.openNextFile();
     }
 }
-
 void createDir(fs::FS &fs, const char * path){
     Serial.printf("Creating Dir: %s\n", path);
     if(fs.mkdir(path)){
