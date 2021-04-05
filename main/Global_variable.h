@@ -23,7 +23,7 @@ bool			connect_SD		=		false;
 #define			Image_width		160
 #define			Image_hight		80
 unsigned short	load_image[Image_hight*Image_width] = {0};
-char      listDirName[20]   =   '\0';
+int*      listDirName[20];
 
 //bluetooth
 bool			connect_BT		=		false;
