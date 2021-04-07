@@ -52,14 +52,14 @@ void table_setmode_loop(){ //setting loop
 		else if(option_page==3){
 			table_print(10,10,"=======SETTING/3=======",BLUE,1);
 			table_print(20,20," SHT20 test",BLACK,1);
-			table_print(20,30," I2C address",BLACK,1);
+			table_print(20,30," MAX test",BLACK,1);
 			table_print(20,40," ADXL test",BLACK,1);
 			table_print(20,50," >> NEXT Page",BLACK,1);
 			table_print(20,60," << BACK Page",BLACK,1);
 		}
 		else if(option_page==4){
 			table_print(10,10,"=======SETTING/4=======",BLUE,1);
-			table_print(20,20," OMG",BLACK,1);
+			table_print(20,20," I2C address",BLACK,1);
 			table_print(20,30," Please",BLACK,1);
 			table_print(20,40," help me",BLACK,1);
 			table_print(20,50," >> NEXT Page",BLACK,1);
@@ -466,18 +466,20 @@ void table_setmode_loop(){ //setting loop
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 30&&option_page==3&&option_active == true)
 			{
+				Serial.println("Initializing...");
 				sensorOn();
-				byte error, address;
-				int nDevices;
-				Wire.begin();
-				Serial.println("Scanning...");
-				nDevices = 0;
-				table_fill_block(1,WHITE);
-				table_print(10,30,"====== Scanning ======",BLUE,1);
-				table_print(10,40,"Pls, connect to Serial",BLACK,1);
-				table_set_frame(0,0,160,80,frame_round);
-				print_display(display_x,display_y);
-				while(true)
+				// Initialize sensor
+				if (!particleSensor.begin(Wire, I2C_SPEED_FAST)) //Use default I2C port, 400kHz speed
+				{
+					Serial.println("MAX30105 was not found. Please check wiring/power. ");
+					while (1);
+				}
+				Serial.println("Place your index finger on the sensor with steady pressure.");
+
+				particleSensor.setup(); //Configure sensor with default settings
+				particleSensor.setPulseAmplitudeRed(0x0A); //Turn Red LED to low to indicate sensor is running
+				particleSensor.setPulseAmplitudeGreen(0); //Turn off Green LED
+				while (true)
 				{
 					data = swcheck();
 					if(data == 'M'){
@@ -485,38 +487,49 @@ void table_setmode_loop(){ //setting loop
 						sensorOff();
 						goto reset;
 					}
-					for(address = 1; address < 127; address++ )
+					
+					long irValue = particleSensor.getIR();
+
+					if (checkForBeat(irValue) == true)
 					{
-						// The i2c_scanner uses the return value of
-						// the Write.endTransmisstion to see if
-						// a device did acknowledge to the address.
-						Wire.beginTransmission(address);
-						error = Wire.endTransmission();
-						
-						if (error == 0)
+						//We sensed a beat!
+						long delta = millis() - lastBeat;
+						lastBeat = millis();
+
+						beatsPerMinute = 60 / (delta / 1000.0);
+
+						if (beatsPerMinute < 255 && beatsPerMinute > 20)
 						{
-							Serial.print("I2C device found at address 0x");
-							if (address<16)
-							Serial.print("0");
-							Serial.print(address,HEX);
-							Serial.println("  !");
-							
-							nDevices++;
-						}
-						else if (error==4)
-						{
-							Serial.print("Unknown error at address 0x");
-							if (address<16)
-							Serial.print("0");
-							Serial.println(address,HEX);
+							rates[rateSpot++] = (byte)beatsPerMinute; //Store this reading in the array
+							rateSpot %= RATE_SIZE; //Wrap variable
+
+							//Take average of readings
+							beatAvg = 0;
+							for (byte x = 0 ; x < RATE_SIZE ; x++)
+							beatAvg += rates[x];
+							beatAvg /= RATE_SIZE;
 						}
 					}
-					if (nDevices == 0)
-					Serial.println("No I2C devices found\n");
-					else
-					Serial.println("done\n");
-					
-					delay(5000);           // wait 5 seconds for next scan
+
+					Serial.print("IR=");
+					Serial.print(irValue);
+					Serial.print(", BPM=");
+					Serial.print(beatsPerMinute);
+					Serial.print(", Avg BPM=");
+					Serial.print(beatAvg);
+
+					if (irValue < 50000)
+					Serial.print(" No finger?");
+
+					Serial.println();
+					table_fill_block(1,WHITE);
+					table_print(10,10,"====== MAX test ======",BLUE,1);
+					table_print(20,20,"BEAT:",BLACK,2);
+					table_print(20,40,"AVER:",BLACK,2);
+					table_print(90,20,beatsPerMinute,RED,2);
+					table_print(90,40,beatAvg,BLUE,2);
+					table_set_frame(0,0,160,80,frame_round);
+					print_display(display_x,display_y);
 				}
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -612,6 +625,58 @@ void table_setmode_loop(){ //setting loop
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 20&&option_page==4&&option_active == true)
 			{
+				sensorOn();
+				byte error, address;
+				int nDevices;
+				Wire.begin();
+				Serial.println("Scanning...");
+				nDevices = 0;
+				table_fill_block(1,WHITE);
+				table_print(10,30,"====== Scanning ======",BLUE,1);
+				table_print(10,40,"Pls, connect to Serial",BLACK,1);
+				table_set_frame(0,0,160,80,frame_round);
+				print_display(display_x,display_y);
+				while(true)
+				{
+					data = swcheck();
+					if(data == 'M'){
+						option_active = false;
+						sensorOff();
+						goto reset;
+					}
+					for(address = 1; address < 127; address++ )
+					{
+						// The i2c_scanner uses the return value of
+						// the Write.endTransmisstion to see if
+						// a device did acknowledge to the address.
+						Wire.beginTransmission(address);
+						error = Wire.endTransmission();
+						
+						if (error == 0)
+						{
+							Serial.print("I2C device found at address 0x");
+							if (address<16)
+							Serial.print("0");
+							Serial.print(address,HEX);
+							Serial.println("  !");
+							
+							nDevices++;
+						}
+						else if (error==4)
+						{
+							Serial.print("Unknown error at address 0x");
+							if (address<16)
+							Serial.print("0");
+							Serial.println(address,HEX);
+						}
+					}
+					if (nDevices == 0)
+					Serial.println("No I2C devices found\n");
+					else
+					Serial.println("done\n");
+					
+					delay(5000);           // wait 5 seconds for next scan
+				}
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 30&&option_page==4&&option_active == true)

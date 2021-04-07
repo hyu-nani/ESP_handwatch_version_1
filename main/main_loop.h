@@ -20,7 +20,7 @@ void main_loop(){
 			watchBasicTask();
 			print_display(display_x,display_y);
 			delay(1);
-			data = swcheck();
+			data = swcheck_no_stop();
 			if(data == 'D')
 			{
 				table_set_health();
@@ -56,7 +56,7 @@ void main_loop(){
 		{
 			print_display(display_x,display_y);
 			delay(1);
-			data = swcheck();
+			data = swcheck_no_stop();
 			if(data == 'D')
 			{
 				table_fill_block(1,BLACK);
@@ -117,7 +117,7 @@ void main_loop(){
 		{
 			print_display(display_x,display_y);
 			delay(1);
-			data = swcheck();
+			data = swcheck_no_stop();
 			if(data == 'D')
 			{
 				table_fill_block(1,BLACK);
@@ -180,7 +180,7 @@ void main_loop(){
 		{
 			print_display(display_x,display_y);
 			delay(1);
-			data = swcheck();
+			data = swcheck_no_stop();
 			if(data == 'D'){
 				table_fill_block(1,BLACK);
 				for(int i = -pg_change_num ;i<=2 ;i++)
@@ -241,7 +241,7 @@ void main_loop(){
 		{
 			print_display(display_x,display_y);
 			delay(1);
-			data = swcheck();
+			data = swcheck_no_stop();
 			if(data == 'D')
 			{
 				table_fill_block(1,BLACK);
@@ -300,7 +300,7 @@ void main_loop(){
 		{
 			print_display(display_x,display_y);
 			delay(1);
-			data = swcheck();
+			data = swcheck_no_stop();
 			if(data == 'D'){
 				table_fill_block(1,BLACK);
 				for(int i = -pg_change_num ;i<=2 ;i++)

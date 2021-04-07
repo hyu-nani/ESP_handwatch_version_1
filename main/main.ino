@@ -41,7 +41,11 @@ word data;
 #include "LCD_basic.h"
 #include "WiFi_ready.h"
 #include "bluetooth.h"
-#include "MAX30102.h"
+
+#include "MAX30105.h"
+#include "heartRate.h"
+MAX30105 particleSensor;
+
 #include "APDS9960.h"
 
 #include "ADXL362.h"
