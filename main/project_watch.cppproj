@@ -222,6 +222,9 @@
     <Folder Include="__vm\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ADXL362.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="APDS9960.h">
       <SubType>compile</SubType>
     </Compile>

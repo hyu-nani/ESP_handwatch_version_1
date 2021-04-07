@@ -1,6 +1,5 @@
 
-#define SD_CS_Clr()  digitalWrite(SD_CS,LOW)
-#define SD_CS_Set()  digitalWrite(SD_CS,HIGH)
+
 
 File dataFile;
 

@@ -52,8 +52,8 @@ void table_setmode_loop(){ //setting loop
 		else if(option_page==3){
 			table_print(10,10,"=======SETTING/3=======",BLUE,1);
 			table_print(20,20," SHT20 test",BLACK,1);
-			table_print(20,30," hleath mode",BLACK,1);
-			table_print(20,40," time package",BLACK,1);
+			table_print(20,30," I2C address",BLACK,1);
+			table_print(20,40," ADXL test",BLACK,1);
 			table_print(20,50," >> NEXT Page",BLACK,1);
 			table_print(20,60," << BACK Page",BLACK,1);
 		}
@@ -466,10 +466,138 @@ void table_setmode_loop(){ //setting loop
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 30&&option_page==3&&option_active == true)
 			{
+				sensorOn();
+				byte error, address;
+				int nDevices;
+				Wire.begin();
+				Serial.println("Scanning...");
+				nDevices = 0;
+				table_fill_block(1,WHITE);
+				table_print(10,30,"====== Scanning ======",BLUE,1);
+				table_print(10,40,"Pls, connect to Serial",BLACK,1);
+				table_set_frame(0,0,160,80,frame_round);
+				print_display(display_x,display_y);
+				while(true)
+				{
+					data = swcheck();
+					if(data == 'M'){
+						option_active = false;
+						sensorOff();
+						goto reset;
+					}
+					for(address = 1; address < 127; address++ )
+					{
+						// The i2c_scanner uses the return value of
+						// the Write.endTransmisstion to see if
+						// a device did acknowledge to the address.
+						Wire.beginTransmission(address);
+						error = Wire.endTransmission();
+						
+						if (error == 0)
+						{
+							Serial.print("I2C device found at address 0x");
+							if (address<16)
+							Serial.print("0");
+							Serial.print(address,HEX);
+							Serial.println("  !");
+							
+							nDevices++;
+						}
+						else if (error==4)
+						{
+							Serial.print("Unknown error at address 0x");
+							if (address<16)
+							Serial.print("0");
+							Serial.println(address,HEX);
+						}
+					}
+					if (nDevices == 0)
+					Serial.println("No I2C devices found\n");
+					else
+					Serial.println("done\n");
+					
+					delay(5000);           // wait 5 seconds for next scan
+				}
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 40&&option_page==3&&option_active == true)
 			{
+				
+				table_fill_block(1,WHITE);
+				table_print(10,30,"====== Scanning ======",BLUE,1);
+				//table_print(10,40,"Pls, connect to Serial",BLACK,1);
+				table_set_frame(0,0,160,80,frame_round);
+				print_display(display_x,display_y);
+				xl.beginMeasure();              // Switch ADXL362 to measure mode
+				int direction=0;
+				Serial.println("Start Demo: Simple Read");
+				int xv=0,yv=0,zv=0;
+				delay(500);
+				
+				int A = 500;
+				
+				while (true)
+				{
+					data = swcheck();
+					if(data == 'M'){
+						option_active = false;
+						goto reset;
+					}
+				//	xl.beginMeasure();  
+					xl.readXYZTData(XValue, YValue, ZValue, Temperature);
+				//	ADXL_CS_Clr();
+				//	XValue=xl.readXData();
+				//	YValue=xl.readYData();
+				//	ZValue=xl.readZData();
+				//	ADXL_CS_Set();
+					
+					if (XValue>A)
+					XValue=A;
+					if (YValue>A)
+					YValue=A;
+					if (ZValue>A)
+					ZValue=A;
+					
+					xv = (map(XValue,-A,A,0,110)+xv*4)/5;
+					yv = (map(YValue,-A,A,0,110)+yv*4)/5;
+					zv = (map(ZValue,-A,A,0,110)+zv*4)/5;
+				//	xv = map(XValue,-255,255,0,110);
+				//	yv = map(YValue,-255,255,0,110);
+				//	zv = map(ZValue,-255,255,0,110);
+				//	if (xv>110)
+				//	direction = 1;	//stand
+				//	else if(yv>110)
+				//	direction = 2;	//side
+				//	else if(zv>110)
+				//	direction = 3;	//lay
+					
+					Serial.print("XVALUE=");
+					Serial.print(XValue);
+					Serial.print("\tYVALUE=");
+					Serial.print(YValue);
+					Serial.print("\tZVALUE=");
+					Serial.print(ZValue);
+					Serial.print("\tTEMPERATURE=");
+					Serial.println(Temperature);
+					
+					table_fill_block(1,WHITE);
+					table_print(15,20,"X",BLUE,1);
+					table_print(15,30,"Y",BLUE,1);
+					table_print(15,40,"Z",BLUE,1);
+					table_Rect(30,20,110,5,RED);
+					table_Rect(30,30,110,5,RED);
+					table_Rect(30,40,110,5,RED);
+					
+					table_fill_Rect(30,20,xv,5,RED);
+					table_fill_Rect(30,30,yv,5,RED);
+					table_fill_Rect(30,40,zv,5,RED);
+					
+					table_Line(85,17,85,48,1,BLUE);
+					table_set_frame(0,0,160,80,frame_round);
+					print_display(display_x,display_y);
+					LCD_CS_Set();
+					delay(1);
+				}
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 20&&option_page==4&&option_active == true)

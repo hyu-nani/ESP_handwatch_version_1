@@ -25,6 +25,10 @@ bool			connect_SD		=		false;
 unsigned short	load_image[Image_hight*Image_width] = {0};
 char*			listDirName[20];
 
+//ADXL
+//int16_t temp;
+int16_t XValue, YValue, ZValue, Temperature;
+
 //bluetooth
 bool			connect_BT		=		false;
 

@@ -34,9 +34,6 @@
 #define LCD_DC_Clr()  digitalWrite(TFT_DC,LOW)
 #define LCD_DC_Set()  digitalWrite(TFT_DC,HIGH)
 
-#define LCD_CS_Clr()  digitalWrite(TFT_CS,LOW)
-#define LCD_CS_Set()  digitalWrite(TFT_CS,HIGH)
-
 #define u16 word
 #define delay_ms delayMicroseconds
 
