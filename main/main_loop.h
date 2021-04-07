@@ -360,6 +360,10 @@ void watchBasicTask(){
 	charge_state = true;
 	else
 	charge_state = false;
+	if (digitalRead(Card_detect))
+	connect_SD = true;
+	else
+	connect_SD = false;
 	if (batteryVolt < 320)
 	{
 		EEPROM_Data_Save();

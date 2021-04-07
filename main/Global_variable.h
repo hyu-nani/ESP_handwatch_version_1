@@ -11,7 +11,6 @@ const int	pg_change_num	=		20;
 float		batteryVolt		=		370;
 int			batteryPercent	=		50;
 bool		charge_state	=		false;
-
 	
 //wifi
 int			daylightOffset_sec	=	0;//3600 summer time

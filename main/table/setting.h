@@ -535,6 +535,7 @@ void table_setmode_loop(){ //setting loop
 				delay(500);
 				
 				int A = 500;
+				int a,b,c,d;
 				
 				while (true)
 				{
@@ -570,33 +571,42 @@ void table_setmode_loop(){ //setting loop
 				//	direction = 2;	//side
 				//	else if(zv>110)
 				//	direction = 3;	//lay
-					
-					Serial.print("XVALUE=");
-					Serial.print(XValue);
-					Serial.print("\tYVALUE=");
-					Serial.print(YValue);
-					Serial.print("\tZVALUE=");
-					Serial.print(ZValue);
-					Serial.print("\tTEMPERATURE=");
-					Serial.println(Temperature);
-					
-					table_fill_block(1,WHITE);
-					table_print(15,20,"X",BLUE,1);
-					table_print(15,30,"Y",BLUE,1);
-					table_print(15,40,"Z",BLUE,1);
-					table_Rect(30,20,110,5,RED);
-					table_Rect(30,30,110,5,RED);
-					table_Rect(30,40,110,5,RED);
-					
-					table_fill_Rect(30,20,xv,5,RED);
-					table_fill_Rect(30,30,yv,5,RED);
-					table_fill_Rect(30,40,zv,5,RED);
-					
-					table_Line(85,17,85,48,1,BLUE);
-					table_set_frame(0,0,160,80,frame_round);
-					print_display(display_x,display_y);
-					LCD_CS_Set();
+					if(charge_state == true){
+						Serial.print("XVALUE=");
+						Serial.print(XValue);
+						Serial.print("\tYVALUE=");
+						Serial.print(YValue);
+						Serial.print("\tZVALUE=");
+						Serial.print(ZValue);
+						Serial.print("\tTEMPERATURE=");
+						Serial.println(Temperature);
+					}
+					if(a!=xv||b!=yv||c!=zv||d!=Temperature){
+						table_fill_block(1,WHITE);
+						table_print(15,20,"X",BLUE,1);
+						table_print(15,30,"Y",BLUE,1);
+						table_print(15,40,"Z",BLUE,1);
+						table_Rect(30,20,110,5,RED);
+						table_Rect(30,30,110,5,RED);
+						table_Rect(30,40,110,5,RED);
+						
+						table_fill_Rect(30,20,xv,5,RED);
+						table_fill_Rect(30,30,yv,5,RED);
+						table_fill_Rect(30,40,zv,5,RED);
+						table_print(75,60,Temperature,MAGENTA,1);
+						
+						table_Line(85,17,85,48,1,BLUE);
+						table_set_frame(0,0,160,80,frame_round);
+						print_display(display_x,display_y);
+						LCD_CS_Set();
+					}
+					else{
+						xl.beginMeasure();              // Switch ADXL362 to measure mode
+						delay(10);
+					}
+					a=xv;b=yv,c=zv,d=Temperature;
 					delay(1);
+					
 				}
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////

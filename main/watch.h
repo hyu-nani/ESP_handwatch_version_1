@@ -84,5 +84,9 @@ void watch_init()
 	charge_state = true;
 	else
 	charge_state = false;
+	if (digitalRead(Card_detect))
+	connect_SD = true;
+	else
+	connect_SD = false;
 }
 
