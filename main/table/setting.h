@@ -521,17 +521,18 @@ void table_setmode_loop(){ //setting loop
 				  	Serial.print(", Avg BPM=");
 				  	Serial.print(beatAvg);
           }
-					if (irValue < 50000)
-					
-					Serial.print(" No finger?");
-
-					Serial.println();
-					table_fill_block(1,WHITE);
-					table_print(10,10,"====== MAX test ======",BLUE,1);
-					table_print(20,20,"BEAT:",BLACK,2);
-					table_print(20,40,"AVER:",BLACK,2);
-					table_print(90,20,beatsPerMinute,RED,2);
-					table_print(90,40,beatAvg,BLUE,2);
+          table_fill_block(1,WHITE);
+				  table_print(10,10,"====== MAX test ======",BLUE,1);
+				  	
+					if (irValue < 50000){
+				    Serial.print(" No finger?");
+            table_print(20,20,"No finger?",BLACK,2);
+          }else{
+				  	table_print(20,20,"BEAT:",BLACK,2);
+				  	table_print(20,40,"AVER:",BLACK,2);
+				  	table_print(90,20,beatsPerMinute,RED,2);
+				  	table_print(90,40,beatAvg,BLUE,2);
+          }
 					table_set_frame(0,0,160,80,frame_round);
 					print_display(display_x,display_y);
 				}
