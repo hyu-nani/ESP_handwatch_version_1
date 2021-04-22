@@ -342,7 +342,7 @@ void main_loop(){
 					display_y-=(9*i*i)/400+1;
 					print_display(display_x,display_y);
 				}
-				mode=10;
+				mode=6;
 				break;
 			}
 		}

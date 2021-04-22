@@ -565,11 +565,11 @@ void table_setmode_loop(){ //setting loop
 				//	ZValue=xl.readZData();
 				//	ADXL_CS_Set();
 					
-					if (XValue>A)
+					if (XValue>A||XValue<-A)
 					XValue=A;
-					if (YValue>A)
+					if (YValue>A||YValue<-A)
 					YValue=A;
-					if (ZValue>A)
+					if (ZValue>A||ZValue<-A)
 					ZValue=A;
 					
 					xv = (map(XValue,-A,A,0,110)+xv*4)/5;
