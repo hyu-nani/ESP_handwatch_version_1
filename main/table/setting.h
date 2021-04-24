@@ -438,15 +438,17 @@ void table_setmode_loop(){ //setting loop
 					data = swcheck();
 					humd = sht20.readHumidity();                  // Read Humidity
 					temp = sht20.readTemperature();               // Read Temperature
-					Serial.print("Time:");
-					Serial.print(millis());
-					Serial.print(" Temperature:");
-					Serial.print(temp, 1);
-					Serial.print("C");
-					Serial.print(" Humidity:");
-					Serial.print(humd, 1);
-					Serial.print("%");
-					Serial.println();
+					if(charge_state==true){
+				    Serial.print("Time:");
+					  Serial.print(millis());
+					  Serial.print(" Temperature:");
+					  Serial.print(temp, 1);
+					  Serial.print("C");
+					  Serial.print(" Humidity:");
+					  Serial.print(humd, 1);
+					  Serial.print("%");
+					  Serial.println();
+					}
 					table_fill_block(1,WHITE);
 					table_print(10,10,"====== SHT20 test ======",BLUE,1);
 					table_print(20,20,"TEMP:",BLACK,2);
@@ -464,7 +466,7 @@ void table_setmode_loop(){ //setting loop
 				}
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
-			else if (cursor_y == 30&&option_page==3&&option_active == true)
+			else if (cursor_y == 30&&option_page==3&&option_active == true) //심박수 센서
 			{
 				Serial.println("Initializing...");
 				sensorOn();
@@ -472,8 +474,9 @@ void table_setmode_loop(){ //setting loop
 				if (!particleSensor.begin(Wire, I2C_SPEED_FAST)) //Use default I2C port, 400kHz speed
 				{
 					Serial.println("MAX30105 was not found. Please check wiring/power. ");
-					while (1);
+					goto reset;
 				}
+				if(charge_state ==true)
 				Serial.println("Place your index finger on the sensor with steady pressure.");
 
 				particleSensor.setup(); //Configure sensor with default settings
@@ -489,7 +492,7 @@ void table_setmode_loop(){ //setting loop
 					}
 					
 					long irValue = particleSensor.getIR();
-
+          
 					if (checkForBeat(irValue) == true)
 					{
 						//We sensed a beat!
@@ -510,24 +513,26 @@ void table_setmode_loop(){ //setting loop
 							beatAvg /= RATE_SIZE;
 						}
 					}
-
-					Serial.print("IR=");
-					Serial.print(irValue);
-					Serial.print(", BPM=");
-					Serial.print(beatsPerMinute);
-					Serial.print(", Avg BPM=");
-					Serial.print(beatAvg);
-
-					if (irValue < 50000)
-					Serial.print(" No finger?");
-
-					Serial.println();
-					table_fill_block(1,WHITE);
-					table_print(10,10,"====== MAX test ======",BLUE,1);
-					table_print(20,20,"BEAT:",BLACK,2);
-					table_print(20,40,"AVER:",BLACK,2);
-					table_print(90,20,beatsPerMinute,RED,2);
-					table_print(90,40,beatAvg,BLUE,2);
+          if(charge_state == true){
+					  Serial.print("IR=");
+					  Serial.print(irValue);
+				  	Serial.print(", BPM=");
+				  	Serial.print(beatsPerMinute);
+				  	Serial.print(", Avg BPM=");
+				  	Serial.print(beatAvg);
+          }
+          table_fill_block(1,WHITE);
+				  table_print(10,10,"====== MAX test ======",BLUE,1);
+				  	
+					if (irValue < 50000){
+				    Serial.print(" No finger?");
+            table_print(20,20,"No finger?",BLACK,2);
+          }else{
+				  	table_print(20,20,"BEAT:",BLACK,2);
+				  	table_print(20,40,"AVER:",BLACK,2);
+				  	table_print(90,20,beatsPerMinute,RED,2);
+				  	table_print(90,40,beatAvg,BLUE,2);
+          }
 					table_set_frame(0,0,160,80,frame_round);
 					print_display(display_x,display_y);
 				}
