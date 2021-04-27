@@ -522,29 +522,26 @@ void table_setmode_loop(){ //setting loop
 				  		Serial.println(beatAvg);
 					}
 					table_fill_block(1,WHITE);
-					table_print(10,10,"====== MAX test ======",BLUE,1);
+					table_print(15,10,"====== MAX test ======",BLUE,1);
 				  	
 					if (irValue < 50000){
 						Serial.print("MAX : No finger?");
-						table_print(20,20,"No finger?",BLACK,2);
+						table_print(20,40,"No finger?",BLACK,2);
 					}
 					else{
-						table_graph(10,18,140,50,irValue,IR_min,IR_max,BLUE,BLACK,CYAN);
+						table_graph(10,20,140,48,irValue,IR_min,IR_max,BLUE,BLACK,CYAN);
 						IR_val[GraphCount] = irValue;
 						int Gmin=120000,Gmax=0;
 						for(int i=0;i<140;i++){
 							if(		IR_val[i]<Gmin)	Gmin = IR_val[i];
 							else if(IR_val[i]>Gmax)	Gmax = IR_val[i];
 						}
-						IR_min = Gmin-5000;
+						IR_min = Gmin-3000;
 						IR_max = Gmax;
-						Serial.print(IR_min);
-						Serial.print("/");
-						Serial.println(IR_max);
 				  		table_print(20,70,"BEAT:",BLACK,1);
-				  		table_print(100,70,"AVER:",BLACK,1);
+				  		table_print(90,70,"AVER:",BLACK,1);
 				  		table_print(50,70,beatsPerMinute,RED,1);
-				  		table_print(130,70,beatAvg,BLUE,1);
+				  		table_print(120,70,beatAvg,BLUE,1);
 					}
 					table_set_frame(0,0,160,80,frame_round);
 					print_display(display_x,display_y);

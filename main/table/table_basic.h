@@ -427,7 +427,8 @@ void table_graph(u16 x, u16 y, u16 w, u16 h, int val,int val_min,int val_max, u1
 	table_fill_Rect(x,y,w,h,back_color);
 	table_Rect(x,y,w,h,edge_color);
 	for(int i=x;i<x+w;i++){
-		display_table[y+YPin[i-x]][i] = line_color;
+		if(YPin[i-x]!=0)
+			display_table[y+YPin[i-x]][i] = line_color;
 	}
 	table_VLine(x+GraphCount, y, h, edge_color);
 }
