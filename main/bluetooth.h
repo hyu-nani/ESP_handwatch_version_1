@@ -37,12 +37,12 @@ class MyCallbacks: public BLECharacteristicCallbacks {
 
 		if (rxValue.length() > 0) {
 			Serial.println("*********");
-			Serial.print("Received Value: ");
+			Serial.print("Device : Received Value: ");
 			for (int i = 0; i < rxValue.length(); i++)
 			Serial.print(rxValue[i]);
 
 			Serial.println();
-			Serial.println("*********");
+			Serial.println("Device : *********");
 		}
 	}
 };

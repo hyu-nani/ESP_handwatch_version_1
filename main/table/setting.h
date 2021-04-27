@@ -166,7 +166,7 @@ void table_setmode_loop(){ //setting loop
 						table_print(10,35,"====== CONNECTED =======",BLUE,1);
 						table_set_frame(0,0,160,80,frame_round);
 						print_display(display_x,display_y);
-						Serial.println("CONNECTED");
+						Serial.println("Device : CONNECTED");
 						after_connect();
 						delay(500);
 						//cursor_y=20;
@@ -193,7 +193,7 @@ void table_setmode_loop(){ //setting loop
 				SD.end();
 				delay(100);
 				if(!SD.begin(SD_CS)){
-					Serial.println("Card Mount Failed");
+					Serial.println("SD : Card Mount Failed");
 					connect_SD = false;
 				}
 				else
@@ -342,9 +342,9 @@ void table_setmode_loop(){ //setting loop
 							else if(cursor_y == 30&&set_active==true)
 							{
 								if(data == 'U')
-								now_minute ++;
+									now_minute ++;
 								else if(data == 'D')
-								now_minute --;
+									now_minute --;
 								else if(data == 'M')
 								{
 									set_active = false;
@@ -354,9 +354,9 @@ void table_setmode_loop(){ //setting loop
 							else if(cursor_y == 40&&set_active==true)
 							{
 								if(data == 'U')
-								now_second ++;
+									now_second ++;
 								else if(data == 'D')
-								now_second --;
+									now_second --;
 								else if(data == 'M')
 								{
 									set_active = false;
@@ -364,11 +364,11 @@ void table_setmode_loop(){ //setting loop
 								}
 							}
 							if(data == 'U'&&set_active == false&&cursor_y>20)
-							cursor_y-=10;
+								cursor_y-=10;
 							else if(data == 'D'&&set_active == false&&cursor_y<60)
-							cursor_y+=10;
+								cursor_y+=10;
 							else if(data == 'M'&&cursor_y != 60)
-							set_active = true;
+								set_active = true;
 							else if(data == 'M'&&cursor_y==60)
 							{
 								set_active = false;
@@ -377,11 +377,11 @@ void table_setmode_loop(){ //setting loop
 						}
 					}
 					if(data == 'U'&&set_active == false&&cursor_y>20)
-					cursor_y-=10;
+						cursor_y-=10;
 					else if(data == 'D'&&set_active == false&&cursor_y<60)
-					cursor_y+=10;
+						cursor_y+=10;
 					else if(data == 'M'&&cursor_y != 60)
-					set_active = true;
+						set_active = true;
 					else if(data == 'M'&&cursor_y == 60)
 					{
 						option_active = false;
@@ -412,11 +412,11 @@ void table_setmode_loop(){ //setting loop
 						goto reset;
 					}
 					else if(data == 'U'&&backlight<250)
-					backlight+=10;
+						backlight+=10;
 					else if(data == 'D'&&backlight>1)
-					backlight-=10;
+						backlight-=10;
 					if(backlight%10!=1)
-					backlight--;
+						backlight--;
 						
 				}
 			}
@@ -439,9 +439,9 @@ void table_setmode_loop(){ //setting loop
 					humd = sht20.readHumidity();                  // Read Humidity
 					temp = sht20.readTemperature();               // Read Temperature
 					if(charge_state==true){
-				    Serial.print("Time:");
+				    Serial.print("SHT : Time:");
 					  Serial.print(millis());
-					  Serial.print(" Temperature:");
+					  Serial.print("Temperature:");
 					  Serial.print(temp, 1);
 					  Serial.print("C");
 					  Serial.print(" Humidity:");
@@ -468,16 +468,16 @@ void table_setmode_loop(){ //setting loop
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 30&&option_page==3&&option_active == true) //심박수 센서
 			{
-				Serial.println("Initializing...");
+				Serial.println("MAX : Initializing...");
 				sensorOn();
 				// Initialize sensor
 				if (!particleSensor.begin(Wire, I2C_SPEED_FAST)) //Use default I2C port, 400kHz speed
 				{
-					Serial.println("MAX30105 was not found. Please check wiring/power. ");
+					Serial.println("MAX : MAX30105 was not found. Please check wiring/power. ");
 					goto reset;
 				}
 				if(charge_state ==true)
-				Serial.println("Place your index finger on the sensor with steady pressure.");
+				Serial.println("MAX : Place your index finger on the sensor with steady pressure.");
 
 				particleSensor.setup(); //Configure sensor with default settings
 				particleSensor.setPulseAmplitudeRed(0x0A); //Turn Red LED to low to indicate sensor is running
@@ -513,26 +513,39 @@ void table_setmode_loop(){ //setting loop
 							beatAvg /= RATE_SIZE;
 						}
 					}
-          if(charge_state == true){
-					  Serial.print("IR=");
-					  Serial.print(irValue);
-				  	Serial.print(", BPM=");
-				  	Serial.print(beatsPerMinute);
-				  	Serial.print(", Avg BPM=");
-				  	Serial.print(beatAvg);
-          }
-          table_fill_block(1,WHITE);
-				  table_print(10,10,"====== MAX test ======",BLUE,1);
+					if(charge_state == true){
+						Serial.print("MAX : IR=");
+						Serial.print(irValue);
+				  		Serial.print(", BPM=");
+				  		Serial.print(beatsPerMinute);
+				  		Serial.print(", Avg BPM=");
+				  		Serial.println(beatAvg);
+					}
+					table_fill_block(1,WHITE);
+					table_print(10,10,"====== MAX test ======",BLUE,1);
 				  	
 					if (irValue < 50000){
-				    Serial.print(" No finger?");
-            table_print(20,20,"No finger?",BLACK,2);
-          }else{
-				  	table_print(20,20,"BEAT:",BLACK,2);
-				  	table_print(20,40,"AVER:",BLACK,2);
-				  	table_print(90,20,beatsPerMinute,RED,2);
-				  	table_print(90,40,beatAvg,BLUE,2);
-          }
+						Serial.print("MAX : No finger?");
+						table_print(20,20,"No finger?",BLACK,2);
+					}
+					else{
+						table_graph(10,18,140,50,irValue,IR_min,IR_max,BLUE,BLACK,CYAN);
+						IR_val[GraphCount] = irValue;
+						int Gmin=120000,Gmax=0;
+						for(int i=0;i<140;i++){
+							if(		IR_val[i]<Gmin)	Gmin = IR_val[i];
+							else if(IR_val[i]>Gmax)	Gmax = IR_val[i];
+						}
+						IR_min = Gmin-5000;
+						IR_max = Gmax;
+						Serial.print(IR_min);
+						Serial.print("/");
+						Serial.println(IR_max);
+				  		table_print(20,70,"BEAT:",BLACK,1);
+				  		table_print(100,70,"AVER:",BLACK,1);
+				  		table_print(50,70,beatsPerMinute,RED,1);
+				  		table_print(130,70,beatAvg,BLUE,1);
+					}
 					table_set_frame(0,0,160,80,frame_round);
 					print_display(display_x,display_y);
 				}
@@ -548,7 +561,7 @@ void table_setmode_loop(){ //setting loop
 				print_display(display_x,display_y);
 				xl.beginMeasure();              // Switch ADXL362 to measure mode
 				int direction=0;
-				Serial.println("Start Demo: Simple Read");
+				Serial.println("ADXL : Start Demo: Simple Read");
 				int xv=0,yv=0,zv=0;
 				delay(500);
 				
@@ -590,7 +603,7 @@ void table_setmode_loop(){ //setting loop
 				//	else if(zv>110)
 				//	direction = 3;	//lay
 					if(charge_state == true){
-						Serial.print("XVALUE=");
+						Serial.print("ADXL : XVALUE=");
 						Serial.print(XValue);
 						Serial.print("\tYVALUE=");
 						Serial.print(YValue);
@@ -616,7 +629,6 @@ void table_setmode_loop(){ //setting loop
 						table_Line(85,17,85,48,1,BLUE);
 						table_set_frame(0,0,160,80,frame_round);
 						print_display(display_x,display_y);
-						LCD_CS_Set();
 					}
 					else{
 						xl.beginMeasure();              // Switch ADXL362 to measure mode
@@ -634,7 +646,7 @@ void table_setmode_loop(){ //setting loop
 				byte error, address;
 				int nDevices;
 				Wire.begin();
-				Serial.println("Scanning...");
+				Serial.println("Device : Scanning...");
 				nDevices = 0;
 				table_fill_block(1,WHITE);
 				table_print(10,30,"====== Scanning ======",BLUE,1);
@@ -659,7 +671,7 @@ void table_setmode_loop(){ //setting loop
 						
 						if (error == 0)
 						{
-							Serial.print("I2C device found at address 0x");
+							Serial.print("Device : I2C device found at address 0x");
 							if (address<16)
 							Serial.print("0");
 							Serial.print(address,HEX);
@@ -669,18 +681,18 @@ void table_setmode_loop(){ //setting loop
 						}
 						else if (error==4)
 						{
-							Serial.print("Unknown error at address 0x");
+							Serial.print("Device : Unknown error at address 0x");
 							if (address<16)
 							Serial.print("0");
 							Serial.println(address,HEX);
 						}
 					}
 					if (nDevices == 0)
-					Serial.println("No I2C devices found\n");
+					Serial.println("Device : No I2C devices found\n");
 					else
-					Serial.println("done\n");
+					Serial.println("Device : done\n");
 					
-					delay(5000);           // wait 5 seconds for next scan
+					delay(2000);           // wait 5 seconds for next scan
 				}
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -65,19 +65,19 @@ void ADXL362::beginMeasure() {
 	byte tempADXL = SPIreadOneRegister(0x2D);	// read Reg 2D before modifying for measure mode
 
 	#ifdef ADXL362_DEBUG
-	Serial.print(  "Setting Measeurement Mode - Reg 2D before = ");
+	Serial.print("ADXL : Setting Measeurement Mode - Reg 2D before = ");
 	Serial.print(temp);
 	#endif
 
 	// turn on measurement mode
 	byte tempwrite = tempADXL | 0x02;			// turn on measurement bit in Reg 2D
-	SPIwriteOneRegister(0x2D, tempwrite); // Write to POWER_CTL_REG, Measurement Mode
+	SPIwriteOneRegister(0x2D, tempwrite);		// Write to POWER_CTL_REG, Measurement Mode
 	delay(10);
 	ADXL_CS_Set();
 	
 	#ifdef ADXL362_DEBUG
 	temp = SPIreadOneRegister(0x2D);
-	Serial.print(  ", Reg 2D after = ");
+	Serial.print("ADXL : , Reg 2D after = ");
 	Serial.println(tempADXL);
 	Serial.println();
 	#endif
@@ -91,7 +91,7 @@ int16_t ADXL362::readXData(){
 	int16_t XDATA = SPIreadTwoRegisters(0x0E);
 	
 	#ifdef ADXL362_DEBUG
-	Serial.print("XDATA = ");
+	Serial.print("ADXL : XDATA = ");
 	Serial.println(XDATA);
 	#endif
 	
@@ -102,7 +102,7 @@ int16_t ADXL362::readYData(){
 	int16_t YDATA = SPIreadTwoRegisters(0x10);
 
 	#ifdef ADXL362_DEBUG
-	Serial.print("\tYDATA = ");
+	Serial.print("ADXL : \tYDATA = ");
 	Serial.println(YDATA);
 	#endif
 	
@@ -113,7 +113,7 @@ int16_t ADXL362::readZData(){
 	int16_t ZDATA = SPIreadTwoRegisters(0x12);
 
 	#ifdef ADXL362_DEBUG
-	Serial.print("\tZDATA = ");
+	Serial.print("ADXL : \tZDATA = ");
 	Serial.println(ZDATA);
 	#endif
 
@@ -124,7 +124,7 @@ int16_t ADXL362::readTemp(){
 	int16_t TEMP = SPIreadTwoRegisters(0x14);
 
 	#ifdef ADXL362_DEBUG
-	Serial.print("\tTEMP = ");
+	Serial.print("ADXL : \tTEMP = ");
 	Serial.println(TEMP);
 	#endif
 
@@ -135,14 +135,14 @@ void ADXL362::readXYZTData(int16_t &XData, int16_t &YData, int16_t &ZData, int16
 	// burst SPI read
 	// A burst read of all three axis is required to guarantee all measurements correspond to same sample time
 	ADXL_CS_Clr();
-	SPI.beginTransaction(mySPISettings);
+	SPI.beginTransaction(mySPISettings);			//translate succed
 	SPI.transfer(0x0B);  // read instruction
 	SPI.transfer(0x0E);  // Start at XData Reg
 	XData = SPI.transfer(0x00);
 	XData = XData + (SPI.transfer(0x00) << 8);
 	YData = SPI.transfer(0x00);
 	YData = YData + (SPI.transfer(0x00) << 8);
-	ZData = SPI.transfer(0x00);
+	ZData =	SPI.transfer(0x00);
 	ZData = ZData + (SPI.transfer(0x00) << 8);
 	Temperature = SPI.transfer(0x00);
 	Temperature = Temperature + (SPI.transfer(0x00) << 8);
@@ -150,7 +150,7 @@ void ADXL362::readXYZTData(int16_t &XData, int16_t &YData, int16_t &ZData, int16
 	ADXL_CS_Set();
 	
 	#ifdef ADXL362_DEBUG
-	Serial.print("XDATA = "); Serial.print(XData);
+	Serial.print("ADXL : XDATA = "); Serial.print(XData);
 	Serial.print("\tYDATA = "); Serial.print(YData);
 	Serial.print("\tZDATA = "); Serial.print(ZData);
 	Serial.print("\tTemperature = "); Serial.println(Temperature);
@@ -169,7 +169,7 @@ void ADXL362::setupDCActivityInterrupt(int16_t threshold, byte time){
 	ACT_INACT_CTL_Reg = SPIreadOneRegister(0x27);       // Verify properly written
 
 	#ifdef ADXL362_DEBUG
-	Serial.print("DC Activity Threshold set to ");  	Serial.print(SPIreadTwoRegisters(0x20));
+	Serial.print("ADXL : DC Activity Threshold set to ");  	Serial.print(SPIreadTwoRegisters(0x20));
 	Serial.print(", Time threshold set to ");  		Serial.print(SPIreadOneRegister(0x22));
 	Serial.print(", ACT_INACT_CTL Register is ");  	Serial.println(ACT_INACT_CTL_Reg, HEX);
 	#endif
@@ -187,7 +187,7 @@ void ADXL362::setupACActivityInterrupt(int16_t threshold, byte time){
 	ACT_INACT_CTL_Reg = SPIreadOneRegister(0x27);       // Verify properly written
 
 	#ifdef ADXL362_DEBUG
-	Serial.print("AC Activity Threshold set to ");  	Serial.print(SPIreadTwoRegisters(0x20));
+	Serial.print("ADXL : AC Activity Threshold set to ");  	Serial.print(SPIreadTwoRegisters(0x20));
 	Serial.print(", Time Activity set to ");  		Serial.print(SPIreadOneRegister(0x22));
 	Serial.print(", ACT_INACT_CTL Register is ");  Serial.println(ACT_INACT_CTL_Reg, HEX);
 	#endif
@@ -205,7 +205,7 @@ void ADXL362::setupDCInactivityInterrupt(int16_t threshold, int16_t time){
 	ACT_INACT_CTL_Reg = SPIreadOneRegister(0x27);        // Verify properly written
 
 	#ifdef ADXL362_DEBUG
-	Serial.print("DC Inactivity Threshold set to ");  Serial.print(SPIreadTwoRegisters(0x23));
+	Serial.print("ADXL : DC Inactivity Threshold set to ");  Serial.print(SPIreadTwoRegisters(0x23));
 	Serial.print(", Time Inactivity set to ");  Serial.print(SPIreadTwoRegisters(0x25));
 	Serial.print(", ACT_INACT_CTL Register is ");  Serial.println(ACT_INACT_CTL_Reg, HEX);
 	#endif
@@ -223,7 +223,7 @@ void ADXL362::setupACInactivityInterrupt(int16_t threshold, int16_t time){
 	ACT_INACT_CTL_Reg = SPIreadOneRegister(0x27);        // Verify properly written
 
 	#ifdef ADXL362_DEBUG
-	Serial.print("AC Inactivity Threshold set to ");  Serial.print(SPIreadTwoRegisters(0x23));
+	Serial.print("ADXL : AC Inactivity Threshold set to ");  Serial.print(SPIreadTwoRegisters(0x23));
 	Serial.print(", Time Inactivity set to ");  Serial.print(SPIreadTwoRegisters(0x25));
 	Serial.print(", ACT_INACT_CTL Register is ");  Serial.println(ACT_INACT_CTL_Reg, HEX);
 	#endif
@@ -238,22 +238,22 @@ void ADXL362::checkAllControlRegs(){
 	SPI.transfer(0x0B);  // read instruction
 	SPI.transfer(0x20);  // Start burst read at Reg 20
 	#ifdef ADXL362_DEBUG
-	Serial.println("Start Burst Read of all Control Regs - Library version 6-5-2014:");
-	Serial.print("Reg 20 = "); 	Serial.println(SPI.transfer(0x00), HEX);
-	Serial.print("Reg 21 = "); 	Serial.println(SPI.transfer(0x00), HEX);
-	Serial.print("Reg 22 = "); 	Serial.println(SPI.transfer(0x00), HEX);
-	Serial.print("Reg 23 = "); 	Serial.println(SPI.transfer(0x00), HEX);
-	Serial.print("Reg 24 = "); 	Serial.println(SPI.transfer(0x00), HEX);
-	Serial.print("Reg 25 = "); 	Serial.println(SPI.transfer(0x00), HEX);
-	Serial.print("Reg 26 = "); 	Serial.println(SPI.transfer(0x00), HEX);
-	Serial.print("Reg 27 = "); 	Serial.println(SPI.transfer(0x00), HEX);
-	Serial.print("Reg 28 = "); 	Serial.println(SPI.transfer(0x00), HEX);
-	Serial.print("Reg 29 = "); 	Serial.println(SPI.transfer(0x00), HEX);
-	Serial.print("Reg 2A = "); 	Serial.println(SPI.transfer(0x00), HEX);
-	Serial.print("Reg 2B = "); 	Serial.println(SPI.transfer(0x00), HEX);
-	Serial.print("Reg 2C = "); 	Serial.println(SPI.transfer(0x00), HEX);
-	Serial.print("Reg 2D = "); 	Serial.println(SPI.transfer(0x00), HEX);
-	Serial.print("Reg 2E = "); 	Serial.println(SPI.transfer(0x00), HEX);
+	Serial.println("ADXL : Start Burst Read of all Control Regs - Library version 6-5-2014:");
+	Serial.print("ADXL : Reg 20 = "); 	Serial.println(SPI.transfer(0x00), HEX);
+	Serial.print("ADXL : Reg 21 = "); 	Serial.println(SPI.transfer(0x00), HEX);
+	Serial.print("ADXL : Reg 22 = "); 	Serial.println(SPI.transfer(0x00), HEX);
+	Serial.print("ADXL : Reg 23 = "); 	Serial.println(SPI.transfer(0x00), HEX);
+	Serial.print("ADXL : Reg 24 = "); 	Serial.println(SPI.transfer(0x00), HEX);
+	Serial.print("ADXL : Reg 25 = "); 	Serial.println(SPI.transfer(0x00), HEX);
+	Serial.print("ADXL : Reg 26 = "); 	Serial.println(SPI.transfer(0x00), HEX);
+	Serial.print("ADXL : Reg 27 = "); 	Serial.println(SPI.transfer(0x00), HEX);
+	Serial.print("ADXL : Reg 28 = "); 	Serial.println(SPI.transfer(0x00), HEX);
+	Serial.print("ADXL : Reg 29 = "); 	Serial.println(SPI.transfer(0x00), HEX);
+	Serial.print("ADXL : Reg 2A = "); 	Serial.println(SPI.transfer(0x00), HEX);
+	Serial.print("ADXL : Reg 2B = "); 	Serial.println(SPI.transfer(0x00), HEX);
+	Serial.print("ADXL : Reg 2C = "); 	Serial.println(SPI.transfer(0x00), HEX);
+	Serial.print("ADXL : Reg 2D = "); 	Serial.println(SPI.transfer(0x00), HEX);
+	Serial.print("ADXL : Reg 2E = "); 	Serial.println(SPI.transfer(0x00), HEX);
 	#endif
 	SPI.endTransaction();
 	ADXL_CS_Set();
@@ -264,13 +264,13 @@ void ADXL362::checkAllControlRegs(){
 byte ADXL362::SPIreadOneRegister(byte regAddress){
 	byte regValue = 0;
 	
-	ADXL_CS_Clr();
+	//ADXL_CS_Clr();
 	SPI.beginTransaction(mySPISettings);
 	SPI.transfer(0x0B);  // read instruction
 	SPI.transfer(regAddress);
 	regValue = SPI.transfer(0x00);
 	SPI.endTransaction();
-	ADXL_CS_Set();
+	//ADXL_CS_Set();
 
 	return regValue;
 }

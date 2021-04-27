@@ -4,7 +4,7 @@ void table_set_folder()
 	//loadTableSetBackground(0,80,160,80,load_image);
 	table_image(0,80,160,160,folder_image);
 	table_set_frame(0,80,160,80,frame_popup);
-	Serial.println("set");
+	Serial.println("Device : set");
 }
 
 void table_folder_loop()

@@ -23,10 +23,10 @@
 #define LBBLUE           0X2B12
 #define TRANSPARENT  0xFFFFFFFF
 
-#define LCD_W 160 //106 / 26
-#define LCD_H 80 //161 / 1
-#define W_GAP 1
-#define H_GAP 26
+#define LCD_W	160 //106 / 26
+#define LCD_H	80 //161 / 1
+#define W_GAP	1
+#define H_GAP	26
 
 #define LCD_RES_Clr()  digitalWrite(TFT_RST,LOW)
 #define LCD_RES_Set()  digitalWrite(TFT_RST,HIGH)
@@ -87,6 +87,7 @@ void LCD_enter_sleep_mode(){
 	SPI.endTransaction();
 	LCD_CS_Set();
 }
+
 void LCD_sleep_out(){
 	LCD_CS_Clr();
 	SPI.beginTransaction(mySPISettings);
@@ -94,6 +95,7 @@ void LCD_sleep_out(){
 	SPI.endTransaction();
 	LCD_CS_Set();
 }
+
 void LCD_partial_mode_ON(){
 	LCD_CS_Clr();
 	SPI.beginTransaction(mySPISettings);
@@ -101,6 +103,7 @@ void LCD_partial_mode_ON(){
 	SPI.endTransaction();
 	LCD_CS_Set();
 }
+
 void LCD_normal_display_mode_ON(){
 	LCD_CS_Clr();
 	SPI.beginTransaction(mySPISettings);
@@ -108,6 +111,7 @@ void LCD_normal_display_mode_ON(){
 	SPI.endTransaction();
 	LCD_CS_Set();
 }
+
 void LCD_display_inversion_ON(){
 	LCD_CS_Clr();
 	SPI.beginTransaction(mySPISettings);
@@ -115,6 +119,7 @@ void LCD_display_inversion_ON(){
 	SPI.endTransaction();
 	LCD_CS_Set();
 }
+
 void LCD_display_inversion_OFF(){
 	LCD_CS_Clr();
 	SPI.beginTransaction(mySPISettings);
@@ -122,6 +127,7 @@ void LCD_display_inversion_OFF(){
 	SPI.endTransaction();
 	LCD_CS_Set();
 }
+
 void LCD_display_ON(){
 	LCD_CS_Clr();
 	SPI.beginTransaction(mySPISettings);
@@ -129,6 +135,7 @@ void LCD_display_ON(){
 	SPI.endTransaction();
 	LCD_CS_Set();
 }
+
 void LCD_display_OFF(){
 	LCD_CS_Clr();
 	SPI.beginTransaction(mySPISettings);
@@ -136,6 +143,7 @@ void LCD_display_OFF(){
 	SPI.endTransaction();
 	LCD_CS_Set();
 }
+
 void LCD_memory_write(u16 data){
 	LCD_CS_Clr();
 	SPI.beginTransaction(mySPISettings);
@@ -144,6 +152,7 @@ void LCD_memory_write(u16 data){
 	SPI.endTransaction();
 	LCD_CS_Set();
 }
+
 void LCD_tearing_effect_line_off(){
 	LCD_CS_Clr();
 	SPI.beginTransaction(mySPISettings);
@@ -151,6 +160,7 @@ void LCD_tearing_effect_line_off(){
 	SPI.endTransaction();
 	LCD_CS_Set();
 }
+
 void LCD_tearing_effect_line_on(){
 	LCD_CS_Clr();
 	SPI.beginTransaction(mySPISettings);

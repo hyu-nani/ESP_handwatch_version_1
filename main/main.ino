@@ -46,6 +46,9 @@ word data;
 #include "heartRate.h"
 MAX30105 particleSensor;
 
+#include "Adafruit_APDS9960.h"
+Adafruit_APDS9960 apds;
+
 #include "APDS9960.h"
 
 #include "ADXL362.h"
@@ -79,6 +82,7 @@ void setup() {
 	//WiFi_begin();
 	watch_init();
 	SD_init();
+	APDSInitWatch();
 	initial_table();
 	for (int i=0 ; i< 29 ;i++)
 	{

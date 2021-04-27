@@ -412,3 +412,22 @@ void table_print_SevenSegNumFont32X50(u16 x,u16 y, int c,u16 color){
 		m++;
 	}
 }
+
+u16 YPin[160]={0};
+int GraphCount=0;
+void table_graph(u16 x, u16 y, u16 w, u16 h, int val,int val_min,int val_max, u16 edge_color, u16 back_color, u16 line_color){
+	if((x >= table_w) || (y >= table_h)) return;
+	if((x + w - 1) >= table_w)  w = table_w  - x;
+	if((y + h - 1) >= table_h) h = table_h - y;
+	YPin[GraphCount] = map(val,val_min,val_max,y+h,y);
+	if((YPin[GraphCount] < y)||(YPin[GraphCount] > y+h)) YPin[GraphCount] = 0;
+	GraphCount++;
+	if(GraphCount > w)GraphCount = 0;
+	
+	table_fill_Rect(x,y,w,h,back_color);
+	table_Rect(x,y,w,h,edge_color);
+	for(int i=x;i<x+w;i++){
+		display_table[y+YPin[i-x]][i] = line_color;
+	}
+	table_VLine(x+GraphCount, y, h, edge_color);
+}

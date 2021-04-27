@@ -39,6 +39,11 @@ void Clock_update()
 
 void Clock_play()
 {
+	uint8_t gesture = apds.readGesture();
+	if(gesture == APDS9960_DOWN) Serial.println("v");
+	if(gesture == APDS9960_UP) Serial.println("^");
+	if(gesture == APDS9960_LEFT) Serial.println("<");
+	if(gesture == APDS9960_RIGHT) Serial.println(">");
 	now_ms = millis();
 	if(now_ms - prev_ms > sec_period*4){
 		table_fill_block(1,BLACK);

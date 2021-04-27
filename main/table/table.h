@@ -79,6 +79,7 @@ void print_display(int x, int y){
 	}
 	SPI.endTransaction();
 	LCD_CS_Set();
+	delay(1);
 }
 
 void table_set_frame(word x, word y ,word frame_size_w, word frame_size_h,const short unsigned A[])

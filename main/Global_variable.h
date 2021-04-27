@@ -32,8 +32,8 @@ byte rates[RATE_SIZE]; //Array of heart rates
 byte rateSpot = 0;
 long lastBeat = 0; //Time at which the last beat occurred
 
-float beatsPerMinute;
-int beatAvg;
+float	beatsPerMinute;
+int		beatAvg;
 
 //int16_t temp;
 int16_t XValue, YValue, ZValue, Temperature;
@@ -54,6 +54,12 @@ unsigned long now_ms=millis();
 unsigned long sec_period		=	1000;
 unsigned long update_cycle_time =	60000;
 
+//MAX heart
+int IR_max = 100000;
+int IR_min = 120000;
+int IR_val[160] = {110000};
+	
+	
 word convert_CtoB(char A){
 	unsigned short B=16;
 	switch(A)
