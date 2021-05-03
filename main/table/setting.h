@@ -531,12 +531,12 @@ void table_setmode_loop(){ //setting loop
 					else{
 						table_graph(10,20,140,48,irValue,IR_min,IR_max,BLUE,BLACK,CYAN);
 						IR_val[GraphCount] = irValue;
-						int Gmin=120000,Gmax=0;
+						int Gmin=120000,Gmax=100000;
 						for(int i=0;i<140;i++){
 							if(		IR_val[i]<Gmin)	Gmin = IR_val[i];
 							else if(IR_val[i]>Gmax)	Gmax = IR_val[i];
 						}
-						IR_min = Gmin-3000;
+						IR_min = Gmin-5000;
 						IR_max = Gmax;
 				  		table_print(20,70,"BEAT:",BLACK,1);
 				  		table_print(90,70,"AVER:",BLACK,1);
@@ -572,20 +572,20 @@ void table_setmode_loop(){ //setting loop
 						option_active = false;
 						goto reset;
 					}
-				//	xl.beginMeasure();  
-					xl.readXYZTData(XValue, YValue, ZValue, Temperature);
+				//	xl.beginMeasure(); 
+				//	xl.readXYZTData(XValue, YValue, ZValue, Temperature);
 				//	ADXL_CS_Clr();
-				//	XValue=xl.readXData();
+					XValue=xl.readXData();
 				//	YValue=xl.readYData();
-				//	ZValue=xl.readZData();
+					ZValue=xl.readZData();
 				//	ADXL_CS_Set();
 					
-					if (XValue>A||XValue<-A)
-					XValue=A;
-					if (YValue>A||YValue<-A)
-					YValue=A;
-					if (ZValue>A||ZValue<-A)
-					ZValue=A;
+					if (XValue>A)XValue=A;
+					else if(XValue<-A)XValue=-A;
+					if (YValue>A)YValue=A;
+					else if(YValue<-A)YValue=-A;
+					if (ZValue>A)ZValue=A;
+					else if(ZValue<-A)ZValue=-A;
 					
 					xv = (map(XValue,-A,A,0,110)+xv*4)/5;
 					yv = (map(YValue,-A,A,0,110)+yv*4)/5;
@@ -609,29 +609,21 @@ void table_setmode_loop(){ //setting loop
 						Serial.print("\tTEMPERATURE=");
 						Serial.println(Temperature);
 					}
-					if(a!=xv||b!=yv||c!=zv||d!=Temperature){
-						table_fill_block(1,WHITE);
-						table_print(15,20,"X",BLUE,1);
-						table_print(15,30,"Y",BLUE,1);
-						table_print(15,40,"Z",BLUE,1);
-						table_Rect(30,20,110,5,RED);
-						table_Rect(30,30,110,5,RED);
-						table_Rect(30,40,110,5,RED);
+					table_fill_block(1,WHITE);
+					table_print(15,20,"X",BLUE,1);
+					table_print(15,30,"Y",BLUE,1);
+					table_print(15,40,"Z",BLUE,1);
+					table_Rect(30,20,110,5,RED);
+					table_Rect(30,30,110,5,RED);
+					table_Rect(30,40,110,5,RED);
+					table_fill_Rect(30,20,xv,5,RED);
+					table_fill_Rect(30,30,yv,5,RED);
+					table_fill_Rect(30,40,zv,5,RED);
+					table_print(75,60,Temperature,MAGENTA,1);
 						
-						table_fill_Rect(30,20,xv,5,RED);
-						table_fill_Rect(30,30,yv,5,RED);
-						table_fill_Rect(30,40,zv,5,RED);
-						table_print(75,60,Temperature,MAGENTA,1);
-						
-						table_Line(85,17,85,48,1,BLUE);
-						table_set_frame(0,0,160,80,frame_round);
-						print_display(display_x,display_y);
-					}
-					else{
-						xl.beginMeasure();              // Switch ADXL362 to measure mode
-						delay(10);
-					}
-					a=xv;b=yv,c=zv,d=Temperature;
+					table_Line(85,17,85,48,1,BLUE);
+					table_set_frame(0,0,160,80,frame_round);
+					print_display(display_x,display_y);
 					delay(1);
 					
 				}

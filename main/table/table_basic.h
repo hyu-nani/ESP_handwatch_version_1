@@ -419,8 +419,11 @@ void table_graph(u16 x, u16 y, u16 w, u16 h, int val,int val_min,int val_max, u1
 	if((x >= table_w) || (y >= table_h)) return;
 	if((x + w - 1) >= table_w)  w = table_w  - x;
 	if((y + h - 1) >= table_h) h = table_h - y;
-	YPin[GraphCount] = map(val,val_min,val_max,y+h,y);
-	if((YPin[GraphCount] < y)||(YPin[GraphCount] > y+h)) YPin[GraphCount] = 0;
+	IR_val[GraphCount] = val;
+	for(int i=0;i<160;i++){
+		YPin[i] = map(IR_val[i],val_min,val_max,y+h,y);
+	}
+	if((YPin[GraphCount] < y)||(YPin[GraphCount] > y+h)) YPin[GraphCount] = 110000;
 	GraphCount++;
 	if(GraphCount > w)GraphCount = 0;
 	

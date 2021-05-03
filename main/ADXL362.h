@@ -88,8 +88,9 @@ void ADXL362::beginMeasure() {
 //  Read X, Y, Z, and Temp registers
 //
 int16_t ADXL362::readXData(){
+	ADXL_CS_Clr();
 	int16_t XDATA = SPIreadTwoRegisters(0x0E);
-	
+	ADXL_CS_Set();
 	#ifdef ADXL362_DEBUG
 	Serial.print("ADXL : XDATA = ");
 	Serial.println(XDATA);
@@ -99,8 +100,9 @@ int16_t ADXL362::readXData(){
 }
 
 int16_t ADXL362::readYData(){
+	ADXL_CS_Clr();
 	int16_t YDATA = SPIreadTwoRegisters(0x10);
-
+	ADXL_CS_Set();
 	#ifdef ADXL362_DEBUG
 	Serial.print("ADXL : \tYDATA = ");
 	Serial.println(YDATA);
@@ -110,8 +112,9 @@ int16_t ADXL362::readYData(){
 }
 
 int16_t ADXL362::readZData(){
+	ADXL_CS_Clr();
 	int16_t ZDATA = SPIreadTwoRegisters(0x12);
-
+	ADXL_CS_Set();
 	#ifdef ADXL362_DEBUG
 	Serial.print("ADXL : \tZDATA = ");
 	Serial.println(ZDATA);
@@ -121,8 +124,9 @@ int16_t ADXL362::readZData(){
 }
 
 int16_t ADXL362::readTemp(){
+	ADXL_CS_Clr();
 	int16_t TEMP = SPIreadTwoRegisters(0x14);
-
+	ADXL_CS_Set();
 	#ifdef ADXL362_DEBUG
 	Serial.print("ADXL : \tTEMP = ");
 	Serial.println(TEMP);
@@ -159,6 +163,7 @@ void ADXL362::readXYZTData(int16_t &XData, int16_t &YData, int16_t &ZData, int16
 
 void ADXL362::setupDCActivityInterrupt(int16_t threshold, byte time){
 	//  Setup motion and time thresholds
+	ADXL_CS_Clr();
 	SPIwriteTwoRegisters(0x20, threshold);
 	SPIwriteOneRegister(0x22, time);
 
@@ -167,7 +172,7 @@ void ADXL362::setupDCActivityInterrupt(int16_t threshold, byte time){
 	ACT_INACT_CTL_Reg = ACT_INACT_CTL_Reg | (0x01);     // turn on bit 1, ACT_EN
 	SPIwriteOneRegister(0x27, ACT_INACT_CTL_Reg);       // Write new reg value
 	ACT_INACT_CTL_Reg = SPIreadOneRegister(0x27);       // Verify properly written
-
+	ADXL_CS_Set();
 	#ifdef ADXL362_DEBUG
 	Serial.print("ADXL : DC Activity Threshold set to ");  	Serial.print(SPIreadTwoRegisters(0x20));
 	Serial.print(", Time threshold set to ");  		Serial.print(SPIreadOneRegister(0x22));
@@ -177,6 +182,7 @@ void ADXL362::setupDCActivityInterrupt(int16_t threshold, byte time){
 
 void ADXL362::setupACActivityInterrupt(int16_t threshold, byte time){
 	//  Setup motion and time thresholds
+	ADXL_CS_Clr();
 	SPIwriteTwoRegisters(0x20, threshold);
 	SPIwriteOneRegister(0x22, time);
 	
@@ -185,7 +191,7 @@ void ADXL362::setupACActivityInterrupt(int16_t threshold, byte time){
 	ACT_INACT_CTL_Reg = ACT_INACT_CTL_Reg | (0x03);     // turn on bit 2 and 1, ACT_AC_DCB, ACT_EN
 	SPIwriteOneRegister(0x27, ACT_INACT_CTL_Reg);       // Write new reg value
 	ACT_INACT_CTL_Reg = SPIreadOneRegister(0x27);       // Verify properly written
-
+	ADXL_CS_Set();
 	#ifdef ADXL362_DEBUG
 	Serial.print("ADXL : AC Activity Threshold set to ");  	Serial.print(SPIreadTwoRegisters(0x20));
 	Serial.print(", Time Activity set to ");  		Serial.print(SPIreadOneRegister(0x22));
@@ -195,6 +201,7 @@ void ADXL362::setupACActivityInterrupt(int16_t threshold, byte time){
 
 void ADXL362::setupDCInactivityInterrupt(int16_t threshold, int16_t time){
 	// Setup motion and time thresholds
+	ADXL_CS_Clr();
 	SPIwriteTwoRegisters(0x23, threshold);
 	SPIwriteTwoRegisters(0x25, time);
 
@@ -203,7 +210,7 @@ void ADXL362::setupDCInactivityInterrupt(int16_t threshold, int16_t time){
 	ACT_INACT_CTL_Reg = ACT_INACT_CTL_Reg | (0x04);      // turn on bit 3, INACT_EN
 	SPIwriteOneRegister(0x27, ACT_INACT_CTL_Reg);        // Write new reg value
 	ACT_INACT_CTL_Reg = SPIreadOneRegister(0x27);        // Verify properly written
-
+	ADXL_CS_Set();
 	#ifdef ADXL362_DEBUG
 	Serial.print("ADXL : DC Inactivity Threshold set to ");  Serial.print(SPIreadTwoRegisters(0x23));
 	Serial.print(", Time Inactivity set to ");  Serial.print(SPIreadTwoRegisters(0x25));
@@ -212,6 +219,7 @@ void ADXL362::setupDCInactivityInterrupt(int16_t threshold, int16_t time){
 }
 
 void ADXL362::setupACInactivityInterrupt(int16_t threshold, int16_t time){
+	ADXL_CS_Clr();
 	//  Setup motion and time thresholds
 	SPIwriteTwoRegisters(0x23, threshold);
 	SPIwriteTwoRegisters(0x25, time);
@@ -221,7 +229,7 @@ void ADXL362::setupACInactivityInterrupt(int16_t threshold, int16_t time){
 	ACT_INACT_CTL_Reg = ACT_INACT_CTL_Reg | (0x0C);      // turn on bit 3 and 4, INACT_AC_DCB, INACT_EN
 	SPIwriteOneRegister(0x27, ACT_INACT_CTL_Reg);        // Write new reg value
 	ACT_INACT_CTL_Reg = SPIreadOneRegister(0x27);        // Verify properly written
-
+	ADXL_CS_Set();
 	#ifdef ADXL362_DEBUG
 	Serial.print("ADXL : AC Inactivity Threshold set to ");  Serial.print(SPIreadTwoRegisters(0x23));
 	Serial.print(", Time Inactivity set to ");  Serial.print(SPIreadTwoRegisters(0x25));
@@ -264,13 +272,13 @@ void ADXL362::checkAllControlRegs(){
 byte ADXL362::SPIreadOneRegister(byte regAddress){
 	byte regValue = 0;
 	
-	//ADXL_CS_Clr();
+	ADXL_CS_Clr();
 	SPI.beginTransaction(mySPISettings);
 	SPI.transfer(0x0B);  // read instruction
 	SPI.transfer(regAddress);
 	regValue = SPI.transfer(0x00);
 	SPI.endTransaction();
-	//ADXL_CS_Set();
+	ADXL_CS_Set();
 
 	return regValue;
 }
