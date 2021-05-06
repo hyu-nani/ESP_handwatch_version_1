@@ -115,10 +115,11 @@ void table_setmode_loop(){ //setting loop
 				table_set_frame(0,0,160,80,frame_round);
 				print_display(display_x,display_y);
 				WiFi_scan();
+				
 				int select_wifi=0;
+				
 				while (true)
 				{
-					
 					delay(10);
 					data = swcheck();
 					table_fill_block(1,WHITE);				  //
@@ -573,13 +574,22 @@ void table_setmode_loop(){ //setting loop
 						goto reset;
 					}
 				//	xl.beginMeasure(); 
-				//	xl.readXYZTData(XValue, YValue, ZValue, Temperature);
+					xl.readXYZTData(XValue, YValue, ZValue, Temperature);
 				//	ADXL_CS_Clr();
-					XValue=xl.readXData();
+				//	XValue=xl.readXData();
 				//	YValue=xl.readYData();
-					ZValue=xl.readZData();
+				//	ZValue=xl.readZData();
 				//	ADXL_CS_Set();
-					
+					if(charge_state == true){
+						Serial.print("ADXL : XVALUE=");
+						Serial.print(XValue);
+						Serial.print("\tYVALUE=");
+						Serial.print(YValue);
+						Serial.print("\tZVALUE=");
+						Serial.print(ZValue);
+						Serial.print("\tTEMPERATURE=");
+						Serial.println(Temperature);
+					}
 					if (XValue>A)XValue=A;
 					else if(XValue<-A)XValue=-A;
 					if (YValue>A)YValue=A;
@@ -599,16 +609,6 @@ void table_setmode_loop(){ //setting loop
 				//	direction = 2;	//side
 				//	else if(zv>110)
 				//	direction = 3;	//lay
-					if(charge_state == true){
-						Serial.print("ADXL : XVALUE=");
-						Serial.print(XValue);
-						Serial.print("\tYVALUE=");
-						Serial.print(YValue);
-						Serial.print("\tZVALUE=");
-						Serial.print(ZValue);
-						Serial.print("\tTEMPERATURE=");
-						Serial.println(Temperature);
-					}
 					table_fill_block(1,WHITE);
 					table_print(15,20,"X",BLUE,1);
 					table_print(15,30,"Y",BLUE,1);
