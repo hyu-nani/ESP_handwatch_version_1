@@ -25,7 +25,7 @@ unsigned short	load_image[Image_hight*Image_width] = {0};
 char*			listDirName[20];
 
 //ADXL
-
+uint8_t		SensitiveADXL		=	5;
 //APDS
 bool		initStateAPDS		=	false;
 

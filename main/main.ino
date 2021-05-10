@@ -52,7 +52,7 @@ Adafruit_APDS9960 apds;
 #include "APDS9960.h"
 
 #include "ADXL362.h"
-ADXL362		xl;
+ADXL362 xl;
 
 #include "DFRobot_SHT20.h" 
 DFRobot_SHT20    sht20;

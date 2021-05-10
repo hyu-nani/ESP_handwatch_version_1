@@ -445,19 +445,23 @@ void tableAccGraph(u16 x, u16 y, u16 w, u16 h, u16 edge_color, u16 BG_color)
 	if((x >= table_w) || (y >= table_h)) return;
 	if((x + w - 1) >= table_w)  w = table_w  - x;
 	if((y + h - 1) >= table_h) h = table_h - y;
-	//ADXL_CS_Clr();
-	//xl.readXYZTData(XValue, YValue, ZValue, Temperature);
-	//ADXL_CS_Set();
-	if (Xpin[GraphCount]>A)Xpin[GraphCount]=A-1;
-	else if(Xpin[GraphCount]<-A)Xpin[GraphCount]=-A+1;
-	if (Ypin[GraphCount]>A)Ypin[GraphCount]=A-1;
-	else if(Ypin[GraphCount]<-A)Ypin[GraphCount]=-A+1;
-	if (Zpin[GraphCount]>A)Zpin[GraphCount]=A-1;
-	else if(Zpin[GraphCount]<-A)Zpin[GraphCount]=-A+1;
-	Xpin[GraphCount]=map(XValue,-A,A,y+h,y);
-	Ypin[GraphCount]=map(YValue,-A,A,y+h,y);
-	Zpin[GraphCount]=map(ZValue,-A,A,y+h,y);
-	
+	xl.readXYZTData(XValue, YValue, ZValue, Temperature);
+	if (XValue>A)XValue=A-2;
+	else if(XValue<-A)XValue=2-A;
+	if (YValue>A)YValue=A-2;
+	else if(YValue<-A)YValue=2-A;
+	if (ZValue>A)ZValue=A-2;
+	else if(ZValue<-A)ZValue=2-A;
+	if(GraphCount==0){
+		Xpin[0]=(map(XValue,-A,A,y+h,y)+Xpin[w-1]*(SensitiveADXL-1))/SensitiveADXL;
+		Ypin[0]=(map(YValue,-A,A,y+h,y)+Xpin[w-1]*(SensitiveADXL-1))/SensitiveADXL;
+		Zpin[0]=(map(ZValue,-A,A,y+h,y)+Xpin[w-1]*(SensitiveADXL-1))/SensitiveADXL;
+	}
+	else{
+		Xpin[GraphCount]=(map(XValue,-A,A,y+h,y)+Xpin[GraphCount-1]*(SensitiveADXL-1))/SensitiveADXL;
+		Ypin[GraphCount]=(map(YValue,-A,A,y+h,y)+Ypin[GraphCount-1]*(SensitiveADXL-1))/SensitiveADXL;
+		Zpin[GraphCount]=(map(ZValue,-A,A,y+h,y)+Zpin[GraphCount-1]*(SensitiveADXL-1))/SensitiveADXL;
+	}
 	GraphCount++;
 	if(GraphCount > w-1) GraphCount = 0;
 	
@@ -473,8 +477,10 @@ void tableAccGraph(u16 x, u16 y, u16 w, u16 h, u16 edge_color, u16 BG_color)
 	}
 	table_HLine(x, y+h/2, w, WHITE);
 	table_VLine(x+GraphCount, y, h, edge_color);
-	table_print(x+20,y+h/2-10,"0",WHITE,1);
+	table_print(x+10,y+h/2-10,"0",WHITE,1);
 	table_print(x+4,y+h-10,"X",RED,1);
 	table_print(x+12,y+h-10,"Y",GREEN,1);
 	table_print(x+20,y+h-10,"Z",BLUE,1);
+	table_print(x+w-20,y+h-10,"S:",CYAN,1);
+	table_print(x+w-10,y+h-10,SensitiveADXL,CYAN,1);
 }

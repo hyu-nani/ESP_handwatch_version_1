@@ -561,6 +561,7 @@ void table_setmode_loop(){ //setting loop
 				//table_print(10,40,"Pls, connect to Serial",BLACK,1);
 				table_set_frame(0,0,160,80,frame_round);
 				print_display(display_x,display_y);
+				xl.begin();                   // Setup SPI protocol, issue device soft reset
 				xl.beginMeasure();
 				int direction=0;
 				Serial.println("ADXL : Start Demo: Simple Read");
@@ -575,16 +576,20 @@ void table_setmode_loop(){ //setting loop
 					data = swcheck();
 					if(data == 'M'){
 						option_active = false;
+						//mySPISettings = SPISettings(60000000, MSBFIRST, SPI_MODE0); //ESP speed /4
 						goto reset;
 					}
+					else if(data == 'D'&&SensitiveADXL>2)
+						SensitiveADXL--;
+					else if(data == 'U'&&SensitiveADXL<9)
+						SensitiveADXL++;
 				//	xl.beginMeasure(); 
-					xl.readXYZTData(XValue, YValue, ZValue, Temperature);
-				//	ADXL_CS_Clr();
+					xl.readXYZTData(XValue, YValue, ZValue, Temperature);  
 				//	XValue=xl.readXData();
 				//	YValue=xl.readYData();
 				//	ZValue=xl.readZData();
-				//	ADXL_CS_Set();
 					tableAccGraph(0,0,160,80,MAGENTA,BLACK);
+					
 					if(charge_state == true){
 						Serial.print("ADXL : XVALUE=");
 						Serial.print(XValue);
@@ -595,43 +600,9 @@ void table_setmode_loop(){ //setting loop
 						Serial.print("\tTEMPERATURE=");
 						Serial.println(Temperature);
 					}
-					/*
-					if (XValue>A)XValue=A;
-					else if(XValue<-A)XValue=-A;
-					if (YValue>A)YValue=A;
-					else if(YValue<-A)YValue=-A;
-					if (ZValue>A)ZValue=A;
-					else if(ZValue<-A)ZValue=-A;
-					
-					xv = (map(XValue,-A,A,0,110)+xv*4)/5;
-					yv = (map(YValue,-A,A,0,110)+yv*4)/5;
-					zv = (map(ZValue,-A,A,0,110)+zv*4)/5;
-				//	xv = map(XValue,-255,255,0,110);
-				//	yv = map(YValue,-255,255,0,110);
-				//	zv = map(ZValue,-255,255,0,110);
-				//	if (xv>110)
-				//	direction = 1;	//stand
-				//	else if(yv>110)
-				//	direction = 2;	//side
-				//	else if(zv>110)
-				//	direction = 3;	//lay
-					table_fill_block(1,WHITE);
-					table_print(15,20,"X",BLUE,1);
-					table_print(15,30,"Y",BLUE,1);
-					table_print(15,40,"Z",BLUE,1);
-					table_Rect(30,20,110,5,RED);
-					table_Rect(30,30,110,5,RED);
-					table_Rect(30,40,110,5,RED);
-					table_fill_Rect(30,20,xv,5,RED);
-					table_fill_Rect(30,30,yv,5,RED);
-					table_fill_Rect(30,40,zv,5,RED);
-					table_print(75,60,Temperature,MAGENTA,1);
-						
-					table_Line(85,17,85,48,1,BLUE);
-					table_set_frame(0,0,160,80,frame_round);
-					*/
+				
 					print_display(display_x,display_y);
-					//delay(1);
+					delay(1);
 					
 				}
 			}

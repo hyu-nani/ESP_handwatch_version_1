@@ -51,7 +51,7 @@ void main_loop(){
 	//========================================================== health mode
 	else if(mode == 1)
 	{   
-		health_setup();
+		//health_setup();
 		while(true)
 		{
 			health_loop();

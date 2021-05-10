@@ -62,6 +62,12 @@ void initial_table(){
 	}
 	table_y=0;
 	table_x=0;
+	for (int i=0;i<160;i++)
+	{
+		Xpin[i]=1;
+		Ypin[i]=1;
+		Zpin[i]=1;
+	}
 }
 
 void print_display(int x, int y){
