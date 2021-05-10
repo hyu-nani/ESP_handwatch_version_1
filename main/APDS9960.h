@@ -7,12 +7,15 @@
 // Initialize interrupt service routine
 void APDSInitWatch()
 {
-	if(!apds.begin()){
-		Serial.println("APDS : failed to initialize device! Please check your wiring.");
-	}
-	else Serial.println("APDS : Device initialized!");
-
+	if(initStateAPDS == false)
+		if(!apds.begin()){
+			Serial.println("APDS : failed to initialize device! Please check your wiring.");
+		}
+		else{
+			initStateAPDS = true;
+			Serial.println("APDS : Device initialized!");
+			apds.enableProximity(true);
+			apds.enableGesture(true);
+		}
 	//gesture mode will be entered once proximity mode senses something close
-	apds.enableProximity(true);
-	apds.enableGesture(true);
 }

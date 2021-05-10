@@ -68,9 +68,8 @@ void setup() {
 	EEPROM_Data_Read();
 	SPIClass(VSPI);
 	SPI.begin();		//SPI begin
-	//Wire.begin();	//i2c begin
-	watch_pinset();
 	mySPISettings = SPISettings(60000000, MSBFIRST, SPI_MODE0); //ESP speed /4
+	watch_pinset();
 	LCD_Init();
 	LCD_image(0,0,LCD_W,LCD_H,loading[0]);
 	LCD_smooth_on(4,200);
@@ -82,7 +81,6 @@ void setup() {
 	//WiFi_begin();
 	watch_init();
 	SD_init();
-	APDSInitWatch();
 	initial_table();
 	for (int i=0 ; i< 29 ;i++)
 	{
@@ -90,8 +88,12 @@ void setup() {
 	}
 	delay(1);
 	LCD_smooth_off(3);
-	
 	//configTime(GMT_SEC,DST_SEC,"kr.pool.ntp.org");
+	delay(1);
+	//Clock_set();
+	//watchBasicTask();
+	//data = swcheck_no_stop();
+	//APDSInitWatch();
 }
 
 

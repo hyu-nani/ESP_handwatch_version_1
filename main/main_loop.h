@@ -19,7 +19,7 @@ void main_loop(){
 			Clock_play();
 			watchBasicTask();
 			print_display(display_x,display_y);
-			delay(1);
+		//	delay(1);
 			data = swcheck_no_stop();
 			if(data == 'D')
 			{
@@ -51,11 +51,11 @@ void main_loop(){
 	//========================================================== health mode
 	else if(mode == 1)
 	{   
-		
+		health_setup();
 		while(true)
 		{
+			health_loop();
 			print_display(display_x,display_y);
-			delay(1);
 			data = swcheck_no_stop();
 			if(data == 'D')
 			{
@@ -112,11 +112,10 @@ void main_loop(){
 	//========================================================== temperature
 	else if(mode == 3)
 	{
-		
 		while(true)
 		{
 			print_display(display_x,display_y);
-			delay(1);
+		//	delay(1);
 			data = swcheck_no_stop();
 			if(data == 'D')
 			{
@@ -179,7 +178,7 @@ void main_loop(){
 		while(true)
 		{
 			print_display(display_x,display_y);
-			delay(1);
+		//	delay(1);
 			data = swcheck_no_stop();
 			if(data == 'D'){
 				table_fill_block(1,BLACK);

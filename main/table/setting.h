@@ -60,7 +60,7 @@ void table_setmode_loop(){ //setting loop
 		else if(option_page==4){
 			table_print(10,10,"=======SETTING/4=======",BLUE,1);
 			table_print(20,20," I2C address",BLACK,1);
-			table_print(20,30," Please",BLACK,1);
+			table_print(20,30," APDS test",BLACK,1);
 			table_print(20,40," help me",BLACK,1);
 			table_print(20,50," >> NEXT Page",BLACK,1);
 			table_print(20,60," << BACK Page",BLACK,1);
@@ -537,8 +537,12 @@ void table_setmode_loop(){ //setting loop
 							if(		IR_val[i]<Gmin)	Gmin = IR_val[i];
 							else if(IR_val[i]>Gmax)	Gmax = IR_val[i];
 						}
-						IR_min = Gmin-5000;
-						IR_max = Gmax;
+						IR_min = Gmin-3000;
+						IR_max = Gmax-800;
+					//	Serial.print("min:");
+					//	Serial.print(IR_min);
+					//	Serial.print(" max:");
+					//	Serial.println(IR_max);
 				  		table_print(20,70,"BEAT:",BLACK,1);
 				  		table_print(90,70,"AVER:",BLACK,1);
 				  		table_print(50,70,beatsPerMinute,RED,1);
@@ -557,12 +561,12 @@ void table_setmode_loop(){ //setting loop
 				//table_print(10,40,"Pls, connect to Serial",BLACK,1);
 				table_set_frame(0,0,160,80,frame_round);
 				print_display(display_x,display_y);
-				xl.beginMeasure();              // Switch ADXL362 to measure mode
+				xl.beginMeasure();
 				int direction=0;
 				Serial.println("ADXL : Start Demo: Simple Read");
 				int xv=0,yv=0,zv=0;
 				delay(500);
-				
+				GraphCount =0;
 				int A = 500;
 				int a,b,c,d;
 				
@@ -580,6 +584,7 @@ void table_setmode_loop(){ //setting loop
 				//	YValue=xl.readYData();
 				//	ZValue=xl.readZData();
 				//	ADXL_CS_Set();
+					tableAccGraph(0,0,160,80,MAGENTA,BLACK);
 					if(charge_state == true){
 						Serial.print("ADXL : XVALUE=");
 						Serial.print(XValue);
@@ -590,6 +595,7 @@ void table_setmode_loop(){ //setting loop
 						Serial.print("\tTEMPERATURE=");
 						Serial.println(Temperature);
 					}
+					/*
 					if (XValue>A)XValue=A;
 					else if(XValue<-A)XValue=-A;
 					if (YValue>A)YValue=A;
@@ -623,8 +629,9 @@ void table_setmode_loop(){ //setting loop
 						
 					table_Line(85,17,85,48,1,BLUE);
 					table_set_frame(0,0,160,80,frame_round);
+					*/
 					print_display(display_x,display_y);
-					delay(1);
+					//delay(1);
 					
 				}
 			}
@@ -685,12 +692,42 @@ void table_setmode_loop(){ //setting loop
 				}
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
-			else if (cursor_y == 30&&option_page==4&&option_active == true)
+			else if (cursor_y == 30&&option_page==4&&option_active == true) //APDS test gesture
 			{
+				if(!apds.begin()){
+					Serial.println("APDS : failed to initialize device! Please check your wiring.");
+				}
+				else Serial.println("APDS : Device initialized!");
+
+				//gesture mode will be entered once proximity mode senses something close
+				apds.enableProximity(true);
+				apds.enableGesture(true);
+				while (true)
+				{
+					data = swcheck();
+					if(data == 'M'){
+						option_active = false;
+						apds.enableGesture(false);
+						apds.enableProximity(false);
+						apds.enableColor(false);
+						goto reset;
+					}
+					table_fill_block(1,WHITE);
+					table_print(15,10,"====== APDS test ======",BLUE,1);
+					uint8_t gesture = apds.readGesture();
+					if(gesture == APDS9960_DOWN)	table_print(65,30,"v",BLUE,3);
+					if(gesture == APDS9960_UP)		table_print(65,30,"^",BLUE,3);
+					if(gesture == APDS9960_LEFT)	table_print(65,30,"<",BLUE,3);
+					if(gesture == APDS9960_RIGHT)	table_print(65,30,">",BLUE,3);
+					table_set_frame(0,0,160,80,frame_round);
+					print_display(display_x,display_y);
+				}
+				
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 40&&option_page==4&&option_active == true)
 			{
+				
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 20&&option_page==5&&option_active == true)

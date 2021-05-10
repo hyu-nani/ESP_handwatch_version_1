@@ -4,7 +4,7 @@
  * Created: 2021-04-07 오전 11:32:04
  *  Author: cube_
  */ 
-
+#define adxl_freq 10000000
 
 class ADXL362
 {
@@ -61,6 +61,7 @@ ADXL362::ADXL362() {
 
 
 void ADXL362::beginMeasure() {
+	mySPISettings = SPISettings(adxl_freq, MSBFIRST, SPI_MODE0); //ESP speed /4
 	ADXL_CS_Clr();
 	byte tempADXL = SPIreadOneRegister(0x2D);	// read Reg 2D before modifying for measure mode
 
@@ -74,6 +75,7 @@ void ADXL362::beginMeasure() {
 	SPIwriteOneRegister(0x2D, tempwrite);		// Write to POWER_CTL_REG, Measurement Mode
 	delay(10);
 	ADXL_CS_Set();
+	mySPISettings = SPISettings(60000000, MSBFIRST, SPI_MODE0); //ESP speed /4
 	
 	#ifdef ADXL362_DEBUG
 	temp = SPIreadOneRegister(0x2D);
@@ -88,9 +90,11 @@ void ADXL362::beginMeasure() {
 //  Read X, Y, Z, and Temp registers
 //
 int16_t ADXL362::readXData(){
+	mySPISettings = SPISettings(adxl_freq, MSBFIRST, SPI_MODE0); //ESP speed /4
 	ADXL_CS_Clr();
 	int16_t XDATA = SPIreadTwoRegisters(0x0E);
 	ADXL_CS_Set();
+	mySPISettings = SPISettings(60000000, MSBFIRST, SPI_MODE0); //ESP speed /4
 	#ifdef ADXL362_DEBUG
 	Serial.print("ADXL : XDATA = ");
 	Serial.println(XDATA);
@@ -100,9 +104,11 @@ int16_t ADXL362::readXData(){
 }
 
 int16_t ADXL362::readYData(){
+	mySPISettings = SPISettings(adxl_freq, MSBFIRST, SPI_MODE0); //ESP speed /4
 	ADXL_CS_Clr();
 	int16_t YDATA = SPIreadTwoRegisters(0x10);
 	ADXL_CS_Set();
+	mySPISettings = SPISettings(60000000, MSBFIRST, SPI_MODE0); //ESP speed /4
 	#ifdef ADXL362_DEBUG
 	Serial.print("ADXL : \tYDATA = ");
 	Serial.println(YDATA);
@@ -112,9 +118,11 @@ int16_t ADXL362::readYData(){
 }
 
 int16_t ADXL362::readZData(){
+	mySPISettings = SPISettings(adxl_freq, MSBFIRST, SPI_MODE0); //ESP speed /4
 	ADXL_CS_Clr();
 	int16_t ZDATA = SPIreadTwoRegisters(0x12);
 	ADXL_CS_Set();
+	mySPISettings = SPISettings(60000000, MSBFIRST, SPI_MODE0); //ESP speed /4
 	#ifdef ADXL362_DEBUG
 	Serial.print("ADXL : \tZDATA = ");
 	Serial.println(ZDATA);
@@ -124,9 +132,11 @@ int16_t ADXL362::readZData(){
 }
 
 int16_t ADXL362::readTemp(){
+	mySPISettings = SPISettings(adxl_freq, MSBFIRST, SPI_MODE0); //ESP speed /4
 	ADXL_CS_Clr();
 	int16_t TEMP = SPIreadTwoRegisters(0x14);
 	ADXL_CS_Set();
+	mySPISettings = SPISettings(60000000, MSBFIRST, SPI_MODE0); //ESP speed /4
 	#ifdef ADXL362_DEBUG
 	Serial.print("ADXL : \tTEMP = ");
 	Serial.println(TEMP);
@@ -138,6 +148,7 @@ int16_t ADXL362::readTemp(){
 void ADXL362::readXYZTData(int16_t &XData, int16_t &YData, int16_t &ZData, int16_t &Temperature){
 	// burst SPI read
 	// A burst read of all three axis is required to guarantee all measurements correspond to same sample time
+	mySPISettings = SPISettings(adxl_freq, MSBFIRST, SPI_MODE0); //ESP speed /4
 	ADXL_CS_Clr();
 	SPI.beginTransaction(mySPISettings);			//translate succed
 	SPI.transfer(0x0B);  // read instruction
@@ -152,6 +163,7 @@ void ADXL362::readXYZTData(int16_t &XData, int16_t &YData, int16_t &ZData, int16
 	Temperature = Temperature + (SPI.transfer(0x00) << 8);
 	SPI.endTransaction();
 	ADXL_CS_Set();
+	mySPISettings = SPISettings(60000000, MSBFIRST, SPI_MODE0); //ESP speed /4
 	
 	#ifdef ADXL362_DEBUG
 	Serial.print("ADXL : XDATA = "); Serial.print(XData);
@@ -163,6 +175,7 @@ void ADXL362::readXYZTData(int16_t &XData, int16_t &YData, int16_t &ZData, int16
 
 void ADXL362::setupDCActivityInterrupt(int16_t threshold, byte time){
 	//  Setup motion and time thresholds
+	mySPISettings = SPISettings(adxl_freq, MSBFIRST, SPI_MODE0); //ESP speed /4
 	ADXL_CS_Clr();
 	SPIwriteTwoRegisters(0x20, threshold);
 	SPIwriteOneRegister(0x22, time);
@@ -173,6 +186,7 @@ void ADXL362::setupDCActivityInterrupt(int16_t threshold, byte time){
 	SPIwriteOneRegister(0x27, ACT_INACT_CTL_Reg);       // Write new reg value
 	ACT_INACT_CTL_Reg = SPIreadOneRegister(0x27);       // Verify properly written
 	ADXL_CS_Set();
+	mySPISettings = SPISettings(60000000, MSBFIRST, SPI_MODE0); //ESP speed /4
 	#ifdef ADXL362_DEBUG
 	Serial.print("ADXL : DC Activity Threshold set to ");  	Serial.print(SPIreadTwoRegisters(0x20));
 	Serial.print(", Time threshold set to ");  		Serial.print(SPIreadOneRegister(0x22));
@@ -182,6 +196,7 @@ void ADXL362::setupDCActivityInterrupt(int16_t threshold, byte time){
 
 void ADXL362::setupACActivityInterrupt(int16_t threshold, byte time){
 	//  Setup motion and time thresholds
+	mySPISettings = SPISettings(adxl_freq, MSBFIRST, SPI_MODE0); //ESP speed /4
 	ADXL_CS_Clr();
 	SPIwriteTwoRegisters(0x20, threshold);
 	SPIwriteOneRegister(0x22, time);
@@ -192,6 +207,7 @@ void ADXL362::setupACActivityInterrupt(int16_t threshold, byte time){
 	SPIwriteOneRegister(0x27, ACT_INACT_CTL_Reg);       // Write new reg value
 	ACT_INACT_CTL_Reg = SPIreadOneRegister(0x27);       // Verify properly written
 	ADXL_CS_Set();
+	mySPISettings = SPISettings(60000000, MSBFIRST, SPI_MODE0); //ESP speed /4
 	#ifdef ADXL362_DEBUG
 	Serial.print("ADXL : AC Activity Threshold set to ");  	Serial.print(SPIreadTwoRegisters(0x20));
 	Serial.print(", Time Activity set to ");  		Serial.print(SPIreadOneRegister(0x22));
@@ -201,6 +217,7 @@ void ADXL362::setupACActivityInterrupt(int16_t threshold, byte time){
 
 void ADXL362::setupDCInactivityInterrupt(int16_t threshold, int16_t time){
 	// Setup motion and time thresholds
+	mySPISettings = SPISettings(adxl_freq, MSBFIRST, SPI_MODE0); //ESP speed /4
 	ADXL_CS_Clr();
 	SPIwriteTwoRegisters(0x23, threshold);
 	SPIwriteTwoRegisters(0x25, time);
@@ -211,6 +228,7 @@ void ADXL362::setupDCInactivityInterrupt(int16_t threshold, int16_t time){
 	SPIwriteOneRegister(0x27, ACT_INACT_CTL_Reg);        // Write new reg value
 	ACT_INACT_CTL_Reg = SPIreadOneRegister(0x27);        // Verify properly written
 	ADXL_CS_Set();
+	mySPISettings = SPISettings(60000000, MSBFIRST, SPI_MODE0); //ESP speed /4
 	#ifdef ADXL362_DEBUG
 	Serial.print("ADXL : DC Inactivity Threshold set to ");  Serial.print(SPIreadTwoRegisters(0x23));
 	Serial.print(", Time Inactivity set to ");  Serial.print(SPIreadTwoRegisters(0x25));
@@ -219,6 +237,7 @@ void ADXL362::setupDCInactivityInterrupt(int16_t threshold, int16_t time){
 }
 
 void ADXL362::setupACInactivityInterrupt(int16_t threshold, int16_t time){
+	mySPISettings = SPISettings(adxl_freq, MSBFIRST, SPI_MODE0); //ESP speed /4
 	ADXL_CS_Clr();
 	//  Setup motion and time thresholds
 	SPIwriteTwoRegisters(0x23, threshold);
@@ -230,6 +249,7 @@ void ADXL362::setupACInactivityInterrupt(int16_t threshold, int16_t time){
 	SPIwriteOneRegister(0x27, ACT_INACT_CTL_Reg);        // Write new reg value
 	ACT_INACT_CTL_Reg = SPIreadOneRegister(0x27);        // Verify properly written
 	ADXL_CS_Set();
+	mySPISettings = SPISettings(60000000, MSBFIRST, SPI_MODE0); //ESP speed /4
 	#ifdef ADXL362_DEBUG
 	Serial.print("ADXL : AC Inactivity Threshold set to ");  Serial.print(SPIreadTwoRegisters(0x23));
 	Serial.print(", Time Inactivity set to ");  Serial.print(SPIreadTwoRegisters(0x25));
@@ -241,6 +261,7 @@ void ADXL362::checkAllControlRegs(){
 	//byte filterCntlReg = SPIreadOneRegister(0x2C);
 	//byte ODR = filterCntlReg & 0x07;  Serial.print("ODR = ");  Serial.println(ODR, HEX);
 	//byte ACT_INACT_CTL_Reg = SPIreadOneRegister(0x27);      Serial.print("ACT_INACT_CTL_Reg = "); Serial.println(ACT_INACT_CTL_Reg, HEX);
+	mySPISettings = SPISettings(adxl_freq, MSBFIRST, SPI_MODE0); //ESP speed /4
 	ADXL_CS_Clr();
 	SPI.beginTransaction(mySPISettings);
 	SPI.transfer(0x0B);  // read instruction
@@ -265,13 +286,14 @@ void ADXL362::checkAllControlRegs(){
 	#endif
 	SPI.endTransaction();
 	ADXL_CS_Set();
+	mySPISettings = SPISettings(60000000, MSBFIRST, SPI_MODE0); //ESP speed /4
 }
 
 // Basic SPI routines to simplify code
 // read and write one register
 byte ADXL362::SPIreadOneRegister(byte regAddress){
 	byte regValue = 0;
-	
+	mySPISettings = SPISettings(adxl_freq, MSBFIRST, SPI_MODE0); //ESP speed /4
 	ADXL_CS_Clr();
 	SPI.beginTransaction(mySPISettings);
 	SPI.transfer(0x0B);  // read instruction
@@ -279,12 +301,13 @@ byte ADXL362::SPIreadOneRegister(byte regAddress){
 	regValue = SPI.transfer(0x00);
 	SPI.endTransaction();
 	ADXL_CS_Set();
+	mySPISettings = SPISettings(60000000, MSBFIRST, SPI_MODE0); //ESP speed /4
 
 	return regValue;
 }
 
 void ADXL362::SPIwriteOneRegister(byte regAddress, byte regValue){
-	
+	mySPISettings = SPISettings(adxl_freq, MSBFIRST, SPI_MODE0); //ESP speed /4
 	ADXL_CS_Clr();
 	SPI.beginTransaction(mySPISettings);
 	SPI.transfer(0x0A);  // write instruction
@@ -292,11 +315,12 @@ void ADXL362::SPIwriteOneRegister(byte regAddress, byte regValue){
 	SPI.transfer(regValue);
 	SPI.endTransaction();
 	ADXL_CS_Set();
+	mySPISettings = SPISettings(60000000, MSBFIRST, SPI_MODE0); //ESP speed /4
 }
 
 int16_t ADXL362::SPIreadTwoRegisters(byte regAddress){
 	int16_t twoRegValue = 0;
-	
+	mySPISettings = SPISettings(adxl_freq, MSBFIRST, SPI_MODE0); //ESP speed /4
 	ADXL_CS_Clr();
 	SPI.beginTransaction(mySPISettings);
 	SPI.transfer(0x0B);  // read instruction
@@ -305,6 +329,7 @@ int16_t ADXL362::SPIreadTwoRegisters(byte regAddress){
 	twoRegValue = twoRegValue + (SPI.transfer(0x00) << 8);
 	SPI.endTransaction();
 	ADXL_CS_Set();
+	mySPISettings = SPISettings(60000000, MSBFIRST, SPI_MODE0); //ESP speed /4
 
 	return twoRegValue;
 }
@@ -312,7 +337,7 @@ int16_t ADXL362::SPIreadTwoRegisters(byte regAddress){
 void ADXL362::SPIwriteTwoRegisters(byte regAddress, int16_t twoRegValue){
 	byte twoRegValueH = twoRegValue >> 8;
 	byte twoRegValueL = twoRegValue;
-	
+	mySPISettings = SPISettings(adxl_freq, MSBFIRST, SPI_MODE0); //ESP speed /4
 	ADXL_CS_Clr();
 	SPI.beginTransaction(mySPISettings);
 	SPI.transfer(0x0A);  // write instruction
@@ -321,4 +346,5 @@ void ADXL362::SPIwriteTwoRegisters(byte regAddress, int16_t twoRegValue){
 	SPI.transfer(twoRegValueH);
 	SPI.endTransaction();
 	ADXL_CS_Set();
+	mySPISettings = SPISettings(60000000, MSBFIRST, SPI_MODE0); //ESP speed /4
 }

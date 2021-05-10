@@ -26,7 +26,11 @@ char*			listDirName[20];
 
 //ADXL
 
+//APDS
+bool		initStateAPDS		=	false;
+
 //MAX30102
+bool		initStateMAX		=	false;
 const byte RATE_SIZE = 4; //Increase this for more averaging. 4 is good.
 byte rates[RATE_SIZE]; //Array of heart rates
 byte rateSpot = 0;
@@ -35,6 +39,10 @@ long lastBeat = 0; //Time at which the last beat occurred
 float	beatsPerMinute;
 int		beatAvg;
 
+int IR_max = 100000;
+int IR_min = 120000;
+int IR_val[160] = {110000};
+
 //int16_t temp;
 int16_t XValue, YValue, ZValue, Temperature;
 
@@ -42,6 +50,7 @@ int16_t XValue, YValue, ZValue, Temperature;
 bool			connect_BT		=		false;
 
 //SHT20
+bool		initStateSHT		=	false;
 float temp;
 float humd;
 
@@ -50,15 +59,11 @@ int now_hour=0,now_minute=0,now_second=0,now_day=0,now_year=0;
 int month,weekday;
 int old_hour=0,old_minute=0,old_day=0,old_year=0;
 unsigned long prev_ms=0,get_time_ms=0;
-unsigned long now_ms=millis();
+unsigned long now_ms			=	millis();
 unsigned long sec_period		=	1000;
 unsigned long update_cycle_time =	60000;
 
-//MAX heart
-int IR_max = 100000;
-int IR_min = 120000;
-int IR_val[160] = {110000};
-	
+
 	
 word convert_CtoB(char A){
 	unsigned short B=16;

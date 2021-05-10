@@ -413,25 +413,68 @@ void table_print_SevenSegNumFont32X50(u16 x,u16 y, int c,u16 color){
 	}
 }
 
-u16 YPin[160]={0};
+u16 Xpin[160] = {0};
+u16 Ypin[160] = {0};
+u16 Zpin[160] = {0};
 int GraphCount=0;
-void table_graph(u16 x, u16 y, u16 w, u16 h, int val,int val_min,int val_max, u16 edge_color, u16 back_color, u16 line_color){
+void table_graph(u16 x, u16 y, u16 w, u16 h, int val,int val_min,int val_max, u16 edge_color, u16 back_color, u16 line_color)
+{
 	if((x >= table_w) || (y >= table_h)) return;
 	if((x + w - 1) >= table_w)  w = table_w  - x;
 	if((y + h - 1) >= table_h) h = table_h - y;
 	IR_val[GraphCount] = val;
 	for(int i=0;i<160;i++){
-		YPin[i] = map(IR_val[i],val_min,val_max,y+h,y);
+		Ypin[i] = map(IR_val[i],val_min,val_max,y+h,y);
 	}
-	if((YPin[GraphCount] < y)||(YPin[GraphCount] > y+h)) YPin[GraphCount] = 110000;
+	if((Ypin[GraphCount] < y)||(Ypin[GraphCount] > y+h)) Ypin[GraphCount] = 0;
 	GraphCount++;
-	if(GraphCount > w)GraphCount = 0;
+	if(GraphCount > w-1)GraphCount = 0;
 	
 	table_fill_Rect(x,y,w,h,back_color);
 	table_Rect(x,y,w,h,edge_color);
 	for(int i=x;i<x+w;i++){
-		if(YPin[i-x]!=0)
-			display_table[y+YPin[i-x]][i] = line_color;
+		if(Ypin[i-x]!=0)
+			display_table[y+Ypin[i-x]][i] = line_color;
 	}
 	table_VLine(x+GraphCount, y, h, edge_color);
+}
+
+void tableAccGraph(u16 x, u16 y, u16 w, u16 h, u16 edge_color, u16 BG_color)
+{
+	int A = 500;
+	if((x >= table_w) || (y >= table_h)) return;
+	if((x + w - 1) >= table_w)  w = table_w  - x;
+	if((y + h - 1) >= table_h) h = table_h - y;
+	//ADXL_CS_Clr();
+	//xl.readXYZTData(XValue, YValue, ZValue, Temperature);
+	//ADXL_CS_Set();
+	if (Xpin[GraphCount]>A)Xpin[GraphCount]=A-1;
+	else if(Xpin[GraphCount]<-A)Xpin[GraphCount]=-A+1;
+	if (Ypin[GraphCount]>A)Ypin[GraphCount]=A-1;
+	else if(Ypin[GraphCount]<-A)Ypin[GraphCount]=-A+1;
+	if (Zpin[GraphCount]>A)Zpin[GraphCount]=A-1;
+	else if(Zpin[GraphCount]<-A)Zpin[GraphCount]=-A+1;
+	Xpin[GraphCount]=map(XValue,-A,A,y+h,y);
+	Ypin[GraphCount]=map(YValue,-A,A,y+h,y);
+	Zpin[GraphCount]=map(ZValue,-A,A,y+h,y);
+	
+	GraphCount++;
+	if(GraphCount > w-1) GraphCount = 0;
+	
+	table_fill_Rect(x,y,w,h,BG_color);
+	table_Rect(x,y,w,h,edge_color);
+	for(int i=x;i<x+w;i++){
+		if(Xpin[i-x]!=0)
+			display_table[y+Xpin[i-x]][i] = RED;
+		if(Ypin[i-x]!=0)
+			display_table[y+Ypin[i-x]][i] = GREEN;
+		if(Zpin[i-x]!=0)
+			display_table[y+Zpin[i-x]][i] = BLUE;
+	}
+	table_HLine(x, y+h/2, w, WHITE);
+	table_VLine(x+GraphCount, y, h, edge_color);
+	table_print(x+20,y+h/2-10,"0",WHITE,1);
+	table_print(x+4,y+h-10,"X",RED,1);
+	table_print(x+12,y+h-10,"Y",GREEN,1);
+	table_print(x+20,y+h-10,"Z",BLUE,1);
 }

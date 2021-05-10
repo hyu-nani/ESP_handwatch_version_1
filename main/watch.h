@@ -27,8 +27,8 @@ I2C 센서
 #define SCK			    	18
 #define MISO			  	19
 #define MOSI			  	23
-//#define SCL			  	22
-//#define SDA			  	21
+#define SCL			  		22
+#define SDA			  		21
 
 #define sensorOn()	digitalWrite(sensor_power,HIGH);
 #define sensorOff()	digitalWrite(sensor_power,LOW);
