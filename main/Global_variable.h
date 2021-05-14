@@ -5,6 +5,7 @@
  *  Author: cube_
  */ 
 //main
+#define		watch_freq		60000000
 int			mode =	0;
 int			backlight =				201;
 const int	pg_change_num	=		20;
@@ -25,6 +26,7 @@ unsigned short	load_image[Image_hight*Image_width] = {0};
 char*			listDirName[20];
 
 //ADXL
+#define		ADXL_freq		400
 uint8_t		SensitiveADXL		=	5;
 //APDS
 bool		initStateAPDS		=	false;

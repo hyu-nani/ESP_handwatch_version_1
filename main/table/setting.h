@@ -555,7 +555,6 @@ void table_setmode_loop(){ //setting loop
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 40&&option_page==3&&option_active == true)
 			{
-				
 				table_fill_block(1,WHITE);
 				table_print(10,30,"====== Scanning ======",BLUE,1);
 				//table_print(10,40,"Pls, connect to Serial",BLACK,1);
@@ -563,15 +562,37 @@ void table_setmode_loop(){ //setting loop
 				print_display(display_x,display_y);
 				xl.begin();                   // Setup SPI protocol, issue device soft reset
 				xl.beginMeasure();
-				int direction=0;
+				int direction = 0;
 				Serial.println("ADXL : Start Demo: Simple Read");
-				int xv=0,yv=0,zv=0;
-				delay(500);
-				GraphCount =0;
+				GraphCount = 0;
+				int count = 0;
 				int A = 500;
-				int a,b,c,d;
-				
-				while (true)
+				delay(100);
+				xl.readXYZTData(XValue, YValue, ZValue, Temperature); 
+				while(XValue==-1&&YValue==-1&&ZValue==-1&&Temperature==-1){
+					SPI.end();
+					delay(10);
+					SPIClass(VSPI);
+					SPI.begin();
+					mySPISettings = SPISettings(60000000, MSBFIRST, SPI_MODE0); //ESP speed /4
+					delay(100);
+					xl.begin();
+					xl.beginMeasure();
+					delay(100);
+					xl.readXYZTData(XValue, YValue, ZValue, Temperature); 
+					delay(100);
+					table_fill_block(1,WHITE);
+					table_print(10,30,"====== Scanning ======",BLUE,1);
+					table_print(60,40,count,BLACK,1);
+					table_set_frame(0,0,160,80,frame_round);
+					print_display(display_x,display_y);
+					count++;
+					if (count>50){
+						option_active = false;
+						goto reset;
+					}
+				}
+				while(true)
 				{
 					data = swcheck();
 					if(data == 'M'){
@@ -600,10 +621,8 @@ void table_setmode_loop(){ //setting loop
 						Serial.print("\tTEMPERATURE=");
 						Serial.println(Temperature);
 					}
-				
 					print_display(display_x,display_y);
 					delay(1);
-					
 				}
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////

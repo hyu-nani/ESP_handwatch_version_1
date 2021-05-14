@@ -73,7 +73,7 @@ private:
 
 
 //#define ADXL362_DEBUG
-#define ADXL_freq	14000000
+
 int16_t slaveSelectPin = 10;
 
 ADXL362::ADXL362() {
@@ -175,6 +175,7 @@ int16_t ADXL362::readTemp(){
 void ADXL362::readXYZTData(int16_t &XData, int16_t &YData, int16_t &ZData, int16_t &Temperature){
 	  // burst SPI read
 	  // A burst read of all three axis is required to guarantee all measurements correspond to same sample time
+	  mySPISettings = SPISettings(ADXL_freq, MSBFIRST, SPI_MODE0);
 	  ADXL_CS_Clr();
 	  SPI.transfer(0x0B);  // read instruction
 	  SPI.transfer(0x0E);  // Start at XData Reg
@@ -187,6 +188,7 @@ void ADXL362::readXYZTData(int16_t &XData, int16_t &YData, int16_t &ZData, int16
 	  Temperature = SPI.transfer(0x00);
 	  Temperature = Temperature + (SPI.transfer(0x00) << 8);
 	  ADXL_CS_Set();
+	  mySPISettings = SPISettings(watch_freq, MSBFIRST, SPI_MODE0);
   
 #ifdef ADXL362_DEBUG
 	Serial.print("XDATA = "); Serial.print(XData); 
@@ -272,6 +274,7 @@ void ADXL362::checkAllControlRegs(){
 	//byte filterCntlReg = SPIreadOneRegister(0x2C);
 	//byte ODR = filterCntlReg & 0x07;  Serial.print("ODR = ");  Serial.println(ODR, HEX);
 	//byte ACT_INACT_CTL_Reg = SPIreadOneRegister(0x27);      Serial.print("ACT_INACT_CTL_Reg = "); Serial.println(ACT_INACT_CTL_Reg, HEX);
+	mySPISettings = SPISettings(ADXL_freq, MSBFIRST, SPI_MODE0);
 	ADXL_CS_Clr();
 	SPI.transfer(0x0B);  // read instruction
 	SPI.transfer(0x20);  // Start burst read at Reg 20
@@ -294,52 +297,55 @@ void ADXL362::checkAllControlRegs(){
 	Serial.print("Reg 2E = "); 	Serial.println(SPI.transfer(0x00), HEX);
 #endif
 	ADXL_CS_Set();
+	mySPISettings = SPISettings(watch_freq, MSBFIRST, SPI_MODE0);
 }
 
 // Basic SPI routines to simplify code
 // read and write one register
 byte ADXL362::SPIreadOneRegister(byte regAddress){
 	byte regValue = 0;
-  
+	mySPISettings = SPISettings(ADXL_freq, MSBFIRST, SPI_MODE0);
 	ADXL_CS_Clr();
 	SPI.transfer(0x0B);  // read instruction
 	SPI.transfer(regAddress);
 	regValue = SPI.transfer(0x00);
 	ADXL_CS_Set();
-
+	mySPISettings = SPISettings(watch_freq, MSBFIRST, SPI_MODE0);
 	return regValue;
 }
 
 void ADXL362::SPIwriteOneRegister(byte regAddress, byte regValue){
-  
+	mySPISettings = SPISettings(ADXL_freq, MSBFIRST, SPI_MODE0);
 	ADXL_CS_Clr();
 	SPI.transfer(0x0A);  // write instruction
 	SPI.transfer(regAddress);
 	SPI.transfer(regValue);
 	ADXL_CS_Set();
+	mySPISettings = SPISettings(watch_freq, MSBFIRST, SPI_MODE0);
 }
 
 int16_t ADXL362::SPIreadTwoRegisters(byte regAddress){
 	int16_t twoRegValue = 0;
-  
+	mySPISettings = SPISettings(ADXL_freq, MSBFIRST, SPI_MODE0);
 	ADXL_CS_Clr();
 	SPI.transfer(0x0B);  // read instruction
 	SPI.transfer(regAddress);  
 	twoRegValue = SPI.transfer(0x00);
 	twoRegValue = twoRegValue + (SPI.transfer(0x00) << 8);
 	ADXL_CS_Set();
-
+	mySPISettings = SPISettings(watch_freq, MSBFIRST, SPI_MODE0);
 	return twoRegValue;
 }  
 
 void ADXL362::SPIwriteTwoRegisters(byte regAddress, int16_t twoRegValue){
 	byte twoRegValueH = twoRegValue >> 8;
 	byte twoRegValueL = twoRegValue;
-  
+	mySPISettings = SPISettings(ADXL_freq, MSBFIRST, SPI_MODE0);
 	ADXL_CS_Clr();
 	SPI.transfer(0x0A);  // write instruction
 	SPI.transfer(regAddress);  
 	SPI.transfer(twoRegValueL);
 	SPI.transfer(twoRegValueH);
 	ADXL_CS_Set();
+	mySPISettings = SPISettings(watch_freq, MSBFIRST, SPI_MODE0);
 }
