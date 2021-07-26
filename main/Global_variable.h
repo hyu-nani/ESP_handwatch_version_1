@@ -1,7 +1,7 @@
 /*
  * Global_variable.h
  *
- * Created: 2021-03-19 오후 8:20:56
+ * Created: 2021-03-19 ?�후 8:20:56
  *  Author: cube_
  */ 
 //main

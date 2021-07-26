@@ -1,4 +1,4 @@
-ï»¿
+
 
 #define WHITE            0xFFFF
 #define BLACK            0x0000
@@ -222,7 +222,7 @@ void LCD_Init(void)
 	LCD_WR_REG(0x36);   //MX, MY, RGB mode rotation
 	LCD_WR_DATA8(0x68); //XXX01000 
 
-	LCD_WR_REG(0xE0);   //Gamma (â€˜+â€™polarity) Correction Characteristics Setting
+	LCD_WR_REG(0xE0);   //Gamma (¡®+¡¯polarity) Correction Characteristics Setting
 	LCD_WR_DATA8(0x03);
 	LCD_WR_DATA8(0x22);
 	LCD_WR_DATA8(0x07);
@@ -239,7 +239,7 @@ void LCD_Init(void)
 	LCD_WR_DATA8(0x01);
 	LCD_WR_DATA8(0x03);
 	LCD_WR_DATA8(0x13);
-	LCD_WR_REG(0xE1);   //Gamma (â€˜-â€™polarity) Correction Characteristics Setting
+	LCD_WR_REG(0xE1);   //Gamma (¡®-¡¯polarity) Correction Characteristics Setting
 	LCD_WR_DATA8(0x04);
 	LCD_WR_DATA8(0x16);
 	LCD_WR_DATA8(0x06);

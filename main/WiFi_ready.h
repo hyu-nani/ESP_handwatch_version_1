@@ -1,13 +1,16 @@
 
 #include "time.h"
 
-char* ssid       = "613";
-char* password   = "happy613";
+char* ssid       = "921";
+char* password   = "12345678";
 char* ntpServer  = "pool.ntp.org";
 long  gmtOffset_sec = (GMT*3600);
 
 void WiFi_begin(){
 	//WiFi.begin(ssid, password);
+	WiFi.mode(WIFI_STA);
+	WiFi.disconnect();
+	delay(100);
 	while (WiFi.status() != WL_CONNECTED) {
 		delay(500);
 		Serial.print(".");
@@ -36,14 +39,20 @@ String Network_PSWD[10];
 
 
 void WiFi_scan(){
-	Serial.println("scan start");
+	if (TEST == true)
+		Serial.println("scan start");
 	int n = WiFi.scanNetworks();
-	Serial.println("scan done");
+	if (TEST == true)
+		Serial.println("scan done");
 	if (n == 0) {
-		Serial.println("no networks found");
-		} else {
-		Serial.print(n);
-		Serial.println(" networks found");
+		if (TEST == true)
+			Serial.println("no networks found");
+	} 
+	else {
+		if (TEST == true){
+			Serial.print(n);
+			Serial.println(" networks found");
+		}
 		for (int i = 0; i < n; ++i) {
 			// Print SSID and RSSI for each network found
 			Serial.print(i + 1);

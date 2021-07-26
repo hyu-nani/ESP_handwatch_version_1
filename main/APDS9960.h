@@ -1,7 +1,7 @@
-ï»¿/*
+/*
  * APDS9960.h
  *
- * Created: 2021-04-28 ì˜¤ì „ 1:04:24
+ * Created: 2021-04-28 ¿ÀÀü 1:04:24
  *  Author: cube_
  */ 
 // Initialize interrupt service routine

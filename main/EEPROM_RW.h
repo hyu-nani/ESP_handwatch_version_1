@@ -1,7 +1,7 @@
 /*
  * EEPROM_RW.h
- *  EEPROM 에 관한 모든 정보 기입
- * Created: 2021-03-19 오후 9:49:07
+ *  EEPROM ??관??모든 ?�보 기입
+ * Created: 2021-03-19 ?�후 9:49:07
  *  Author: cube_
  */ 
  

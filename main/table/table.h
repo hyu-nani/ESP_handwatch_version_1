@@ -1,4 +1,4 @@
-﻿
+
 #define table_w 160
 #define table_h 160
 unsigned short display_table[table_h][table_w] = {0};

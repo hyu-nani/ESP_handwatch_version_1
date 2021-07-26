@@ -1,4 +1,4 @@
-﻿void table_set_health()
+void table_set_health()
 {
 	//loadImage(SD,load_image, "/Background_image/health_background.c");
 	//loadTableSetBackground(0,80,160,80,load_image);

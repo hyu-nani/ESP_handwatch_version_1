@@ -18,7 +18,7 @@ void table_setmode(){ //first image set
 	table_print(cursor_x,cursor_y,"E>",RED,1);
 	table_print(10,10,"=======SETTING/1=======",BLUE,1);
 	table_print(20,20," WiFi",BLACK,1);
-	table_print(20,30," Bluetooth",BLACK,1);
+	table_print(20,30," Sleep test",BLACK,1);
 	table_print(20,40," SD card",BLACK,1);
 	table_print(20,50," >> NEXT Page",BLACK,1);
 	table_print(20,60," << BACK",BLACK,1);
@@ -36,7 +36,7 @@ void table_setmode_loop(){ //setting loop
 		if(option_page==1){
 			table_print(10,10,"=======SETTING/1=======",BLUE,1);
 			table_print(20,20," WiFi",BLACK,1);
-			table_print(20,30," Bluetooth",BLACK,1);
+			table_print(20,30," Sleep test",BLACK,1);
 			table_print(20,40," SD card",BLACK,1);
 			table_print(20,50," >> NEXT Page",BLACK,1);
 			table_print(20,60," << BACK",BLACK,1);
@@ -114,12 +114,15 @@ void table_setmode_loop(){ //setting loop
 				table_print(10,35,"====== SCANNING.. ======",BLUE,1);
 				table_set_frame(0,0,160,80,frame_round);
 				print_display(display_x,display_y);
+				if(TEST == true)
+					Serial.print("scan..");
 				WiFi_scan();
-				
 				int select_wifi=0;
-				
+				if(TEST == true)
+					Serial.print("print");
 				while (true)
 				{
+					
 					delay(10);
 					data = swcheck();
 					table_fill_block(1,WHITE);				  //
@@ -180,12 +183,12 @@ void table_setmode_loop(){ //setting loop
 			///////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 30&&option_page==1&&option_active == true)		//bluetooth
 			{
-			  table_fill_block(1,WHITE);
-			 
-			  while(true)
-			  {
-			    
-			  }
+				watch_light_sleep();
+				option_active = false;
+				//while(true)
+				//{
+				//	
+				//}
 			}
 			///////////////////////////////////////////////////////////////////////////////////////////////////
 			else if (cursor_y == 40&&option_page==1&&option_active == true)		//SDcard
@@ -467,7 +470,7 @@ void table_setmode_loop(){ //setting loop
 				}
 			}
 			//////////////////////////////////////////////////////////////////////////////////////////////////////
-			else if (cursor_y == 30&&option_page==3&&option_active == true) //심박수 센서
+			else if (cursor_y == 30&&option_page==3&&option_active == true) //?�박???�서
 			{
 				Serial.println("MAX : Initializing...");
 				sensorOn();

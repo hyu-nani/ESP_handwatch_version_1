@@ -97,7 +97,7 @@ void loadImage(fs::FS &fs, unsigned short array[] ,const char * path){
 				k++;
 			}
 		}
-		else if(code == '/'||code == '[') //주석 제거 remove //
+		else if(code == '/'||code == '[') //주석 ?�거 remove //
 		{
 			for(int j=0;j<5;j++)
 				file.read();

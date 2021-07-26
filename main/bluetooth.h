@@ -1,7 +1,7 @@
-ï»¿/*
+/*
  * bluetooth.h
  *
- * Created: 2021-03-08 ì˜¤í›„ 9:28:11
+ * Created: 2021-03-08 ¿ÀÈÄ 9:28:11
  *  Author: cube_
  */ 
 #include <BLEDevice.h>

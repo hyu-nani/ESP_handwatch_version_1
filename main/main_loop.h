@@ -1,7 +1,7 @@
 /*
  * main_loop.h
  *
- * Created: 2021-03-04 오후 7:10:30
+ * Created: 2021-03-04 ?�후 7:10:30
  *  Author: cube_
  */ 
 
@@ -167,10 +167,10 @@ void main_loop(){
 	//========================================================== into temperature
 	else if(mode == 4)
 	{
-	  while(true)
-	  {
-		
-	  }
+		while(true)
+		{
+			
+		}
 	}
 	//========================================================== setting pop-up
 	else if(mode == 5)

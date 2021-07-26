@@ -1,4 +1,4 @@
-﻿
+
 
 void table_set_temp(){
 	//loadImage(SD,load_image, "/Background_image/temperature_background.c");
