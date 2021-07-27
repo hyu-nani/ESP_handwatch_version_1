@@ -256,6 +256,9 @@
     <Compile Include="font.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="function.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="Global_variable.h">
       <SubType>compile</SubType>
     </Compile>
