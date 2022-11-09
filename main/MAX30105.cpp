@@ -103,7 +103,7 @@ static const uint8_t MAX30105_ADCRANGE_8192 = 	0x40;
 static const uint8_t MAX30105_ADCRANGE_16384 = 	0x60;
 
 static const uint8_t MAX30105_SAMPLERATE_MASK = 0xE3;
-static const uint8_t MAX30105_SAMPLERATE_50 = 	0x00;
+static const uint8_t MAX30105_SAMPLERATE_50  = 	0x00;
 static const uint8_t MAX30105_SAMPLERATE_100 = 	0x04;
 static const uint8_t MAX30105_SAMPLERATE_200 = 	0x08;
 static const uint8_t MAX30105_SAMPLERATE_400 = 	0x0C;
